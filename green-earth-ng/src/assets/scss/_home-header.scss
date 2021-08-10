@@ -1,0 +1,22 @@
+.header1-section{ width: 100%; position: relative; margin: auto; display: block; margin-top: -0.313rem;
+	.main-img{margin: auto; text-align: center; position: relative;
+			img {width: 100%; height: auto}
+	}
+}
+ 
+ 
+
+.info-cards{
+	.cards-div{ background-color: $white;
+    padding: 0; 
+    position: relative;
+    margin-bottom: 1.875rem;
+	box-shadow: 0 0 1.3rem 0 rgba(0, 0, 0, 0.1); border-radius: $border-radius;
+	@include transition-ease; font-size: 0.875rem;
+	&:HOVER {
+		box-shadow: 0 0 0.6rem 0 rgba(0, 0, 0, 0.35);
+	}
+}
+}
+
+

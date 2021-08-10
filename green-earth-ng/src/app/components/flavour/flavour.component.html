@@ -1,0 +1,83 @@
+<!-- <div class="sub-header-md" appScrollTracker (scrollingFinished)="onWindowScroll($event)">
+  <div class="hd-content">
+
+   <h2>
+      Flavours
+       <span> Flavours</span> 
+    </h2>
+    <p>Vapes Famous All Flavours</p> 
+
+  </div>
+</div> -->
+
+
+
+
+<div class="sub-header-page" appScrollTracker (scrollingFinished)="onWindowScroll($event)">
+	<figure>
+		<picture>
+			<source media="(max-width: 480px)" srcset="../../assets/images/flavours-banner-mobile.jpg"
+				data-src="../../assets/images/flavours-banner-mobile.jpg">
+			<source media="(max-width: 1024px)" srcset="../../assets/images/flavours-banner.jpg"
+				data-src="../../assets/images/flavours-banner.jpg">
+			<source media="(min-width: 1025px)" srcset="../../assets/images/flavours-banner.jpg"
+				data-src="../../assets/images/flavours-banner.jpg">
+			<img src="../../assets/images/flavours-banner.jpg" data-src-base="images/"
+				data-src="{xs:../../assets/images/flavours-banner-mobile.jpg,md:../../assets/images/flavours-banner.jpg,xl:../../assets/images/flavours-banner.jpg}"
+				alt="">
+		</picture>
+	</figure>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="related-pr-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 section-heading brand-head">
+        <h1>
+          All
+          <span> Flavours</span>
+        </h1>
+      </div>
+
+      <div class="col-md-6">
+        <form class="form-inline brand-search">
+          <input [(ngModel)]="searchFlavour" name="searchBrand"
+            class="form-control"
+            type="text"
+            placeholder="Search Flavours"
+            aria-label="Search"
+          />
+          <button class="btn btn-search" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="properties?.length">
+      <div
+        class="col-lg-2 col-md-3 col-sm-4 col-6 text-center"
+        *ngFor="let prop of properties | filter: searchFlavour"
+      >
+        <a
+          [routerLink]="['../flavour', prop.property_value]"
+          class="_flavours-div"
+        >
+          <div><img src="{{prop.icon}}" alt="" /></div>
+          <h3>{{ prop.property_value }}</h3>
+          <span>{{ prop.total_products }} Products</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

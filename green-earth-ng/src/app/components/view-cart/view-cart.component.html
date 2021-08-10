@@ -1,0 +1,714 @@
+<div class="sub-header">
+  <div class="hd-content w-100 m-0">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col">
+          <h2>
+            CHECKOUT <span></span>
+            <!-- Checkout <span>({{ cartProductCount }})</span> -->
+          </h2>
+        </div>
+
+        <div class="col-md-6 col-auto pl-0">
+          <div class="subtotal">
+            Total:
+            <span *ngIf="cart && cart.cart_discount > 0">{{ currency }}{{ cart.cart_price | shortDecimal }}</span>
+            <span class="price">{{ currency }}{{ cartTotalPrice | shortDecimal }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section bg-white padd-sm-480">
+  <div class="container box-shadow-cart">
+
+
+
+    <div>
+      <div class="row Shopping-heading">
+        <div class="col-md-6">
+          <h2>Shopping Cart</h2>
+        </div>
+        <div class="col-md-6 shopping-cart-icons">
+          <i class="fas fa-shopping-basket active"></i>
+          <i class="fas fa-box"></i>
+          <i class="fas fa-credit-card dis-none"></i>
+        </div>
+      </div>
+
+      <div *ngIf="cart && cart?.cartItems.length > 0" class="row itemlist title-cart bg-white m-0">
+        <div class="col-lg-7 col-md-6 pl-0">Product Info</div>
+        <div class="col-lg-2 col-md-3 pl-0">Quantity</div>
+        <div class="col-lg-3 col-md-3 pl-set-p">Price</div>
+      </div>
+
+      <div *ngIf="cart && cart?.cartItems.length > 0">
+        <div *ngFor="let item of cart.cartItems; let i = index">
+          <div class="row itemlist bg-white" *ngIf="item.product_id > 0">
+            <div class="col-lg-7 col-md-6">
+              <div class="row">
+                <div class="col-auto p-0 pointerCursor" [routerLink]="['../product', item.sku]">
+                  <img [src]="API_URL + '/' + item.thumbnail" alt="" />
+                </div>
+                <div class="col d-flex align-items-center">
+                  <div>
+                    <h2 class="pointerCursor" [routerLink]="['../product', item.sku]">
+                      {{ item.name }}
+                    </h2>
+                  </div>
+                  <!-- <div
+                  class="discount-cart-lab"
+                  *ngIf="item.is_promotion || item.is_deal_of_the_day"
+                >
+                  {{
+                    item.is_deal_of_the_day == true
+                      ? item.deal_of_the_day.title
+                      : item.promotion_title
+                  }}
+                </div> 
+
+                <div class="flavors-lab-cart">
+                  <strong>{{ item.property_name }}: </strong>
+                  {{ item.property_value }}
+                </div> -->
+
+                  <!-- <div class="flavors-lab-cart"><strong>VG: </strong> 70% </div> -->
+                  <!-- <div class="lab-size-cart">
+                  <span>{{ item.attributes_detail }}</span>
+                </div> -->
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-5 col-md-6">
+              <div class="row middle">
+                <div class="col-lg-5 col-md-6 col-5 cart-quantity pr-0">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <button type="button" class="btn btn-primary" (click)="
+                        onMinusQuantity(
+                          item.product_id,
+                          i,
+                          item.variant_id,
+                          item.quantity
+                        )
+                      ">
+                        <i class="fa fa-minus"></i>
+                      </button>
+                    </div>
+                    <input type="text" class="form-control" placeholder="1" [value]="item.quantity" disabled />
+                    <div class="input-group-prepend">
+                      <button type="button" class="btn btn-primary" (click)="
+                        onPlusQuantity(
+                          item.product_id,
+                          i,
+                          item.variant_id,
+                          item.quantity,
+                          item
+                        )
+                      ">
+                        <i class="fa fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-7 col-md-6 col-7 cart-price">
+                  <span *ngIf="
+                    item.is_deal_of_the_day === true ||
+                    (item.is_promotion &&
+                      item.cart_item_promotion?.promotion_type ===
+                        'discount-offer') ||
+                    (item?.cart_item_promotion?.promotion_type ===
+                      'bulk-offer' &&
+                      item.cart_item_promotion?.quantity <= item.quantity)
+                  ">
+                    {{ currency }}{{ item.price | shortDecimal }}
+                  </span>
+
+                  {{ currency }}{{ item.total_price | shortDecimal }}
+                  <button type="button" class="btn delete-item" (click)="deleteCartItemClicked(i)">
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 freeitem-sec" *ngIf="item.freeProduct">
+              <h4>Free Nic Shot</h4>
+              <div class="row freeitem">
+                <div class="col-auto p-0">
+                  <img src="{{ API_URL }}/{{
+                    item.freeProduct.variant?.variant_image?.image
+                  }}" alt="" />
+                </div>
+                <div class="col">
+                  <h2>
+                    {{
+                    item.freeProduct.product_name +
+                    "(" +
+                    item.freeProduct.quantity +
+                    ")"
+                    }}
+                  </h2>
+                  <div class="lab-size-cart">
+                    <span>
+                      {{ item.freeProduct.assignment.split(", ").join(" - ") }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- =========================Free products permotion ======================================== -->
+
+            <div class="col-12 expand-detail-div" *ngIf="
+              item?.freeProducts?.length &&
+              item.cart_item_promotion?.promotion_type === 'free-product'
+            ">
+              <div class="row row-div">
+                <div class="col-12">
+                  <button type="button" class="btn btn-expand collapsed" data-toggle="collapse"
+                    [attr.data-target]="'#collapseCartf-' + i" aria-expanded="false"
+                    [aria-controls]="'collapseCartf-' + i">
+                    Free Products: <i class="fas fa-chevron-up"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="collapse" [id]="'collapseCartf-' + i">
+                <div class="flavors-il">
+                  <div class="campaign-items" *ngFor="let exItem of item?.freeProducts">
+                    <div class="row">
+                      <div class="col-auto">
+                        <span class="badge">{{
+                          exItem.quantity *
+                          onParseInt(
+                          item.quantity / item.cart_item_promotion.quantity
+                          )
+                          }}</span>
+                        <img class="campaign-img" [src]="
+                          API_URL + '/' + exItem.variants[0].variant_image.image
+                        " alt="{{ exItem.name }}" />
+                      </div>
+                      <div class="col campaign-item-title d-flex align-items-center">
+                        {{ exItem.name }} ({{ exItem.attrValues }})
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- =========================End Free products permotion ======================================== -->
+          </div>
+
+          <div *ngIf="item.product_id === 0">
+            <div class="row itemlist">
+              <div class="col-lg-7 col-md-6 d-flex align-items-center padd-sm-767">
+                <div>
+                  <h2>{{ item.promotion_title }}</h2>
+                  <div class="lab-size-cart" *ngFor="let exItemAttr of distinctAttr(item.exclusiveItems)">
+                    <span>{{
+                      getQtyExItemByAttrValue(item.exclusiveItems, exItemAttr) +
+                      " x " +
+                      exItemAttr
+                      }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-5 col-md-6">
+                <div class="row middle middle-height">
+                  <div class="col-lg-5 col-md-6 col-5 cart-quantity">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <button type="button" class="btn btn-primary" (click)="
+                          onMinusQuantity(
+                            item.product_id,
+                            i,
+                            item.variant_id,
+                            item.quantity
+                          )
+                        ">
+                          <i class="fa fa-minus"></i>
+                        </button>
+                      </div>
+                      <input type="text" class="form-control" placeholder="1" [value]="item.quantity" />
+                      <div class="input-group-prepend">
+                        <button type="button" class="btn btn-primary" (click)="
+                          onPlusQuantity(
+                            item.product_id,
+                            i,
+                            item.variant_id,
+                            item.quantity,
+                            item
+                          )
+                        ">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-7 col-md-6 col-7 cart-price">
+                    {{ currency
+                    }}{{ item.quantity * item.unit_price | shortDecimal }}
+                    <button type="button" class="btn delete-item" (click)="deleteCartItemClicked(i)">
+                      <i class="far fa-trash-alt"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 expand-detail-div">
+                <div class="row row-div">
+                  <div class="col-12">
+                    <button type="button" class="btn btn-expand cart-page-ebtn collapsed" data-toggle="collapse"
+                      [attr.data-target]="'#collapseCart--' + i" aria-expanded="false"
+                      [aria-controls]="'collapseCart--' + i">
+                      Products: <i class="fas fa-chevron-up"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="collapse" [id]="'collapseCart--' + i">
+                  <div class="flavors-il">
+                    <div class="campaign-items" *ngFor="let exItem of item.exclusiveItems">
+                      <div class="row">
+                        <div class="col-auto">
+                          <span class="badge">{{
+                            exItem.quantity * item.quantity
+                            }}</span>
+                          <img class="campaign-img" [src]="
+                            API_URL + '/' + exItem.variant.variant_image.image
+                          " alt="{{ exItem.name }}" />
+                        </div>
+                        <div class="col campaign-item-title d-flex align-items-center">
+                          {{ exItem.name }} ({{ exItem.attribute_value }})
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ===============================END ExclusiveOffer=========================== -->
+
+          <!-- ===============================mixMatchOffer=========================== -->
+          <div *ngIf="item.promotion_type === 'mixMatchOffer'">
+            <div class="row itemlist">
+              <!-- <button type="button" class="btn delete-item" (click)="deleteCartItemClicked(i)"><i
+                                class="far fa-trash-alt"></i></button> -->
+              <div class="col-lg-7 col-md-6 d-flex align-items-center padd-sm-767">
+                <div>
+                  <h2>{{ item.promotion_title }}</h2>
+                  <!-- <div class="lab-size-cart" *ngFor="let exItemAttr of distinctAttr(item.exclusiveItems)">
+                                            <span>{{ getQtyExItemByAttrValue(item.exclusiveItems, exItemAttr) + ' x ' +
+                                                exItemAttr }}</span>
+                                        </div> -->
+                </div>
+              </div>
+              <div class="col-lg-5 col-md-6">
+                <div class="row middle middle-height">
+                  <div class="col-lg-5 col-md-6 col-5 cart-quantity">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <button type="button" class="btn btn-primary" (click)="
+                          onMinusQuantity(
+                            item.product_id,
+                            i,
+                            item.variant_id,
+                            item.quantity
+                          )
+                        ">
+                          <i class="fa fa-minus"></i>
+                        </button>
+                      </div>
+                      <input type="text" class="form-control" placeholder="1" [value]="item.quantity" />
+                      <div class="input-group-prepend">
+                        <button type="button" class="btn btn-primary" (click)="
+                          onPlusQuantity(
+                            item.product_id,
+                            i,
+                            item.variant_id,
+                            item.quantity,
+                            item
+                          )
+                        ">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-7 col-md-6 col-7 cart-price">
+                    {{ currency
+                    }}{{ item.quantity * item.unit_price | shortDecimal }}
+                    <button type="button" class="btn delete-item" (click)="deleteCartItemClicked(i)">
+                      <i class="far fa-trash-alt"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="col-12 pl-0">
+                            <h2>{{item.promotion_title}}</h2>
+                            <div class="lab-size-cart" *ngFor="let exItemAttr of distinctAttr(item.exclusiveItems)">
+                  <span>{{ getQtyExItemByAttrValue(item.exclusiveItems, exItemAttr) + ' x ' + exItemAttr }}</span>
+                </div>
+                            <div class="col-12 pt-5">
+                                <div class="row">
+                                    <div class="col-auto cart-quantity">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <button type="button" class="btn btn-primary"
+                                                    (click)="onMinusQuantity(item.product_id, i, item.variant_id, item.quantity)">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="1"
+                                                [value]="item.quantity">
+                                            <div class="input-group-prepend">
+                                                <button type="button" class="btn btn-primary"
+                                                    (click)="onPlusQuantity(item.product_id, i, item.variant_id, item.quantity, item)">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col cart-price">
+                                        {{settings?.currency}}{{(item.quantity * item.unit_price) | shortDecimal}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
+              <div class="col-12 expand-detail-div" *ngIf="item.promotion_type === 'mixMatchOffer'">
+                <div class="row row-div">
+                  <div class="col-12">
+                    <button type="button" class="btn btn-expand collapsed" data-toggle="collapse"
+                      [attr.data-target]="'#collapseCart--' + i" aria-expanded="false"
+                      [aria-controls]="'collapseCart--' + i">
+                      Products: <i class="fas fa-chevron-up"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="collapse" [id]="'collapseCart--' + i">
+                  <div class="flavors-il">
+                    <div class="campaign-items" *ngFor="let exItem of item.mixMatchItems">
+                      <div class="row">
+                        <div class="col-auto">
+                          <span class="badge">{{
+                            exItem.quantity * item.quantity
+                            }}</span>
+                          <img class="campaign-img" [src]="
+                            API_URL + '/' + exItem.variant.variant_image.image
+                          " alt="{{ exItem.name }}" />
+                        </div>
+                        <div class="col campaign-item-title d-flex align-items-center">
+                          {{ exItem.name }}
+                          <!-- ({{exItem.attribute_value}}) -->
+                        </div>
+                        <!-- <div class="lab-size-cart">
+                      <span>
+                        {{exItem.quantity + ' x ' + exItem.attribute_value}}
+                      </span>
+                    </div> -->
+                      </div>
+                      <!-- free product nicshoot  -->
+                      <div class="col-12 freeitem-sec" *ngIf="exItem.freeProduct">
+                        <h4>Free Nic Shot</h4>
+                        <div class="row freeitem">
+                          <div class="col-auto p-0">
+                            <img src="{{ API_URL }}/{{
+                                exItem.freeProduct.variant?.variant_image?.image
+                              }}" alt="" />
+                          </div>
+                          <div class="col">
+                            <h2>
+                              {{
+                              exItem.freeProduct.product_name +
+                              "(" +
+                              exItem.freeProduct.quantity +
+                              ")"
+                              }}
+                            </h2>
+                            <div class="lab-size-cart">
+                              <span>
+                                {{ exItem.freeProduct.assignment.split(", ").join(" - ") }}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ===============================END mixMatchOffer=========================== -->
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="coupon-code">
+              <div class="row" *ngIf="couponNotFound" style="color: red">
+                <p>This Coupon code is invalid.</p>
+              </div>
+              <div class="row" *ngIf="couponMinOrderError" style="color: red">
+                <p>
+                  This Coupon code is valid for min order total price
+                  {{currency}}{{ couponMinOrderPrice }}
+                </p>
+              </div>
+              <div class="row" *ngIf="!cart.is_coupon">
+                <div class="col">
+                  <label for="">Gift Card or Coupon Code</label>
+                  <input type="text" class="form-control" [(ngModel)]="couponCode" #ctrl="ngModel"
+                    placeholder="" required />
+                </div>
+                <div class="col-auto pl-0">
+                  <button type="submit" class="btn btn-primary" [disabled]="!ctrl.valid" (click)="onApplyCoupon()">
+                    Apply
+                  </button>
+                </div>
+              </div>
+              <div class="row" *ngIf="cart.is_coupon">
+                <div class="col-auto pl-0" *ngIf="cart.is_coupon">
+                  <button type="submit" class="btn btn-primary" (click)="onRemoveCoupon()">
+                    Remove Coupon
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 cart-total-sec offset-md-4">
+            <div class="row">
+              <div class="col-12 p-0">
+                <h2>Totals</h2>
+              </div>
+              <div class="col-6">Subtotal</div>
+              <div class="col-6 text-value">
+                {{ currency }}{{ cart.cart_price | shortDecimal }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6 border-tb">Discount</div>
+              <div class="col-6 text-value border-tb">
+                {{ currency
+                }}{{
+                cart.cart_price -
+                cart.cart_total_price -
+                cart.coupon_total_discount_price | shortDecimal
+                }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">Tax</div>
+              <div class="col-6 text-value">
+                {{ currency }}{{ "0" | shortDecimal }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6 border-tb">Coupon Price</div>
+              <div class="col-6 text-value border-tb">
+                {{ currency
+                }}{{ cart.coupon_total_discount_price | shortDecimal }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">Total</div>
+              <div class="col-6 text-value total-v">
+                {{ currency }}{{ cartTotalPrice | shortDecimal }}
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-12 btn-act-next-pre">
+        <button type="button" [disabled]="cart?.cartItems?.length === 0" [routerLink]="['/checkout']"
+          class="btn btn-primary">
+          Go to Shipping
+        </button>
+        <button type="button" disabled class="btn btn-outline-dark">
+          Go back
+        </button>
+
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+<div class="section bg-white padd-sm-480">
+  <div class="container box-shadow-cart">
+
+
+    <div>
+      <div class="row Shopping-heading">
+        <div class="col-md-6">
+          <h2>Shipping Info</h2>
+        </div>
+        <div class="col-md-6 shopping-cart-icons">
+          <i class="fas fa-shopping-basket pr-icon"></i>
+          <i class="fas fa-box active"></i>
+          <i class="fas fa-credit-card dis-none"></i>
+        </div>
+      </div>
+
+      <!-- Shipping Info form 
+
+      <div class="row pt-10">
+        <div class="form-group col-md-6" [ngClass]="{ 'is-invalid': f.first_name.errors && submitted }">
+          <label for="">First Name</label>
+          <input type="text" class="form-control" style="font-size: 0.875rem" formControlName="first_name" />
+          <p *ngIf="submitted && f.first_name.errors">
+            First Name is Required
+          </p>
+        </div>
+
+        <div class="form-group col-md-6" [ngClass]="{ 'is-invalid': f.last_name.errors && submitted }">
+          <label for="">Last Name</label>
+          <input type="text" class="form-control" style="font-size: 0.875rem" formControlName="last_name" />
+          <p *ngIf="submitted && f.last_name.errors">Last Name is Required</p>
+        </div>
+
+
+        <div class="form-group col-md-6" [ngClass]="{ 'is-invalid': f.phone.errors && submitted }">
+          <label for="">Phone Number</label>
+          <input type="text" class="form-control" style="font-size: 0.875rem" formControlName="phone" />
+          <p *ngIf="f.phone.errors && submitted">
+            <span *ngIf="f.phone.errors.required">
+              Phone Number is Required
+            </span>
+            <span *ngIf="f.phone.errors.pattern">
+              Enter a valid phone number
+            </span>
+          </p>
+        </div>
+
+
+        <div class="form-group col-md-6" [ngClass]="{ 'is-invalid': f.email.errors && submitted }">
+          <label for="">Email Address</label>
+          <input type="email" class="form-control" style="font-size: 0.875rem" formControlName="email" />
+          <div *ngIf="f.email.errors && submitted">
+            <p *ngIf="f.email.errors && f.email.errors.required">
+              Email is Required
+            </p>
+            <p *ngIf="f.email.errors && f.email.errors.pattern">
+              Email must be a valid email address
+            </p>
+          </div>
+        </div>
+
+        <div class="form-group col-md-12" [ngClass]="{ 'is-invalid': f.address_1.errors && submitted }">
+          <label for="">Address</label>
+          <input type="text" class="form-control" style="font-size: 0.875rem" formControlName="address_1" />
+          <p *ngIf="f.address_1.errors && submitted">
+            Street Address is Required
+          </p>
+        </div>
+
+        <div class="form-group col-md-6" *ngIf="countries"
+          [ngClass]="{ 'is-invalid': fs.country_id.errors && submitted }">
+          <label for="">Country</label>
+          <select class="custom-select w-100" formControlName="country_id">
+            <option *ngFor="let counrty of countries" [(ngValue)]="counrty.id">
+              {{ counrty.nicename }}
+            </option>
+          </select>
+          <p *ngIf="fs.country_id.errors && submitted">
+            Country is Required
+          </p>
+        </div>
+
+
+        <div class="form-group col-md-6" [ngClass]="{ 'is-invalid': fs.state.errors && shippingSubmitted}">
+          <label for="">State*</label>
+          <input type="text" class="form-control" style="font-size:0.875rem" formControlName="state">
+          <p *ngIf="fs.state.errors && shippingSubmitted">State is Required</p>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label for="">Order Notes</label>
+          <textarea class="form-control" name="message" formControlName="order_notes" placeholder=" "
+            rows="3"></textarea>
+        </div>
+      </div>
+
+        -->
+
+      <div class="col-12 btn-act-next-pre">
+        <button type="button" [disabled]="cart?.cartItems?.length === 0" [routerLink]="['/checkout']"
+          class="btn btn-primary">
+          Go to Payment
+        </button>
+        <button type="button" class="btn btn-outline-dark">
+          Go back
+        </button>
+
+
+      </div>
+
+
+    </div>
+
+  </div>
+</div>
+
+
+<div class="section bg-white padd-sm-480">
+  <div class="container box-shadow-cart">
+    <div>
+      <div class="row Shopping-heading">
+        <div class="col-md-6">
+          <h2>Payment</h2>
+        </div>
+        <div class="col-md-6 shopping-cart-icons"> <i class="fas fa-shopping-basket pr-icon"></i> <i
+            class="fas fa-box pr-icon"></i> <i class="fas fa-credit-card active dis-none"></i> </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 d-flex align-items-center payment-method">
+          <div class="row">
+            <div class="col-12"><b>Select Payment Method</b></div>
+            <div class="col-12">
+              <div class="custom-control custom-radio mt-10">
+                <input type="radio" class="custom-control-input" id="cash-delivery" name="payment" required>
+                <label class="custom-control-label" for="cash-delivery"><strong>Cash on Delivery</strong></label>
+              </div>
+              <div class="custom-control custom-radio mt-10">
+                <input type="radio" class="custom-control-input" id="credit-card" name="payment" required>
+                <label class="custom-control-label" for="credit-card"><strong>Credit Card</strong></label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 d-flex align-items-center payment-card-img ">
+          <div class="row">
+            <div class="col-md-12">
+          <h2>Example:</h2>
+          <img src="../../../assets/images/card-img.jpg" alt="">
+        </div>
+        </div>
+      </div>
+      </div>
+
+      
+      <div class="col-12 btn-act-next-pre">
+        <button type="button" [disabled]="cart?.cartItems?.length === 0" [routerLink]="['/checkout']"
+          class="btn btn-primary">Finish Order</button>
+        <button type="button" class="btn btn-outline-dark">Go back</button>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,293 @@
+.blog-section {
+	.blog-card {
+		margin-bottom: 1.875rem;
+	}
+	h1 {
+		font-size: 1.5rem;
+		margin-bottom: 0.625rem;
+		color: $secondary;
+		line-height: normal;
+	}
+	.blog-date {
+		margin-bottom: 1.563rem;
+		span {
+			font-size: 0.875rem;
+			margin-right: 0.625rem;
+			font-size: 0.875rem;
+			i {
+				margin-right: 0.313rem;
+				color: $primary;
+			}
+		}
+	}
+	img {
+		width: 100%;
+		height: auto;
+	}
+}
+
+.blog-right {
+	.sm-heading {
+		font-size: 1.375rem;
+		padding-bottom: 0.938rem;
+		margin-bottom: 0;
+		color: $secondary;
+	}
+
+	.blog-list {
+		padding-top: 0.625rem;
+		border-top: solid 0.063rem #d5d5d5;
+		margin-bottom: 0.625rem;
+		h4 {
+			font-size: 1rem;
+			font-weight: weight(medium);
+			line-height: normal;
+			margin-bottom: 0.313rem;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 1;
+			letter-spacing: 0.031rem;
+		}
+		.blog-sm-img {
+			width: 4.063rem;
+			height: auto;
+		}
+		.blog-date {
+			margin-bottom: 0;
+		}
+		a {
+			color: $secondary;
+			text-decoration: none;
+			&:hover {
+				color: $primary;
+			}
+		}
+	}
+}
+
+.comment-form {
+	h2 {
+		font-size: 1.375rem;
+		margin-bottom: 0.938rem;
+	}
+
+	.block-heading-wrap {
+		overflow: hidden;
+		text-align: center;
+		margin-bottom: 2.5rem;
+		h4 {
+			font-size: 1rem;
+			text-transform: uppercase;
+			color: $secondary;
+		}
+	}
+
+	.articles-nav {
+		.col-6 {
+			padding-right: 5rem;
+		}
+		.text-right {
+			padding-left: 5rem;
+			padding-right: 0.938rem;
+		}
+		span {
+			opacity: 0.7;
+			display: block;
+			padding-top: 1.25rem;
+			padding-bottom: 0.313rem;
+			font-size: 0.875rem;
+			i {
+				margin-right: 0.625rem;
+			}
+		}
+		.text-right {
+			i {
+				margin-left: 0.625rem;
+				margin-right: 0;
+			}
+		}
+	}
+	a {
+		color: $secondary;
+		text-decoration: none;
+		line-height: normal;
+		font-size: 1rem;
+		font-weight: weight(medium);
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+
+		&:hover {
+			color: $primary;
+		}
+	}
+}
+
+.comment-blog {
+	padding-bottom: 0.625rem;
+
+	.heading-blog {
+		position: relative;
+		overflow: hidden;
+		display: flex;
+		margin-top: 1.563rem;
+		h2 {
+			font-size: 1.375rem;
+			position: relative;
+			text-align: center;
+			margin: auto;
+			&:before,
+			&:after {
+				right: 100%;
+				content: "";
+				position: absolute;
+				top: 50%;
+				border-bottom: 0.063rem solid #d5d5d5;
+				width: 33.75rem;
+				margin: 0 1.875rem;
+			}
+			&:after {
+				left: 100%;
+			}
+		}
+	}
+
+	.user-commit-div {
+		.user-commit {
+			h4 {
+				line-height: normal;
+			}
+			span {
+				font-size: 0.875rem;
+				opacity: 0.8;
+			}
+
+			.avatar {
+				padding-right: 0;
+				svg {
+					width: 2.813rem;
+					height: 2.813rem;
+					border-radius: 50%;
+					border: solid 0.063rem #d5d5d5;
+					.st0 {
+						clip-path: url(#SVGID_2_);
+					}
+					.st1 {
+						fill: #dddddd;
+					}
+					.st2 {
+						fill: #282828;
+					}
+					.st3 {
+						fill: #c7c5c6;
+					}
+					.st4 {
+						fill: #e0e0e0;
+					}
+					.st5 {
+						fill: #dedede;
+					}
+					.st6 {
+						fill: #e1e1e1;
+					}
+					.st7 {
+						fill: #c2c1c2;
+					}
+					.st8 {
+						fill: #cecece;
+					}
+					.st9 {
+						fill: $primary;
+					}
+				}
+			}
+		}
+
+		p {
+			margin-top: 0.625rem;
+			margin-bottom: 0.625rem;
+			font-size: 0.875rem;
+		}
+		.commit-reply-link {
+			font-size: 1rem;
+			font-weight: weight(bold);
+			text-decoration: none;
+			color: $secondary;
+			i {
+				margin-right: 0.313rem;
+				color: $primary;
+			}
+			&:hover {
+				color: $primary;
+			}
+		}
+		hr {
+			border-bottom: solid 0.063rem #d5d5d5;
+			margin-top: 0.938rem;
+			margin-bottom: 0.938rem;
+			opacity: 0.4;
+		}
+	}
+}
+
+@include media-800 {
+	.blog-right {
+		display: none;
+	}
+	.blog-section {
+		h1 {
+			font-size: 1.5rem;
+			margin-bottom: 0.313rem;
+		}
+	}
+}
+
+@include media-767 {
+	.blog-section {
+		h1 {
+			font-size: 1.25rem;
+		}
+	}
+
+	.comment-form {
+		.articles-nav {
+			.col-6 {
+				padding-right: 0.938rem;
+			}
+			.text-right {
+				padding-left: 0.938rem;
+			}
+		}
+	}
+}
+@include media-425 {
+	.blog-section {
+		h1 {
+			font-size: 1.125rem;
+		}
+	}
+	.comment-form {
+		.articles-nav {
+			.col-6 {
+				padding-right: 0.938rem;
+			}
+			.text-right {
+				padding-left: 0.938rem;
+			}
+			a {
+				font-size: 0.875rem;
+			}
+		}
+	}
+}
+@include media-320 {
+	.blog-section {
+		h1 {
+			font-size: 1rem;
+		}
+	}
+}

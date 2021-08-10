@@ -1,0 +1,126 @@
+/* // ======================SHIMMER EFFECT========================= */
+.shine {
+    background: #f6f7f8;
+    background-image: linear-gradient(to right, #f6f7f8 0%, #e4e4e4 20%, #f6f7f8 40%, #f6f7f8 100%);
+    background-repeat: no-repeat;
+    background-size: 31.25em 18.75em;
+    display: inline-block;
+    position: relative;
+    border-radius: 0.3125em;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-name: placeholderShimmer;
+    -webkit-animation-timing-function: linear;
+}
+.shine-w {
+    background: #f6f7f8;
+    background-image: linear-gradient(to right, #f6f7f8 0%, #e4e4e4 20%, #f6f7f8 40%, #f6f7f8 100%);
+    background-repeat: no-repeat;
+    background-size: 75em 18.75em;
+    display: inline-block;
+    position: relative;
+    border-radius: 0.3125em;
+    -webkit-animation-duration: 0.7s;
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-name: placeholderShimmer2;
+    -webkit-animation-timing-function: linear;
+}
+.pr-card-img {
+    height: 16.8125em;
+    width: 100%;
+    margin-bottom: 0.625em;
+}
+.lines {
+    height: 1.25em;
+    margin-top: 0.3125em;
+    margin-bottom: 0.625em;
+    width: 100%;
+}
+.pr-card-img-camp {
+    height: 180px;
+    width: 100%; margin-bottom: 1.25rem;
+}
+@-webkit-keyframes placeholderShimmer {
+    0% {
+        background-position: -29.25em 0;
+    }
+
+    100% {
+        background-position: 29.25em 0;
+    }
+}
+@-webkit-keyframes placeholderShimmer2 {
+    0% {
+        background-position: -62.5em 0;
+    }
+
+    100% {
+        background-position: 62.5em 0;
+    }
+}
+
+@media (max-width: 30em) {
+    .pr-card-img-camp {
+        height: 8.75rem;
+        width: 100%; margin-bottom: 0.625rem;
+    }
+    .pr-card-img {
+        height: 13.75em;
+        width: 100%;
+        margin-bottom: 0.625em;
+    }
+    .lines {
+        height: 0.9375em;
+        margin-top: 0.1875em;
+        margin-bottom: 0.4375em;
+        width: 100%;
+    }
+}
+/* // =======================END SHIMMER EFFECT========================= */
+
+.categories-banner .banner-img {
+    position: relative;
+}
+.categories-banner .banner-img::before {
+    position: absolute;
+    top: 0;
+    left: -75%;
+    z-index: 2;
+    display: block;
+    content: "";
+    width: 50%;
+    height: 100%;
+    background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 100%);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 100%);
+    -webkit-transform: skewX(-25deg);
+    transform: skewX(-25deg);
+}
+.categories-banner .banner-img:hover::before {
+    -webkit-animation: shine 0.75s;
+    animation: shine 0.75s;
+}
+@-webkit-keyframes shine {
+    100% {
+        left: 125%;
+    }
+}
+@keyframes shine {
+    100% {
+        left: 125%;
+    }
+}
+
+
+
+
+.blink-text {
+    animation: blinker 1.2s linear infinite;
+  }
+  
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }

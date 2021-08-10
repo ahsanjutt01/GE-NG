@@ -1,0 +1,172 @@
+.section-map{
+	padding-bottom:1.875rem;
+    padding-top: 1.875rem;
+    width: 100%;
+    margin: auto; height: calc(100vh - 5.75rem); position: relative;
+}
+
+.loc-over-y{
+	overflow-y: scroll; margin-top: 0.938rem; height: calc(100vh - 15.625rem); width: 100%;
+}
+
+
+.map{height:100%; width: 100%; position: absolute; top: 0; left: 0;
+	&:after{
+    content: '';
+    position: absolute;
+    display: block;
+    top: -0.125rem;
+    left: 0;
+    z-index: 3;
+    width: 100%;
+    height: 5rem;
+    background: -moz-linear-gradient(top, rgba(255,255,255,1) 11%, rgba(255,255,255,0) 100%);
+    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 11%, rgba(255,255,255,0) 100%);
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 11%, rgba(255,255,255,0) 100%);
+}
+	
+	&:before{
+    content: '';
+    position: absolute;
+    display: block;
+    top: 0;
+    left: -0.125rem;
+    z-index: 3;
+    width: 19.375rem;
+    height:100%;
+    background: -moz-linear-gradient(left, rgba(255,255,255,1) 11%, rgba(255,255,255,0) 100%);
+    background: -webkit-linear-gradient(left, rgba(255,255,255,1) 11%, rgba(255,255,255,0) 100%);
+    background: linear-gradient(to right, rgba(255,255,255,1) 11%, rgba(255,255,255,0) 100%);
+}
+		
+}
+ 
+
+.locator-col{ flex: 0 0 23.125rem; max-width: 23.125rem; padding-left: 0.938rem; z-index: 10;
+	
+	.location-search{width: 100%; position: relative; margin-left:auto;
+	.form-control{width: 100%!important; @include transition-all;}
+		.btn-search{ position: absolute; right:0.313rem; padding: 0.25rem 0.375rem!important; border:none; letter-spacing: 0.063rem; line-height: 1;
+		i{ font-size: 1.125rem}
+			 &:hover, &:focus{background-color:transparent!important}
+		}
+	}
+.locator-card{ 
+    overflow: hidden;
+    height: 100%;
+    background-color: #fff;
+    border-radius:$border-radius;
+    border-bottom: solid 0.125rem $primary;
+    box-shadow: 0 0 1.3rem 0 rgba(0, 0, 0, 0.25);
+	padding: 0.938rem;
+	
+	.location-sec{ padding: 0.938rem; background-color: #f5f5f5; border-radius: $border-radius; margin-bottom: 0.938rem;
+		h3{font-size: 1rem; margin-bottom: 0.625rem; line-height: normal}
+		p{font-size: 0.875rem; margin-bottom: 0; display: block;
+			i{color: $secondary; margin-right: 0.313rem;}
+		}
+		.btn-primary{font-size: 0.875rem; padding: 0.313rem 0.625rem; display: block; margin-top: 0.625rem;}
+	}
+	
+    
+}
+	
+}
+
+@include media-1024 { 
+	.locator-col{ flex: 0 0 21.875rem; max-width: 21.875rem;  
+
+	.locator-card{ 
+
+		.location-sec{  
+			h3{font-size: 0.875rem; margin-bottom: 0.625rem; line-height: normal}
+			p{font-size: 0.813rem;  
+			}
+			.btn-primary{font-size: 0.813rem; padding: 0.25rem 0.625rem; }
+		}
+
+
+	}
+
+	}
+}
+
+
+@include media-800 {
+.section-map{ height: calc(100vh - 3.625rem);}
+.locator-col{ flex: 0 0 18.75rem; max-width: 18.75rem;} 
+.map{ 
+	&:after{
+    height: 3.125rem;
+}
+	
+	&:before{
+    width: 17.5rem;
+}
+		
+}
+}
+
+@include media-768 {
+.loc-over-y {
+    height: calc(100vh - 11.875rem);
+}
+}
+
+
+
+
+
+@include media-767 {
+	
+.section-map{padding-top: 0.625rem; padding-top: 0.625rem; height: calc(100vh - 2.938rem);}
+	.map{ 
+	&:after{
+    height: 2.5rem;
+}
+	
+	&:before{
+    width: 12.5rem;
+}
+		
+}
+	.loc-over-y{margin-top: 0.625rem; height: calc(100vh - 8.75rem);}
+	.locator-col{ flex: 0 0 18.75rem; max-width: 17.5rem;  
+
+	.locator-card{ 
+
+		.location-sec{padding: 0.625rem;
+			h3{font-size: 0.844rem; margin-bottom: 0.313rem; }
+			p{font-size: 0.813rem; line-height: normal;
+			}
+			.btn-primary{font-size:0.781rem; padding: 0.125rem 0.375rem; }
+		}
+
+
+	}
+
+	}
+}
+
+  
+@include media-480 { 
+.loc-over-y{width: 100%; height: auto; overflow-y:hidden; overflow-x: scroll; margin-top: 0.938rem; margin-left: 0.938rem; margin-right: 0.625rem;  
+	.col-12{padding: 0;}
+	.mob-over-x{ width: max-content; padding-bottom: 0.938rem;}	
+}
+	
+.map{ 
+	&:after{height: 2.5rem;}
+	&:before{display: none}
+}
+	
+	.locator-col{ flex: 0 0 100%; max-width: 100%; position: absolute; bottom: 0.625rem;
+
+	.locator-card{ 
+		padding: 0.625rem; 
+		.location-sec{ padding: 0.625rem; float: left; margin-right: 0.938rem; width: auto; margin-bottom: 0.313rem; min-width:15.625rem;}    
+	}
+
+	}
+	
+}

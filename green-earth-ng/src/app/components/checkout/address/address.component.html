@@ -1,0 +1,692 @@
+<div
+  class="col-12 pl-0 pr-0 pt-5 pb-5 mb-20"
+  *ngIf="isAdmin && isCustomerSelected"
+>
+  <div class="customer-list">
+    <div class="row">
+      <div class="col-md-3 col-8">{{ selectedcustomer.name }}</div>
+      <div class="col-md-3">{{ selectedcustomer.phone }}</div>
+      <div class="col-md-3">{{ selectedcustomer.email }}</div>
+      <div class="col text-right">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="onCancelSelectedCustomer()"
+        >
+          Remove
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="isAdmin && !isCustomerSelected">
+  <div class="col-lg-12 pb-30">
+    <h2 class="up-heading">Customer <span>List</span></h2>
+    <div class="col-12 pl-0 pr-0 pt-5 pb-5">
+      <div class="row pt-10 pb-10">
+        <div class="col-12">
+          <form class="customer-search">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search"
+              [(ngModel)]="searchCustomer"
+              name="searchBrand"
+            />
+            <button type="submit" class="btn cut-btn-search">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="customer-list cust-list-heading">
+        <div class="row">
+          <div class="col-md-3 col-8"><strong>Customer</strong></div>
+          <div class="col-md-3"><strong>Phone</strong></div>
+          <div class="col-md-3"><strong>Email</strong></div>
+          <div class="col text-right"><strong>Action</strong></div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="col-12 pl-0 pr-0 pt-5 pb-5"
+      *ngFor="let cust of customers | filter: searchCustomer"
+    >
+      <div class="customer-list">
+        <div class="row">
+          <div class="col-md-3 col-8">{{ cust.name }}</div>
+          <div class="col-md-3">{{ cust.phone }}</div>
+          <div class="col-md-3">{{ cust.email }}</div>
+          <div class="col text-right">
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="selectionChanged(cust)"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================SEARCH ENDING ADMIN=================================== -->
+<div [ngClass]="!isAdmin || isCustomerSelected ? '' : 'displayNone'">
+  <div>
+    <div class="row">
+      <div class="col-12">
+        <h3>{{ type === "billing" ? "Billing" : "Shipping" }} Details</h3>
+      </div>
+    </div>
+    <form
+      [formGroup]="billingGroup"
+      (ngSubmit)="onSubmit()"
+      autocomplete="off"
+      novalidate
+    >
+      <div>
+        <div class="row">
+          <div class="col-12">
+            <h4 class="heading-b-sm">Contact information</h4>
+          </div>
+
+          <div
+            class="form-group col-md-6"
+            [ngClass]="{ 'is-invalid': f.email.errors && submitted }"
+          >
+            <label for="">Email Address</label>
+            <input
+              type="email"
+              class="form-control"
+              style="font-size: 0.875rem"
+              formControlName="email"
+            />
+            <div *ngIf="f.email.errors && submitted">
+              <p *ngIf="f.email.errors && f.email.errors.required">
+                Email is Required
+              </p>
+              <p *ngIf="f.email.errors && f.email.errors.pattern">
+                Email must be a valid email address
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <h4 class="heading-b-sm">Date of Birth(18+ AGE VERIFICATION)</h4>
+          </div>
+          <!-- <div class="col-12">
+                        <h3>Date of Birth(18+ AGE VERIFICATION)</h3>
+                    </div> -->
+          <div class="col-12 date-div">
+            <div class="row">
+              <div
+                class="form-group col-4"
+                [ngClass]="{
+                  'is-invalid':
+                    submitted &&
+                    (f.day.errors ||
+                      f.month.errors ||
+                      f.year.errors ||
+                      isUnderAge)
+                }"
+              >
+                <label for="">Day</label>
+                <select class="custom-select w-100" formControlName="day">
+                  <option *ngFor="let d of days" value="{{ d }}">
+                    {{ d }}
+                  </option>
+                </select>
+              </div>
+
+              <div
+                class="form-group col-4"
+                [ngClass]="{
+                  'is-invalid':
+                    submitted &&
+                    (f.day.errors ||
+                      f.month.errors ||
+                      f.year.errors ||
+                      isUnderAge)
+                }"
+              >
+                <label for="">Month</label>
+                <select class="custom-select w-100" formControlName="month">
+                  <option
+                    *ngFor="let m of months; let i = index"
+                    value="{{ i }}"
+                  >
+                    {{ m }}
+                  </option>
+                </select>
+              </div>
+
+              <div
+                class="form-group col-4"
+                [ngClass]="{
+                  'is-invalid':
+                    submitted &&
+                    (f.day.errors ||
+                      f.month.errors ||
+                      f.year.errors ||
+                      isUnderAge)
+                }"
+              >
+                <label for="">Year</label>
+                <select class="custom-select w-100" formControlName="year">
+                  <option *ngFor="let y of years" value="{{ y }}">
+                    {{ y }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <p *ngIf="isUnderAge && submitted" style="color: red">
+              You are under age
+            </p>
+            <div *ngIf="submitted && f.year.errors">
+              <p *ngIf="f.year.errors.required" style="color: red">
+                Date of Birth is Required
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row pt-10">
+          <div class="col-12">
+            <h4 class="heading-b-sm">Shipping Address</h4>
+          </div>
+          <div
+            class="form-group col-md-6"
+            [ngClass]="{ 'is-invalid': f.first_name.errors && submitted }"
+          >
+            <label for="">First Name</label>
+            <input
+              type="text"
+              class="form-control"
+              style="font-size: 0.875rem"
+              formControlName="first_name"
+            />
+            <p *ngIf="submitted && f.first_name.errors">
+              First Name is Required
+            </p>
+          </div>
+
+          <div
+            class="form-group col-md-6"
+            [ngClass]="{ 'is-invalid': f.last_name.errors && submitted }"
+          >
+            <label for="">Last Name</label>
+            <input
+              type="text"
+              class="form-control"
+              style="font-size: 0.875rem"
+              formControlName="last_name"
+            />
+            <p *ngIf="submitted && f.last_name.errors">Last Name is Required</p>
+          </div>
+
+          <!-- <div class="form-group col-md-6" [ngClass]="{ 'is-invalid': f.company.errors && submitted}">
+                    <label for="">Company*</label>
+                    <input type="text" class="form-control" style="font-size:0.875rem" formControlName="company">
+                    <p *ngIf="f.company.errors && submitted">Company is Required</p>
+                </div> -->
+
+          <div
+            class="form-group col-md-12"
+            [ngClass]="{ 'is-invalid': f.address_1.errors && submitted }"
+          >
+            <label for="">Street Address</label>
+            <input
+              type="text"
+              class="form-control"
+              style="font-size: 0.875rem"
+              formControlName="address_1"
+            />
+            <p *ngIf="f.address_1.errors && submitted">
+              Street Address is Required
+            </p>
+          </div>
+
+
+
+          <div
+            class="form-group col-md-6"
+            [ngClass]="{ 'is-invalid': f.city.errors && submitted }"
+          >
+            <label for="">Town / City</label>
+            <input
+              type="text"
+              class="form-control"
+              style="font-size: 0.875rem"
+              formControlName="city"
+            />
+            <p *ngIf="f.city.errors && submitted">Town / City is Required</p>
+          </div>
+
+          <div
+            class="form-group col-md-6"
+            *ngIf="countries"
+            [ngClass]="{ 'is-invalid': f.country_id.errors && submitted }"
+          >
+            <label for="">Country / Region *</label>
+            <select class="custom-select w-100" formControlName="country_id">
+              <option
+                *ngFor="let counrty of countries"
+                [(ngValue)]="counrty.id"
+              >
+                {{ counrty.nicename }}
+              </option>
+            </select>
+            <p *ngIf="f.country_id.errors && submitted">Country is Required</p>
+          </div>
+
+          <div
+            class="form-group col-md-6"
+            [ngClass]="{ 'is-invalid': f.postal_code.errors && submitted }"
+          >
+            <label for="">Post code</label>
+            <input
+              type="text"
+              class="form-control"
+              style="font-size: 0.875rem"
+              formControlName="postal_code"
+            />
+            <p *ngIf="f.postal_code.errors && submitted">
+              Post Code is Required
+            </p>
+          </div>
+
+
+          <div
+            class="form-group col-md-6"
+            [ngClass]="{ 'is-invalid': f.phone.errors && submitted }"
+          >
+            <label for="">Phone Number</label>
+            <input
+              type="text"
+              class="form-control"
+              style="font-size: 0.875rem"
+              formControlName="phone"
+            />
+            <p *ngIf="f.phone.errors && submitted">
+              <span *ngIf="f.phone.errors.required">
+                Phone Number is Required
+              </span>
+              <span *ngIf="f.phone.errors.pattern">
+                Enter a valid phone number
+              </span>
+            </p>
+          </div>
+
+
+
+          <!-- <div class="form-group col-md-6" [ngClass]="{ 'is-invalid': f.state.errors && submitted}">
+                        <label for="">State*</label>
+                        <input type="text" class="form-control" style="font-size:0.875rem" formControlName="state">
+                        <p *ngIf="f.state.errors && submitted">State is Required</p>
+                    </div> -->
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <h4 class="heading-b-sm">Order Notes (optional)</h4>
+          </div>
+          <div class="form-group col-md-12">
+            <!-- <label for="">Order notes (optional)</label> -->
+            <textarea
+              class="form-control"
+              name="message"
+              formControlName="order_notes"
+              placeholder=" "
+              rows="2"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="custom-control custom-checkbox location-check">
+    <input
+      type="checkbox"
+      class="custom-control-input"
+      [checked]="isDeliverAddressInputChange"
+      id="location2"
+      (input)="onDeliverAddressInputChange()"
+    />
+    <label class="custom-control-label" for="location2"
+      >Deliver to a different address?</label
+    >
+
+    <div *ngIf="isDeliverAddressInputChange" class="deliver-address">
+      <!-- <app-address [type]="'shipping'"></app-address> -->
+      <!-- ================================================================================================== -->
+
+      <div>
+        <div class="row">
+          <!-- <div class="col-12"><h3>Shipping Details</h3></div> -->
+          <div class="col-12">
+            <h4 class="heading-b-sm mt-0">Contact information</h4>
+          </div>
+        </div>
+
+        <form
+          [formGroup]="shippingGroup"
+          (ngSubmit)="onSubmit()"
+          autocomplete="off"
+          novalidate
+        >
+          <div>
+            <div class="row">
+              <div
+                class="form-group col-md-6"
+                [ngClass]="{
+                  'is-invalid': fs.email.errors && shippingSubmitted
+                }"
+              >
+                <label for="">Email Address</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  style="font-size: 0.875rem"
+                  formControlName="email"
+                />
+                <div *ngIf="fs.email.errors && shippingSubmitted">
+                  <p *ngIf="fs.email.errors && fs.email.errors.required">
+                    Email is Required
+                  </p>
+                  <p *ngIf="fs.email.errors && fs.email.errors.pattern">
+                    Email must be a valid email address
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                <h4 class="heading-b-sm">Shipping Address</h4>
+              </div>
+              <div
+                class="form-group col-md-6"
+                [ngClass]="{
+                  'is-invalid': fs.first_name.errors && shippingSubmitted
+                }"
+              >
+                <label for="">First Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  style="font-size: 0.875rem"
+                  formControlName="first_name"
+                />
+                <p *ngIf="fs.first_name.errors && shippingSubmitted">
+                  First Name is Required
+                </p>
+              </div>
+
+              <div
+                class="form-group col-md-6"
+                [ngClass]="{
+                  'is-invalid': fs.last_name.errors && shippingSubmitted
+                }"
+              >
+                <label for="">Last Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  style="font-size: 0.875rem"
+                  formControlName="last_name"
+                />
+                <p *ngIf="fs.last_name.errors && shippingSubmitted">
+                  Last Name is Required
+                </p>
+              </div>
+
+              <!-- <div class="form-group col-md-6"
+                            [ngClass]="{ 'is-invalid': fs.company.errors && shippingSubmitted}">
+                            <label for="">Company</label>
+                            <input type="text" class="form-control" style="font-size:0.875rem"
+                                formControlName="company">
+                            <p *ngIf="fs.company.errors && shippingSubmitted">Company is Required</p>
+                        </div> -->
+
+              <div
+                class="form-group col-md-12"
+                [ngClass]="{
+                  'is-invalid': fs.address_1.errors && shippingSubmitted
+                }"
+              >
+                <label for="">Street Address</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  style="font-size: 0.875rem"
+                  formControlName="address_1"
+                />
+                <p *ngIf="fs.address_1.errors && shippingSubmitted">
+                  Street Address is Required
+                </p>
+              </div>
+
+              <div
+                class="form-group col-md-6"
+                [ngClass]="{
+                  'is-invalid': fs.city.errors && shippingSubmitted
+                }"
+              >
+                <label for="">Town / City</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  style="font-size: 0.875rem"
+                  formControlName="city"
+                />
+                <p *ngIf="fs.city.errors && shippingSubmitted">
+                  City is Required
+                </p>
+              </div>
+              <!-- shippingGroup -->
+              <div
+                class="form-group col-md-6"
+                *ngIf="countries"
+                [ngClass]="{ 'is-invalid': fs.country_id.errors && submitted }"
+              >
+                <label for="">Country / Region *</label>
+                <select class="custom-select" formControlName="country_id">
+                  <option
+                    *ngFor="let counrty of countries"
+                    [(ngValue)]="counrty.id"
+                  >
+                    {{ counrty.nicename }}
+                  </option>
+                </select>
+                <p *ngIf="fs.country_id.errors && submitted">
+                  Country is Required
+                </p>
+              </div>
+
+              <div
+                class="form-group col-md-6"
+                [ngClass]="{
+                  'is-invalid': fs.postal_code.errors && shippingSubmitted
+                }"
+              >
+                <label for="">Post code</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  style="font-size: 0.875rem"
+                  formControlName="postal_code"
+                />
+                <p *ngIf="fs.postal_code.errors && shippingSubmitted">
+                  Post Code is Required
+                </p>
+              </div>
+
+              <div
+                class="form-group col-md-6"
+                [ngClass]="{
+                  'is-invalid': fs.phone.errors && shippingSubmitted
+                }"
+              >
+                <label for="">Phone Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  style="font-size: 0.875rem"
+                  formControlName="phone"
+                />
+                <p *ngIf="fs.phone.errors && submitted">
+                  <span *ngIf="fs.phone.errors.required">
+                    Phone Number is Required
+                  </span>
+                  <span *ngIf="fs.phone.errors.pattern">
+                    Enter a valid phone number
+                  </span>
+                </p>
+              </div>
+
+
+
+              <!-- <div class="form-group col-md-6"
+                                [ngClass]="{ 'is-invalid': fs.state.errors && shippingSubmitted}">
+                                <label for="">State*</label>
+                                <input type="text" class="form-control" style="font-size:0.875rem"
+                                    formControlName="state">
+                                <p *ngIf="fs.state.errors && shippingSubmitted">State is Required</p>
+                            </div> -->
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- ================================================================================================================= -->
+    </div>
+  </div>
+  <!-- <div class="custom-control custom-checkbox mt-10" *ngIf="isLoggedIn">
+    <input type="checkbox" class="custom-control-input" [(ngModel)]="isRewardChecked" [checked]="isRewardChecked" [disabled]="!isAbleToUtilize"
+        (change)="onRewardCheckboxChange(isRewardChecked)" id="reward-check">
+    <label class="custom-control-label" for="reward-check">
+        Utilize {{consumesPoints}} reward points in one order. ({{currency$ | async}}{{transformedAmount}})
+    </label>
+</div> -->
+  <h3 class="mb-10">Select Delivery Method *</h3>
+  <h4 *ngIf="shipingServiceNotAvailable" style="color: red">
+    {{ shipingServiceNotAvailable }}
+  </h4>
+  <h4 *ngIf="selectDelivery" style="color: red">{{ selectDelivery }}</h4>
+
+  <div class="row m-0" *ngIf="shippings">
+    <div *ngFor="let item of shippings" class="w-100">
+      <div class="col-12 delivery-info" *ngIf="item.isHaveZone">
+        <div class="custom-control custom-radio">
+          <input
+            type="radio"
+            class="custom-control-input"
+            [id]="item.id"
+            name="deliverytype"
+            [value]="item.id"
+            (click)="onShiping(item)"
+            required
+            [checked]="this.cart.delivery_method == item.id ? 'checked' : ''"
+          />
+          <label class="custom-control-label mb-0" [for]="item.id">
+            <strong>
+              {{ item.title }}
+            </strong>
+            {{ item?.short_description }}:
+            {{
+              item?.is_free_shipping &&
+              cart?.cart_total_price >= item?.free_minimum_order
+                ? "(Free)"
+                : ""
+            }}
+            <strong
+              >{{ currency$ | async
+              }}{{
+                item?.is_free_shipping &&
+                cart?.cart_total_price >= item?.free_minimum_order
+                  ? 0.0
+                  : item.rate
+              }}</strong
+            >
+            
+            </label
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="col-12 delivery-info">
+            <div class="custom-control custom-radio">
+                <input type="radio" class="custom-control-input" id="deliverytype2" name="deliverytype" required
+                    value="ROYAL MAIL 1ST CLASS" (click)="onRoyal('ROYAL MAIL 1ST CLASS')">
+                <label class="custom-control-label mb-0" for="deliverytype2">
+                    <strong>
+                        (ROYAL MAIL 1ST CLASS)
+                    </strong> Order by 2pm for same working day dispatch. 1-4 working day
+                    estimated delivery but further delays possible due to the current crisis.:
+                    <strong>£2.99</strong></label>
+            </div>
+        </div> -->
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <a
+        [routerLink]="['/signup']"
+        class="link-continue mt-10"
+        *ngIf="!isLoggedIn"
+        >Create an account</a
+      >
+    </div>
+  </div>
+
+  <div class="row checkout-bottom-btns">
+    <div class="col-auto" *ngIf="!isLoggedIn">
+      <button type="submit" class="btn btn-primary pre-btn" cdkStepperPrevious>
+        <i class="fas fa-chevron-left"></i>
+        Back
+      </button>
+    </div>
+    <div class="col text-right">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        (click)="onSubmit()"
+        *ngIf="!isAdmin"
+        [disabled]="authService.paymentGatewayNextBtnLoading$ | async"
+      >
+        <span
+          *ngIf="authService.paymentGatewayNextBtnLoading$ | async"
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        {{ (authService.paymentGatewayNextBtnLoading$ | async) ? "" : "Next" }}
+        <i class="fas fa-chevron-right"></i>
+      </button>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        (click)="onSubmit()"
+        *ngIf="isAdmin"
+        [disabled]="!isCustomerSelected"
+      >
+        <span
+          *ngIf="isClicked"
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        {{ isClicked ? "" : "Crete Order For User" }}
+      </button>
+    </div>
+  </div>
+</div>

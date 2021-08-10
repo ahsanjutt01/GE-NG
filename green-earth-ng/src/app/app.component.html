@@ -1,0 +1,72 @@
+<div class="successfully-alert" *ngIf="newlyProductData">
+  <div class="col-12">
+    <h3><i class="fas fa-check-circle"></i> 
+      <span *ngIf="!newlyProductData?.thumbnail">
+        You have successfully added {{newlyProductData.name}} promotion
+      </span>
+      <span *ngIf="newlyProductData?.thumbnail">
+        Product successfully added
+      </span>
+    </h3>
+    <div class="row" *ngIf="newlyProductData?.thumbnail">
+      <div class="col-auto pr-0" *ngIf="newlyProductData?.thumbnail">
+        <img [src]="API_URL + '/' +  newlyProductData.thumbnail" alt="">
+      </div>
+      <div class="col">
+        <h2>{{newlyProductData.name}}</h2>
+        <div class="flavors-text"><strong>{{newlyProductData.property_name}}: </strong>
+          {{newlyProductData.property_value}} </div>
+        <div class="flavors-text"><strong>{{newlyProductData.quantity}} x <span>£
+              {{newlyProductData.total_price | shortDecimal}}</span></strong> </div>
+      </div>
+    </div>
+    <div class="row m-0">
+      <div class="col-12 cart-subtotal-v">Cart Total: <strong>£ {{(newlyProductData.cart.cart_total_price )|
+          shortDecimal}}</strong></div>
+      <div class="col-12 p-0"><button type="button" class="btn btn-primary" (click)="onCheckout()">Checkout <i
+            class="fas fa-arrow-right"></i></button>
+        <button type="button" class="btn btn-outline-secondary" (click)="onCloseToaster()">Continue</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" disclaimer-sec" *ngIf="!isEighteePlus">
+
+  <div class="vape-suite-logo"><img alt="" src="../assets/images/vape-suite-w.svg"></div>
+  <div class="disclaimer-text-wrap">
+    <div class="disclaimer-card">
+      <div class="set-z-index">
+        <h1>Age Verification</h1>
+        <p>This website contains age-restricted content. You must be 18 years old or over to enter.</p>
+        <h4>I am 18 or older – Enter</h4>
+
+        <button type="button" class="btn btn-primary" (click)="onEighteePlus()">Yes</button>
+        <button type="submit" class="btn btn-outline-secondary" data-dismiss="modal" aria-label="Close">No</button>
+      </div>
+      <div class="largetext"></div>
+    </div>
+  </div>
+  <footer>© 2021. All Rights Reserved.</footer>
+</div>
+
+
+<div class="wrapper" [ngClass]="(!isCheckoutPage$) ? '' : 'onCheckout'"
+  [ngClass]="isEighteePlus ? '' : 'displayNone'">
+
+  <app-navbar [ngClass]="[isErrorPage ? 'displayNone' : '', isCheckoutPage$ ? 'displayNone' : '']">
+  </app-navbar>
+
+  <router-outlet></router-outlet>
+  <div *ngIf="loadingRouteConfig" style="text-align: center;">
+    <app-loader></app-loader>
+  </div>
+  <app-footer [ngClass]="(!isCheckoutPage$) ? '' : 'displayNone'" [ngClass]="(!isErrorPage) ? '' : 'displayNone'">
+  </app-footer>
+  <!-- <form id="myform" action="/checkout" method="post">
+    <button type="button" data-vp-publickey="wakmH76GTSpB8zkZELeHFZxhMmt/gmKppuzbVELwLyw="
+      data-vp-baseurl="https://demo.vivapayments.com" data-vp-lang="en" data-vp-amount="100" data-vp-sourcecode="2631"
+      data-vp-description="My product" data-vp-disablewallet="false" data-vp-expandcard="true">
+    </button>
+  </form> -->
+</div>

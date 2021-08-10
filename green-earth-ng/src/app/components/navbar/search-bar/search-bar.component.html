@@ -1,0 +1,130 @@
+<!-- <div class="searchbar-list">
+    <p *ngIf="isShowNoResultValue">
+        Sorry, nothing found for '{{queryValue}}'
+    </p>
+    <ul *ngIf="searchResults?.suggestions?.length">
+        <h4>PAPOLAR SUGGESTIONS</h4>
+        <li *ngFor="let suggestion of searchResults.suggestions">
+            <a [routerLink]="['search']" [queryParams]="{q: suggestion.result}" (click)="onSearch(suggestion.result)">
+                {{suggestion.result}}
+            </a>
+        </li>
+    </ul>
+    <ul *ngIf="searchResults?.products?.length">
+        <h4>PRODUCTS</h4>
+        <li *ngFor="let product of searchResults.products">
+            <a [routerLink]="['/product', product.sku]" (click)="onProductClick(product.name)">
+                <img [src]="API_URL + '/' + product.thumbnail" [alt]="product.name">
+                <span> {{product.name}}
+                </span>
+                <span class="price-sl">{{currency}}{{getProductMinPrice(product)}}</span>
+            </a>
+        </li>
+    </ul>
+ 
+    <ul *ngIf="searchResults?.collections?.length">
+        <h4>COLLECTIONS</h4>
+        <li   >
+            <a [routerLink]="['/collection', collection.id]" (click)="onCollectionClick(collection.name)">
+                {{collection.name}}
+            </a>
+        </li>
+    </ul>
+
+    <ul *ngIf="searchResults?.brands?.length">
+        <h4>BRANDS</h4>
+        <li *ngFor="let brand of searchResults.brands" (click)="onBrandClick(brand.name)">
+            <a [routerLink]="['brand', brand.id]">
+                {{brand.name}}
+            </a>
+        </li>
+    </ul>
+</div>   -->
+
+
+<!-- ================================= New Search ============================== -->
+<!-- for mobile top arrow -->
+<div class="search-toparrow"><img src="../../../../assets/images/search-bg-top.png" alt=""></div>
+<div class="searching-new">
+  <!-- <p *ngIf="isShowNoResultValue">
+    Sorry, nothing found for '{{queryValue}}'
+  </p> -->
+  <div class="container">
+    <div class="row">
+      <!-- {{searchResults?.products?.length}} searchResults?.products?.length -->
+      <div class="col-md-8" *ngIf="searchResults?.products?.length">
+        <h2 class="searching-h2">Products <span>Results</span>
+          <button type="button" (click)="onViewSearch('all')" class="btn btn-primary">VIEW
+            ALL</button>
+        </h2>
+        <div class="row pt-10">
+          <div class="col-lg-4 col-md-6 col-6" *ngFor="let product of searchResults.products; let i = index;">
+            <app-product-card *ngIf="i < 6" [product]="product" [homePage]="true" [currency]="currency">
+            </app-product-card>
+          </div>
+        </div>
+      </div>
+      <!-- ================================No suitable products found.=============== -->
+      <div class="col-md-8" *ngIf="!searchResults?.products?.length && !isLoading">
+        <div class="col-12 d-flex align-items-center w-100 h-100">
+          <div class="m-auto w-100 text-center pr-padd-sm"><img class="search-not-found"
+              src="../../../../assets/images/search-not-found.svg" alt="">
+            <p>No suitable products found for '{{queryValue}}'</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <h2 class="searching-h2">Brands<span></span>
+          <button type="button" class="btn btn-primary" (click)="onViewSearch('brands')">VIEW ALL</button>
+        </h2>
+        <ul class="searchlist">
+          <li *ngFor="let brand of searchResults?.brands" (click)="onBrandClick(brand.name)">
+            <a [routerLink]="['brand', brand.id]">
+              {{brand.name}} ({{brand.products_count}})
+            </a>
+          </li>
+          <p *ngIf="!searchResults?.brands?.length  && !isLoading">
+            Sorry, nothing found for '{{queryValue}}'
+          </p>
+        </ul>
+        <!-- <h2 class="searching-h2">Collection<span></span> <button type="button" class="btn btn-primary">VIEW ALL</button>
+        </h2>
+         <ul class="searchlist">
+          <li *ngFor="let collection of searchResults?.collections">
+            <a [routerLink]="['/collection', collection.id]" (click)="onCollectionClick(collection.name)">
+              {{collection.name}}
+            </a>
+          </li>
+
+          <p *ngIf="!searchResults?.collections?.length  && !isLoading">
+            Sorry, nothing found for '{{queryValue}}'
+          </p>
+        </ul> -->
+        <h2 class="searching-h2">Suggestion<span></span>
+          <!-- <button type="button" class="btn btn-primary">VIEW ALL</button> -->
+        </h2>
+        <ul class="searchlist">
+          <li *ngFor="let suggestion of searchResults?.suggestions">
+            <a [routerLink]="['search']" [queryParams]="{q: suggestion.result}" (click)="onSearch(suggestion.result)">
+              {{suggestion.result}}
+            </a>
+          </li>
+          <p *ngIf="!searchResults?.suggestions?.length  && !isLoading">
+            Sorry, nothing found for '{{queryValue}}'
+          </p>
+        </ul>
+        <!-- <h2 class="searching-h2">Recent Search<span></span></h2>
+        <ul class="searchlist">
+          <li><a href="#">Kingston Eliquids</a></li>
+          <li><a href="#">Dinner Lady</a></li>
+          <li><a href="#">Vampire Vape</a></li>
+          <li><a href="#">Smoknic</a></li>
+        </ul> -->
+      </div>
+      <div class="col-12"><button type="button" (click)="onViewSearch('all')"
+          class="btn btn-primary btn-view-all-search">VIEW ALL SEARCH RESULTS
+          ({{searchResults?.total_products || 0}})</button></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,150 @@
+<div class="tabs-section">
+    <div class="container" *ngIf="(genericService.mainSearchResult$ | async) as searchResult">
+        <app-cart-modal></app-cart-modal>
+        <div class="row">
+            <div class="col-12 section-heading search-heading">
+                <h1>Search results: <span class="search-no">{{searchResult.total_products}}</span> results for
+                    <span>"{{query}}"</span>
+                </h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+
+                <ul class="nav nav-pills nav-justified search-tabs" id="pills-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" [ngClass]="(show === 'brands') ? '' : 'active'" id="pills-Products-tab"
+                            data-toggle="pill" href="#pills-Products" role="tab" aria-controls="pills-Products"
+                            [aria-selected]="show === 'brands' ? false : true">Products
+                            <span class="badge tabs-badge">{{searchResult.products.length}}</span></a>
+                    </li>
+                    <!-- <li class="nav-item" role="presentation"> <a class="nav-link" id="pills-Collections-tab"
+                            data-toggle="pill" href="#pills-Collections" role="tab" aria-controls="pills-Collections"
+                            aria-selected="false">Collections <span
+                                class="badge tabs-badge">{{searchResult.collections.length}}</span></a> </li> -->
+                    <li class="nav-item" role="presentation"> <a class="nav-link"
+                            [ngClass]="show === 'brands' ? 'active' : ''" id="pills-Brands-tab" data-toggle="pill"
+                            href="#pills-Brands" role="tab" aria-controls="pills-Brands"
+                            [aria-selected]="show === 'brands' ? true : false">Brands <span
+                                class="badge tabs-badge">{{searchResult.brands.length}}</span></a> </li>
+
+                    <!-- <select class="custom-select search-page-sort">
+                        <option selected="">Sort by:</option>
+                        <option value="1">A-Z</option>
+                        <option value="2">Z-A</option>
+                    </select> -->
+
+                </ul>
+
+            </div>
+
+            <div class="col-12" style="min-height: 200px;">
+
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade" [ngClass]="(show !== 'brands') ? 'show active' : '' " id="pills-Products"
+                        role="tabpanel" aria-labelledby="pills-Products-tab">
+                        <div class="row">
+                            <div class="col-lg-3 col-w-sl" *ngFor="let prod of searchResult.products">
+                                <app-product-card [product]="prod"></app-product-card>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- <div class="tab-pane fade" [ngClass]="(show === 'brands') ? 'show active' : ''"
+                        id="pills-Collections" role="tabpanel" aria-labelledby="pills-Collections-tab">
+                        <div class="row">
+                            <div class="col-lg-3 col-w-sl">
+                                <div class="product-card">
+                                    <div class="offer-l">2 FOR £20</div>
+                                    <div class="offer-r"><span>FREE</span>NIC-SHOTS</div>
+
+                                    <div class="col-12">
+                                        <div class="img-thumb">
+                                            <div class="middle"><img src="images/123.jpg" alt="" /></div>
+                                        </div>
+                                        <div class="p-val">70%VG</div>
+                                        <h2>NS20, NS10 & NS5 555 Tobacco...</h2>
+                                        <div class="text-lab"><strong>Flavors:</strong> Blueberry, Raspberry,
+                                            Blueberry, Raspberry</div>
+                                        <div class="row">
+                                            <div class="col pr-0">
+                                                <div class="customer-reviews">
+                                                    <div class="review-icons">
+                                                        <i class="fa fa-star"></i><i class="fas fa-star"></i><i
+                                                            class="fas fa-star"></i><i class="far fa-star"></i><i
+                                                            class="far fa-star"></i><span>(3)</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-auto"><button class="btn btn-bookmark"><i
+                                                        class="far fa-bookmark"></i></button></div>
+
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="row ">
+                                        <div class="col-12">
+                                            <div class="pr-lc">
+                                                <div class="lab-size"><strong>Size:</strong> <span>10ml</span>
+                                                    <span>20ml</span>
+                                                </div>
+                                                <div class="lab-colors">
+                                                    <strong>Strength:</strong>
+                                                    <ul>
+                                                        <li>10mg</li>
+                                                        <li>20mg</li>
+
+                                                        <li>+ 2More</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 pb-sec">
+                                        <div class="row">
+                                            <div class="col pr-10">
+                                                <div class="price"><span class="p-from">From:</span> <span
+                                                        class="s-price">£25.60</span></div>
+                                            </div>
+
+                                            <div class="col-auto pl-0"><button data-toggle="modal"
+                                                    data-target="#bottom_modal" class="btn btn-primary"><i
+                                                        class="fas fa-shopping-bag"></i> Add</button></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div> -->
+
+                    <div class="tab-pane fade" id="pills-Brands" role="tabpanel" aria-labelledby="pills-Brands-tab"
+                        [ngClass]="(show === 'brands') ? 'show active' : ''">
+                        <div class="row">
+
+                            <div class="col-lg-3 col-md-4 col-6" *ngFor="let brand of searchResult.brands">
+                                <a [routerLink]="['../brand', brand.id]" class="brand-card">
+                                    <div>
+                                        <img [src]="API_URL + '/' + brand.logo" [alt]="brand.name">
+                                    </div>
+                                    <h3>{{brand.name}}</h3>
+                                    <span>{{brand.products_count}} Product</span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

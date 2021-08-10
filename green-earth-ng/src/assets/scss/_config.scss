@@ -1,0 +1,61 @@
+ @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Open+Sans:wght@300;400;600;700&display=swap');
+  
+$primary-font:'Inter', sans-serif;
+$font-family-base:'Open Sans', sans-serif !default;
+$font-weights:("regular":400, "medium": 500, "bold": 700, "exbold": 800);
+$uppercase:uppercase;
+
+$primary: #00A651;
+$secondary:#263238;
+
+/* top navigation */
+$nav-bg:#f2f2f2;
+$nav-text-color:#282828;
+$nav-bg-hover: #fff;
+$nav-text-hover:#00A651;
+$submenu-bg:#f3f3f3;
+$nav-deal:#00A651;
+
+$border-radius:0.313rem;
+$border-radius-sm:0.188rem;
+
+/* body text color */
+$body-color:#515151;
+$input-border-color:#dee2e6;
+
+$green: #16872e;
+
+$addtocart-btn-bg-color: #1aa94d;
+$addtocart-btn-bg-color-h: #128f38;
+
+$greencard: #e9f7e4;
+$greencard-border: #96c884;
+/*$gray-600; use for light gray*/
+
+/*product card*/
+$offer-left: #fed02a;
+$offer-left-text: #282828;
+
+$offer-right-text: #258802;
+
+$vg-text-color: #16872e;
+$price-text-color: #16872e;
+
+$reviews-icon: $primary;
+
+$size-label-bg-color: #828282;
+$size-label-text: #ffffff;
+
+/*footer*/
+$footer-bgcolor: #F9F9F9;
+// :root {
+//     --footer-bgcolor: #1f283b;
+// }
+
+/*for deal section home page*/
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap");
+$deal-font: "Montserrat", sans-serif;
+$offer-color: #FFD02B;
+$white: #ffffff;
+
+ 

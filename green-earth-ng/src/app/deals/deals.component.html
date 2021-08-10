@@ -1,0 +1,69 @@
+<app-cart-modal></app-cart-modal>
+<div *ngIf="isloading" class="pl-loading">
+	<app-loader></app-loader>
+</div>
+<!-- <div class="sub-header-md" *ngIf="!isloading"
+	[ngStyle]="{'background-image': 'url(' + API_URL + '/' + deal?.header?.images?.desktop + ')'}">
+	 <div class="hd-content">
+		<h2>{{deal?.header?.title?.split(' ')[0]}}<span> {{deal?.header?.title?.split(' ').splice(1).join(' ')}}</span>
+		</h2>
+		<p>{{deal?.header?.description}}</p>
+	</div>  
+</div> -->
+
+
+<div class="sub-header-page">
+	<figure>
+		<picture>
+			<source media="(max-width: 480px)" srcset="../../assets/images/deals-banner-sm.jpg"
+				data-src="../../assets/images/deals-banner-sm.jpg">
+			<source media="(max-width: 1024px)" srcset="../../assets/images/deals-banner.jpg"
+				data-src="../../assets/images/deals-banner.jpg">
+			<source media="(min-width: 1025px)" srcset="../../assets/images/deals-banner.jpg"
+				data-src="../../assets/images/deals-banner.jpg">
+			<img src="../../assets/images/deals-banner.jpg" data-src-base="images/"
+				data-src="{xs:../../assets/images/deals-banner-sm.jpg,md:../../assets/images/deals-banner.jpg,xl:../../assets/images/deals-banner.jpg}"
+				alt="">
+		</picture>
+	</figure>
+</div>
+
+
+<div class="deals-banners" *ngIf="deal?.promotionCards?.is_active && !isloading">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-3 col-6" *ngFor="let card of deal?.promotionCards?.cards">
+				<a [routerLink]="['../' + card.url]">
+					<img [src]="API_URL + '/'+ card.image" alt="">
+				</a>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!-- 	 -->
+<div *ngIf="!isloading">
+	<div class="related-pr-section" *ngFor="let section of promotionSections; let i = index;"
+		[ngClass]="(i%2===0) ? 'bg-color-none': ''">
+		<div class="container" *ngIf="section?.products">
+			<div class="row">
+				<div class="col-12 section-heading">
+					<h1>{{section?.title?.split(' ')[0]}}
+						<span>{{section?.title?.split(' ').splice(1).join(' ')}}</span>
+					</h1>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-3 col-w-sl" *ngFor="let product of section?.products">
+					<app-product-card [product]="product" [currency]="currency"></app-product-card>
+				</div>
+				<div class="col-12 text-center pt-30">
+					<button class="btn btn-primary view-all-deal"
+						[routerLink]="['../promotion', section.promotion_id]">View All Products</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

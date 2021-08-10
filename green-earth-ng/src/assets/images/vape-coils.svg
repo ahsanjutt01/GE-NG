@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+  <g id="vape-coils" transform="translate(-857 -148)">
+    <circle id="Ellipse_88" data-name="Ellipse 88" cx="15" cy="15" r="15" transform="translate(857 148)" fill="#e7e9e7"/>
+    <g id="Group_208" data-name="Group 208" transform="translate(864.742 155.742)">
+      <g id="coil" transform="translate(0)">
+        <path id="Path_270" data-name="Path 270" d="M4.93,34.648h9.925l-3.939,3.978H1.165Z" transform="translate(-0.996 -29.609)" fill="#ef0027"/>
+        <path id="Path_265" data-name="Path 265" d="M4.181,4.97a.3.3,0,0,0-.431,0L.61,8.11V.3A.305.305,0,0,0,0,.3V8.847a.3.3,0,0,0,.188.282A.3.3,0,0,0,.3,9.152.305.305,0,0,0,.52,9.062L4.181,5.4a.3.3,0,0,0,0-.431Zm0,0" transform="translate(0 0)" fill="#1f283b"/>
+        <path id="Path_266" data-name="Path 266" d="M68.178,128.087a.3.3,0,0,0-.431,0l-3.661,3.661a.305.305,0,1,0,.431.431l3.661-3.661A.3.3,0,0,0,68.178,128.087Zm0,0" transform="translate(-61.556 -123.116)" fill="#1f283b"/>
+        <path id="Path_267" data-name="Path 267" d="M132.178,128.087a.3.3,0,0,0-.431,0l-3.661,3.661a.305.305,0,1,0,.431.431l3.661-3.661A.3.3,0,0,0,132.178,128.087Zm0,0" transform="translate(-123.116 -123.116)" fill="#1f283b"/>
+        <path id="Path_268" data-name="Path 268" d="M196.178,128.087a.3.3,0,0,0-.431,0l-3.661,3.661a.305.305,0,1,0,.431.431l3.661-3.661A.3.3,0,0,0,196.178,128.087Zm0,0" transform="translate(-184.675 -123.116)" fill="#1f283b"/>
+        <path id="Path_269" data-name="Path 269" d="M260.08,128.018a.3.3,0,0,0-.332.066l-3.661,3.661a.305.305,0,0,0,.431.431l3.14-3.14v7.805a.305.305,0,0,0,.61,0V128.3a.3.3,0,0,0-.188-.282Zm0,0" transform="translate(-246.235 -123.114)" fill="#1f283b"/>
+      </g>
+    </g>
+  </g>
+</svg>

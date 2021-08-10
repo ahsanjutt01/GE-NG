@@ -1,0 +1,414 @@
+<div class="sub-header-page">
+    <figure>
+        <picture>
+            <source media="(max-width: 480px)" [srcset]="API_URL + exclusiveOffer?.promotion?.banner"
+                [attr.data-src]="API_URL + exclusiveOffer?.promotion?.banner">
+            <source media="(max-width: 1024px)" [srcset]="API_URL + exclusiveOffer?.promotion?.banner"
+                [attr.data-src]="API_URL + exclusiveOffer?.promotion?.banner">
+            <source media="(min-width: 1025px)" [srcset]="API_URL + exclusiveOffer?.promotion?.banner"
+                [attr.data-src]="API_URL + exclusiveOffer?.promotion?.banner">
+            <img [src]="API_URL + exclusiveOffer?.promotion?.banner" data-src-base="images/"
+                data-src="{xs:{{API_URL}} + {{exclusiveOffer?.promotion?.banner}},md:{{API_URL}} + {{exclusiveOffer?.promotion?.banner}},xl:{{API_URL}} + {{exclusiveOffer?.promotion?.banner}}}"
+                alt="">
+        </picture>
+    </figure>
+</div>
+
+<div id="stickySearchshow" class="stickySearch-show" [ngClass]="(isLoading) ? 'displayNone' : ''">
+    <div class="section pt-md" *ngIf="!isLoading">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-12">
+
+                    <div class="campaign-deal-lab">
+
+
+                        <div class="row m-0">
+                            <div class="col-12 cp-lab-size">
+                                <h3 [ngClass]="isAttributeSelected ? '' : 'blink-text'">Select Nicotine
+                                    {{attribute?.name}}:*</h3>
+                                <ul>
+                                    <li *ngFor="let value of attributeValues; let vIndex = index">
+                                        <label>
+                                            <input type="radio" [name]="attribute?.name" [value]="value.id"
+                                                [checked]="value.isChecked" [id]="value.id"
+                                                [disabled]="value.isDisabled"
+                                                (click)="onRadioClick(value.id, vIndex, value.value)">
+                                            <span
+                                                [ngClass]="(value.isDisabled)? 'disable-input' : ''">{{value.value}}</span>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- ============MOBILE VIEW INPUT TEXT===================== -->
+                        <div class="add-cart-div mobileview">
+
+                            <div class="row">
+                                <div class="col-auto">
+                                    <h3>Quantity</h3>
+                                </div>
+                                <div class="col pl-0 cap-deal-quantity">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <button type="button" class="btn btn-primary" (click)="onMinusQuanity()"><i
+                                                    class="fa fa-minus"></i></button>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="1" disabled
+                                            [(ngModel)]="inputValue">
+                                        <div class="input-group-prepend">
+                                            <button type="button" class="btn btn-primary" (click)="onPlusQuanity()"><i
+                                                    class="fa fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="price-div">
+                                <div class="row">
+                                    <div class="col-6 pr-0 pt-5">Price: <span class="pf-price">
+                                            {{currency}} {{(offerPrice * inputValue) | shortDecimal}}
+                                        </span>
+                                    </div>
+                                    <div class="col-6 pl-0">
+                                        <button class="btn btn-primary" (click)="onAddToCart()">
+                                            <i class="fas fa-shopping-cart"></i>
+                                            Add to Cart
+                                            <!-- ({{inputValue}}) -->
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- ============END MOBILE VIEW INPUT TEXT===================== -->
+
+                    </div>
+
+                    <div class="campaign-fix" *ngIf="isAttributeSelected">
+                        <div class="row">
+                            <div class="col-md-5 section-heading comp-deal-head tab-sc">
+                                <h1>Select {{promotionQuantity}} Product
+                                    <!-- <span *ngIf="OfferQuantity!==0"> * Please select
+                                        {{OfferQuantity }} more </span> -->
+
+                                    <button data-toggle="collapse" data-target="#flavors-list-selec"
+                                        aria-expanded="false" aria-controls="flavors-list-selec"
+                                        class="btn btn-flavors-list-mobile collapsed">Selected ({{selectedQty()}}) <i
+                                            class="fas fa-chevron-up"></i></button>
+                                </h1>
+
+                                <div class="collapse w-100" id="flavors-list-selec">
+                                    <div class="pt-10 pb-10">
+                                        <div class="row m-0" *ngIf="isAttributeSelected">
+                                            <div class="col-12 item-qty-show">{{(OfferQuantity) > 0 ? OfferQuantity +'
+                                                MORE TO GO' :
+                                                'Please
+                                                add bundle to cart.'}}</div>
+                                        </div>
+                                        <div class="row m-0">
+                                            <div class="col-12 add-item-list" *ngFor="let prod of addedProducts">
+                                                <div class="row">
+                                                    <div class="col-auto"><span class="badge">{{prod.quantity *
+                                                            inputValue}}</span>
+                                                        <img [src]="API_URL + '/' + prod.variant?.variant_image?.image"
+                                                            alt="">
+                                                    </div>
+                                                    <div class="col add-item-title">{{prod.name}}
+                                                        ({{prod.attribute_value}})</div>
+                                                    <div class="col-auto">
+                                                        <button type="button" class="btn delete-flavors"
+                                                            (click)="onRemoveProduct(prod.id)">
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-7 tab-sc">
+                                <div class="row">
+                                    <div class="col pl-0-md">
+                                        <form class="form-inline comp-deal-search">
+                                            <input class="form-control" type="text" placeholder="Search Flavour"
+                                                aria-label="Search" [(ngModel)]="searchVariant" name="search"
+                                                autocomplete="off">
+                                            <button class="btn btn-search" type="submit"><i
+                                                    class="fas fa-search"></i></button>
+                                        </form>
+                                    </div>
+                                    <div class="col-auto pl-0 hide-800">
+                                        <select class="custom-select" (change)="onSortChange($event.target.value)">
+                                            <option value="0" selected>A-Z</option>
+                                            <option value="1">Z-A</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="add-to-cart-fix">
+                            <div class="row">
+                                <div class="col-4" disabled>Deal QTY:<span>{{inputValue}}</span></div>
+                                <div class="col-4">Price:<span>{{currency}}{{(offerPrice * inputValue) |
+                                        shortDecimal}}</span>
+                                </div>
+                                <div class="col-4 pl-0">
+                                    <button type="button" (click)="onAddToCart()" class="btn btn-primary">Add to
+                                        cart
+                                        <!-- ({{inputValue}}) -->
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row product-grid" [ngClass]="isAttributeSelected ? '' : 'disable-p-list'">
+
+                        <div class="col-lg-4 col-6" *ngFor="let variant of variants | filter:searchVariant;">
+                            <div class="product-card product-card-deal">
+
+                                <div class="col-12">
+                                    <div class="img-thumb">
+                                        <div class="middle">
+                                            <img [src]="API_URL + '/' + variant.variant.variant_image?.image"
+                                                [alt]="variant.name" />
+                                        </div>
+                                    </div>
+                                    <div class="p-val">{{variant.green_label?.property_value}}</div>
+                                    <h2>{{variant.name}}</h2>
+                                    <div class="text-lab flavor-name">
+                                        <strong>{{variant.below_name?.property_name}}:</strong>
+                                        {{variant.below_name?.property_value}}
+                                    </div>
+                                </div>
+
+                                <div class="col-12 pb-sec">
+                                    <div class="row">
+                                        <div class="col-6 pr-0">
+                                            <button data-toggle="modal" data-target="#bottom_modal"
+                                                class="btn btn-primary" (click)="onAddProduct(variant)">
+                                                <i class="fas fa-shopping-bag"></i>
+                                                Add {{variant.quantity > 0 ? '(' + variant.quantity + ')' :
+                                                ''}}</button>
+                                        </div>
+                                        <div class="col-6">
+                                            <button class="btn btn-link-remove" (click)="onRemoveProduct(variant.id)"
+                                                [disabled]="variant.quantity===0"
+                                                [ngClass]="(variant.quantity===0)? 'btn-link-disable' : ''">Remove</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-4 col-md-12 hide-800 sticky-on-top">
+
+                    <div class="sticky-on-top">
+                        <div class="add-cart-div">
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <h3>Quantity:</h3>
+                                </div>
+                                <div class="col-6 pl-0 cap-deal-quantity">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <button type="button" class="btn btn-primary" (click)="onMinusQuanity()">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text" class="form-control" disabled [(ngModel)]="inputValue">
+                                        <div class="input-group-prepend">
+                                            <button type="button" class="btn btn-primary" (click)="onPlusQuanity()">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="price-div">
+                                <div class="row">
+                                    <div class="col-6 pr-0 pt-5">Price: <span class="pf-price">
+                                            {{currency}} {{(offerPrice * inputValue) | shortDecimal}}
+                                        </span>
+                                    </div>
+                                    <div class="col-6 pl-0">
+                                        <button class="btn btn-primary" (click)="onAddToCart()">
+                                            <i class="fas fa-shopping-cart"></i>
+                                            Add to
+                                            Cart({{inputValue}})</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- ===========================SIDE PROD LIST=================== -->
+                        <div class="row m-0" *ngIf="isAttributeSelected">
+                            <div class="col-12 item-qty-show">{{(OfferQuantity) > 0 ? OfferQuantity +' MORE TO GO' :
+                                'Please
+                                add bundle to cart.'}}</div>
+                        </div>
+
+
+                        <div class="row m-0">
+
+                            <div class="col-12 add-item-list" *ngFor="let prod of addedProducts">
+                                <div class="row">
+                                    <div class="col-auto"><span class="badge">{{prod.quantity * inputValue}}</span>
+                                        <img [src]="API_URL + '/' + prod.variant?.variant_image?.image" alt="">
+                                    </div>
+                                    <div class="col add-item-title">{{prod.name}} ({{prod.attribute_value}})</div>
+                                    <div class="col-auto">
+                                        <button type="button" class="btn delete-flavors"
+                                            (click)="onRemoveProduct(prod.id)">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =============================SHIMMER EFFECT============================= -->
+<div class="section pt-md" *ngIf="isLoading">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+
+                <div class="campaign-deal-lab" style="box-shadow: none; background-color: transparent; border: none">
+
+
+                    <div class="row">
+                        <div class="lines shine" style="height:20px"></div>
+                        <div class="lines shine" style="height:20px"></div>
+                    </div>
+
+                    <div class="add-cart-div mobileview">
+
+                        <div class="row">
+                            <div class="lines shine" style="height:20px"></div>
+                            <div class="lines shine" style="height:20px"></div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+
+                <div class="campaign-fix">
+                    <div class="row">
+                        <div class="col-md-5 section-heading comp-deal-head">
+                            <div class="lines shine" style="height:30px"></div>
+                        </div>
+
+                        <div class="col-md-7">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="lines shine" style="height:30px"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row product-grid">
+                    <div class="col-lg-4 col-6">
+                        <div class="product-card" style="box-shadow: none; background-color: transparent; border: none">
+                            <div class="pr-card-img-camp shine"></div>
+                            <div class="lines shine" style="height:15px;"></div>
+                            <div class="lines shine" style="height:15px;"></div>
+                            <div class="lines shine" style="height:15px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-6">
+                        <div class="product-card" style="box-shadow: none; background-color: transparent; border: none">
+                            <div class="pr-card-img-camp shine"></div>
+                            <div class="lines shine" style="height:15px;"></div>
+                            <div class="lines shine" style="height:15px;"></div>
+                            <div class="lines shine" style="height:15px;"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-6">
+                        <div class="product-card" style="box-shadow: none; background-color: transparent; border: none">
+                            <div class="pr-card-img-camp shine"></div>
+                            <div class="lines shine" style="height:15px;"></div>
+                            <div class="lines shine" style="height:15px;"></div>
+                            <div class="lines shine" style="height:15px;"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-12 hide-800 sticky-on-top">
+
+                <div class="sticky-on-top">
+                    <div class="add-cart-div" style="box-shadow: none; background-color: transparent; border: none">
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="lines shine" style="height:15px"></div>
+                            </div>
+                            <div class="col-12">
+                                <div class="lines shine" style="height:30px"></div>
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="margin-top: 40px;">
+                            <div class="col-12">
+                                <div class="lines shine" style="height:20px;"></div>
+                            </div>
+                            <div class="col-12">
+                                <div class="lines shine" style="height:20px"></div>
+                            </div>
+                            <div class="col-12">
+                                <div class="lines shine" style="height:20px"></div>
+                            </div>
+                            <div class="col-12">
+                                <div class="lines shine" style="height:20px"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>

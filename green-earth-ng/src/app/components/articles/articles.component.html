@@ -1,0 +1,42 @@
+<!-- <div class="sub-header">
+    <div class="hd-content">
+        <h2>Our <span>Articles</span></h2>
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+    </div>
+</div> -->
+
+<div class="sub-header-page">
+	<figure>
+		<picture>
+		  <source media="(max-width: 480px)" srcset="../../assets/images/blog-banner-sm.jpg" data-src="../../assets/images/blog-banner-sm.jpg">
+		  <source media="(max-width: 1024px)" srcset="../../assets/images/blog-banner.jpg" data-src="../../assets/images/blog-banner.jpg">
+		  <source media="(min-width: 1025px)" srcset="../../assets/images/blog-banner.jpg" data-src="../../assets/images/blog-banner.jpg">
+		  <img src="../../assets/images/blog-banner.jpg" data-src-base="images/" data-src="{xs:../../assets/images/blog-banner-sm.jpg,md:../../assets/images/blog-banner.jpg,xl:../../assets/images/blog-banner.jpg}" alt=""> 
+		</picture>
+	  </figure>
+</div>
+
+<div class="section blog-section" *ngIf="articles">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-4 col-md-6" *ngFor="let article of articles">
+                <div class="blog-card">
+                    <a [routerLink]="['/articles/article', article?.slug]">
+                        <div class="imgblog"><img [src]="API_URL + '/' + article?.image" [alt]="article?.title"></div>
+                        <h3>{{article?.title}}</h3>
+                    </a>
+
+                    <span><i class="far fa-user"></i> {{article?.author?.name}} </span>
+                    <span><i class="far fa-clock"></i> {{article?.author?.created_at | date:'mediumDate'}} </span>
+
+
+                    <p>{{article?.short_description}}...</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

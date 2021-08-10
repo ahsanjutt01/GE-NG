@@ -1,0 +1,1852 @@
+<div class="modal fade" id="clearall-item" tabindex="-1" role="dialog" aria-labelledby="clearall-itemTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content top_border-red">
+      <div class="modal-header">
+        <h3 class="modal-title" id="clearall-itemTitle">Clear Shopping Bag</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body confir_pay">
+        <div class="col-md-12 pt-20 pb-20">
+          <p>Are you sure you want to clear all products from shopping bag?</p>
+        </div>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-primary pl-20 pr-20" (click)="onClearAllCart()" data-dismiss="modal"
+          aria-label="Close">
+          Yes
+        </button>
+        <button type="submit" class="btn btn-outline-secondary pl-20 pr-20" data-dismiss="modal" aria-label="Close">
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<header *ngIf="!isloading">
+  <!--header top mobile Plus Search mobile  bar-->
+  <div class="container-fluid mob-tabs-top">
+    <div id="ID_search" class="mob-search-div">
+      <a href="javascript:void(0)" onclick="closeSearch()" class="s-close"></a>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <form>
+              <input type="text" placeholder="Search..." name="queryValue" (input)="onSearching($event.target.value)"
+                autocomplete="off" [(ngModel)]="queryValue" (focus)="onSearching($event.target.value)"
+                (blur)="removeSearching()"/>
+            </form>
+          </div>
+
+          <div class="col-auto pl-0">
+            <button type="submit" class="btn">
+              <img alt="" src="./assets/images/search-icon-w.svg" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col m-logo">
+        <a [routerLink]="['/']">
+          <img src="./assets/images/greenearth.jpg" alt="GreenEarth" />
+        </a>
+      </div>
+      <div class="col-auto">
+        <button onclick="ID_search()" class="btn mob-search-btn" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- end mobile top nav section-->
+
+ 
+<div class="container-fluid dis-sm-none">
+ 
+	<div class="row top-section">
+	<div class="col-auto logo"><img src="./assets/images/greenearth.jpg" alt="Green Earth" /></div>	
+	<div class="col"> 
+<nav class="navbar navbar-expand-lg main-menu">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <ul class="navbar-nav" *ngIf="settings">
+              <!-- ====================Menu===================== -->
+              <div *ngFor="let menu of settings.menu">
+                <!-- ====================Full menu============= -->
+                <li *ngIf="
+                    getObjectkeysCount(menu.data) > 1
+                  " (click)="onNavbarDropdownMenu()" class="nav-item dropdown position-static" [routerLinkActive]=""
+                  [ngClass]="rla.isActive ? 'menuActive' : ''" #rla="routerLinkActive">
+                  <a class="nav-link dropdown-toggle" [routerLink]="['/category', menu.slug]"
+                    (click)="onNavbarDropdownMenu()" role="button" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    {{ menu.name }}</a>
+                  <ul class="dropdown-menu full-menu">
+                    <li>
+                      <div class="container">
+                        <div class="row">
+                          <div class="col-12">
+                            <!-- ==================== Sub Categories ================= -->
+
+                            <!-- ============For Vape Kits split sub categories to the end and show collection are there hard coded id = 2=========== -->
+                            <ul *ngIf="
+                                menu?.data?.collections && menu?.type_id === 2
+                              ">
+                              <h3>
+                                <!-- {{menu.name}} -->
+                                Shop By Collections
+                              </h3>
+                              <li *ngFor="
+                                  let subCollec of menu?.data?.collections
+                                ">
+                                <a [routerLink]="[
+                                    'collection',
+                                    subCollec.type_id
+                                  ]" routerLinkActive="active" (click)="onMobileSideBarClose()">
+                                  <i class="fas fa-chevron-right"></i>{{ subCollec.name }}
+                                </a>
+                              </li>
+                              <li>
+                                <a class="view-more-list" [routerLink]="['category/vape-kits']" (click)="onMobileSideBarClose()">View All Vape Kits</a>
+                              </li>
+                            </ul>
+                            <!-- ============end Split=============== -->
+                            <ul *ngIf="
+                                menu?.data?.sub_categories &&
+                                menu?.type_id !== 2
+                              ">
+                              <h3>
+                                <!-- {{menu.name}} -->
+                                Shop By Type
+                              </h3>
+                              <span *ngFor="
+                                  let subCategory of menu?.data?.sub_categories;
+                                  let i = index
+                                ">
+                                <li *ngIf="i < 10">
+                                  <a [routerLink]="['category', menu.slug]" [queryParams]="{
+                                      subId: subCategory.type_id,
+                                      subCategory: subCategory.name,
+                                      from: 'main'
+                                    }">
+                                    <i class="fas fa-chevron-right"></i>{{ subCategory.name }}
+                                  </a>
+                                </li>
+                              </span>
+
+                              <li *ngIf="menu?.data?.sub_categories.length > 10">
+                                <a class="view-more-list" [routerLink]="['category', menu.slug]">
+                                  View All {{ menu.name }}
+                                </a>
+                              </li>
+                            </ul>
+                            <!-- ==================== promotions ================= -->
+                            <ul *ngIf="
+                                menu?.data?.promotions && menu?.type_id == 1
+                              ">
+                              <h3>
+                                <!-- {{ subPromo.name }} -->
+                                Shop By Deals
+                              </h3>
+
+                              <li *ngFor="let subPromo of menu?.data?.promotions">
+                                <h5 style="
+                                    margin-left: -0.938rem;
+                                    font-size: 0.938rem;
+                                  ">
+                                  {{ subPromo.name }}
+                                </h5>
+                                <p *ngFor="let promo of subPromo.promotions">
+                                  <!-- <a
+                                    [routerLink]="['promotion', promo.type_id]"
+                                    routerLinkActive="active"
+                                  > -->
+                                  <a href="#/{{ promo.url }}">
+                                    <i class="fas fa-chevron-right"></i>{{ promo.name }}
+                                  </a>
+                                </p>
+                              </li>
+                              <li>
+                                <a class="view-more-list" [routerLink]="['deals']">View All Deals</a>
+                              </li>
+                            </ul>
+
+                            <ul *ngIf="
+                                menu?.data?.promotions && menu?.type_id == 2
+                              ">
+                              <h3>
+                                <!-- {{ subPromo.name }} -->
+                                Vape Kits Deals
+                              </h3>
+
+                              <li *ngFor="let subPromo of menu?.data?.promotions">
+                                <a [routerLink]="['promotion', subPromo.type_id]" routerLinkActive="active">
+                                  <i class="fas fa-chevron-right"></i>{{ subPromo.name }}
+                                </a>
+                              </li>
+                              <li>
+                                <a class="view-more-list" [routerLink]="['deals']">View All Deals</a>
+                              </li>
+                            </ul>
+
+                            <!-- ==================== Properties ================= Shop By Flavour ==========-->
+                            <ul *ngIf="
+                                menu?.data?.properties && menu?.type_id == 1
+                              ">
+                              <h3>
+                                <!-- {{menu.name}} -->
+                                Shop By Flavour
+                              </h3>
+                              <span *ngFor="
+                                  let propValue of menu?.data?.properties
+                                    ?.values;
+                                  let fi = index
+                                ">
+                                <li *ngIf="fi < 10">
+                                  <a [routerLink]="[
+                                      'flavour',
+                                      propValue.property_value
+                                    ]" routerLinkActive="active">
+                                    <i class="fas fa-chevron-right"></i>{{ propValue.property_value }}
+                                  </a>
+                                </li>
+                              </span>
+
+                              <li>
+                                <a class="view-more-list" class="view-more-list" [routerLink]="['flavours']">View All
+                                  Flavours</a>
+                              </li>
+                            </ul>
+
+                            <!-- ==================== Brands ================= -->
+                            <ul *ngIf="menu?.data?.brands">
+                              <h3>
+                                <!-- {{menu.name}} -->
+                                Featured Brands
+                              </h3>
+                              <li *ngFor="let subBrand of menu?.data?.brands">
+                                <a [routerLink]="['brand', subBrand.type_id]" routerLinkActive="active">
+                                  <i class="fas fa-chevron-right"></i>{{ subBrand.name }}
+                                </a>
+                              </li>
+                              <li>
+                                <a class="view-more-list" class="view-more-list" [routerLink]="['brands']">View All
+                                  Brands</a>
+                              </li>
+                            </ul>
+
+                            <!-- ==================== Collections ================= -->
+
+                            <!-- ============For Vape Kits split sub categories to the end and show collection are there hard coded id = 2=========== -->
+
+                            <ul *ngIf="
+                                menu?.data?.sub_categories &&
+                                menu?.type_id === 2
+                              ">
+                              <h3>
+                                <!-- {{menu.name}} -->
+                                Shop By Type
+                              </h3>
+                              <span *ngFor="
+                                  let subCategory of menu?.data?.sub_categories;
+                                  let i = index
+                                ">
+                                <li *ngIf="i < 10">
+                                  <a [routerLink]="['category', menu.slug]" [queryParams]="{
+                                      subId: subCategory.type_id,
+                                      subCategory: subCategory.name
+                                    }">
+                                    <i class="fas fa-chevron-right"></i>{{ subCategory.name }}
+                                  </a>
+                                </li>
+                              </span>
+
+                              <li *ngIf="menu?.data?.sub_categories.length > 10">
+                                <a class="view-more-list" [routerLink]="['category', menu.slug]">
+                                  View All {{ menu.name }}
+                                </a>
+                              </li>
+                            </ul>
+                            <!-- ============end Split=============== -->
+
+                            <ul *ngIf="
+                                menu?.data?.collections &&
+                                menu?.type_id != 1 &&
+                                menu?.type_id !== 2
+                              ">
+                              <h3>
+                                <!-- {{menu.name}} -->
+                                Shop By Collections
+                              </h3>
+                              <li *ngFor="
+                                  let subCollec of menu?.data?.collections
+                                ">
+                                <a [routerLink]="[
+                                    'collection',
+                                    subCollec.type_id
+                                  ]" routerLinkActive="active" (click)="onMobileSideBarClose()">
+                                  <i class="fas fa-chevron-right"></i>{{ subCollec.name }}
+                                </a>
+                              </li>
+                              <li>
+                                <a class="view-more-list" [routerLink]="['collections']" (click)="onMobileSideBarClose()">View All Collections</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+
+                <!-- ======================Single Small Menu================ -->
+                <li *ngIf="getObjectkeysCount(menu.data) === 1 && menu?.type !== 'article'" class="nav-item dropdown"
+                  (click)="onNavbarDropdownMenu()">
+                  <a class="nav-link dropdown-toggle" [routerLink]="[menu.url]" id="loginside-open" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ menu.name }}
+                  </a>
+                  <div class="dropdown-menu sm-menu" aria-labelledby="userDropdown">
+                    <!-- ===================menu?.data?.brands================== -->
+                    <ul *ngIf="menu?.data?.brands" class="m-list">
+                      <h3>{{ menu.name }}</h3>
+                      <li *ngFor="let subBrand of menu?.data?.brands">
+                        <a [routerLink]="['brand', subBrand.type_id]"><i class="fas fa-chevron-right"> </i>{{
+                          subBrand.name }}
+                        </a>
+                      </li>
+                      <li>
+                        <a class="view-more-list" [routerLink]="['brands']">View All Brands</a>
+                      </li>
+                    </ul>
+                    <!-- ===================menu?.data?.sub_categories================== -->
+                    <ul *ngIf="menu?.data?.sub_categories" class="m-list">
+                      <h3>
+                        {{ menu.name }}s
+                        <!-- Sub Categories -->
+                      </h3>
+                      <li *ngFor="let subCategory of menu?.data?.sub_categories">
+                        <a [routerLink]="['category', menu.slug]" [queryParams]="{
+                            subId: subCategory.type_id,
+                            subCategory: subCategory.name
+                          }">
+                          <i class="fas fa-chevron-right"></i>{{ subCategory.name }}
+                        </a>
+                      </li>
+                    </ul>
+                    <!-- ==================== promotions ================= -->
+                    <ul *ngIf="menu?.data?.promotions" class="m-list">
+                      <h3>
+                        {{ menu.name }}
+                        <!-- Promotions -->
+                      </h3>
+                      <li *ngFor="let subPromo of menu?.data?.promotions">
+                        <a href="#">
+                          <i class="fas fa-chevron-right"></i>{{ subPromo.name }}s
+                        </a>
+                      </li>
+                      <li>
+                        <a class="view-more-list" [routerLink]="['deals']">View All Deals</a>
+                      </li>
+                    </ul>
+                    <!-- ==================== collections ================= -->
+                    <ul *ngIf="menu?.data?.collections" class="m-list">
+                      <h3>
+                        {{ menu.name }}s
+                        <!-- Collections -->
+                      </h3>
+                      <li *ngFor="let subCollec of menu?.data?.collections">
+                        <a [routerLink]="['collection', subCollec.type_id]" routerLinkActive="active">
+                          <i class="fas fa-chevron-right"></i>{{ subCollec.name }}
+                        </a>
+                      </li>
+                      <li>
+                        <a class="view-more-list" [routerLink]="['collections']">View All Collections</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+
+                <!-- Normal Menu -->
+                <li class="nav-item" *ngIf="getObjectkeysCount(menu.data) === 0">
+                  <a class="nav-link" [routerLink]="['/category', menu.slug]" (click)="navigationOnclick(menu.slug)"
+                    routerLinkActive="active">
+                    {{ menu.name }}
+                  </a>
+                </li>
+              </div>
+              <li class="nav-item dealmenu">
+                <a class="nav-link" [routerLink]="['/deals']">
+                  <img src="./assets/images/percentage.svg" alt="deals" />
+                  DEALS</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+	</div>
+		
+	<div class="col-auto">	 
+	 <nav class="navbar navbar-expand nav-login">
+          <ul class="navbar-nav ml-auto top_nav">
+            <li class="nav-item" *ngIf="!isLogin">
+              <a class="nav-link" [routerLink]="['/login']">
+                <div class="row">
+                  <div class="col-auto p-0">
+                    <img src="./assets/images/user-icon.svg" alt="" />
+                  </div>
+                  <div class="col p-0">
+                    <small></small><span style="
+                        padding-right: 15px;
+                        margin-top: 8px;
+                        display: inline-block;
+                      ">Sign in</span>
+                  </div>
+                </div>
+              </a>
+            </li>
+
+            <li class="nav-item dropdown" *ngIf="isLogin">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <div class="row">
+                  <div class="col-auto p-0">
+                    <img src="./assets/images/user-icon.svg" alt="" />
+                  </div>
+                  <div class="col p-0">
+                    <small>Hello, {{ userInfo.first_name }}</small><span>My Account</span>
+                  </div>
+                </div>
+              </a>
+              <div *ngIf="userInfo?.role === 'admin'" class="dropdown-menu dropdown-menu-right sm-menu"
+                aria-labelledby="userDropdown">
+                <a class="dropdown-item" [routerLink]="['/customer/detail/carts']">
+                  <svg class="bi" fill="currentColor" version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50"
+                    style="enable-background: new 0 0 50 50" xml:space="preserve">
+                    <g>
+                      <g>
+                        <path
+                          d="M44.9,2H5.1C2.9,2,1,3.9,1,6.1v37.7C1,46.1,2.9,48,5.1,48h39.7c2.3,0,4.1-1.9,4.1-4.1V6.1C49,3.9,47.1,2,44.9,2z
+			 M45.8,7.8v34.4c0,1.5-1.2,2.6-2.6,2.6H6.8c-1.5,0-2.6-1.2-2.6-2.6V7.8c0-1.5,1.2-2.6,2.6-2.6h36.4C44.7,5.2,45.8,6.3,45.8,7.8z" />
+                      </g>
+                    </g>
+                    <g>
+                      <g>
+                        <path
+                          d="M40,13H23.3c-1.1,0-1.1,0.7-1.1,1.6c0,0.9-0.1,1.6,1.1,1.6H40c1.2,0,1.1-0.7,1.1-1.6S41.2,13,40,13z" />
+                      </g>
+                    </g>
+                    <g>
+                      <g>
+                        <path
+                          d="M40,23H23.3c-1.1,0-1.1,0.7-1.1,1.6s-0.1,1.6,1.1,1.6H40c1.2,0,1.1-0.7,1.1-1.6S41.2,23,40,23z" />
+                      </g>
+                    </g>
+                    <g>
+                      <g>
+                        <path
+                          d="M40,34H23.3c-1.1,0-1.1,0.7-1.1,1.6s-0.1,1.6,1.1,1.6H40c1.2,0,1.1-0.7,1.1-1.6S41.2,34,40,34z" />
+                      </g>
+                    </g>
+                    <path d="M12.2,17.7l0.2,0.1c0.1,0.1,0.2,0.2,0.4,0.2c0.1,0,0.2,0.1,0.4,0.1c0.1,0,0.1,0,0.2,0h0.1c0.1,0,0.2-0.1,0.3-0.1
+	c0.2-0.1,0.4-0.2,0.5-0.4l3.2-4.5c0.2-0.3,0.3-0.6,0.2-0.9c-0.1-0.3-0.2-0.6-0.5-0.8s-0.6-0.3-0.9-0.2c-0.3,0-0.6,0.2-0.8,0.5
+	L13,14.9L12.1,14c-0.5-0.5-1.3-0.5-1.8,0s-0.5,1.3,0,1.8L12.2,17.7z" />
+                    <path d="M16.2,21.1c-0.3,0-0.6,0.2-0.8,0.5L13,24.9L12.1,24c-0.5-0.5-1.3-0.5-1.8,0s-0.5,1.3,0,1.8l1.9,1.9l0.2,0.1
+	c0.1,0.1,0.3,0.2,0.4,0.2c0.1,0,0.2,0.1,0.4,0.1c0.1,0,0.1,0,0.2,0h0.1c0.1,0,0.2,0,0.3-0.1c0.2-0.1,0.4-0.2,0.5-0.4l3.2-4.5
+	c0.2-0.3,0.3-0.6,0.2-0.9c-0.1-0.3-0.2-0.6-0.5-0.8C16.8,21.1,16.5,21.1,16.2,21.1z" />
+                    <path d="M16.2,32.1c-0.3,0-0.6,0.2-0.8,0.5L13,35.9L12.1,35c-0.5-0.5-1.3-0.5-1.8,0s-0.5,1.3,0,1.8l1.9,1.9l0.2,0.1
+	c0.1,0.1,0.3,0.2,0.4,0.2c0.1,0,0.2,0.1,0.4,0.1c0.1,0,0.1,0,0.2,0h0.1c0.1,0,0.2,0,0.3-0.1c0.2-0.1,0.4-0.2,0.5-0.4l3.2-4.5
+	c0.2-0.3,0.3-0.6,0.2-0.9c-0.1-0.3-0.2-0.6-0.5-0.8C16.8,32.1,16.5,32.1,16.2,32.1z" />
+                  </svg>
+                  Orders List</a>
+                <a class="dropdown-item" href="javascript:;" (click)="onLogOut()">
+                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-power" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                      d="M5.578 4.437a5 5 0 1 0 4.922.044l.5-.866a6 6 0 1 1-5.908-.053l.486.875z" />
+                    <path fill-rule="evenodd" d="M7.5 8V1h1v7h-1z" />
+                  </svg>
+                  Logout</a>
+              </div>
+              <div *ngIf="userInfo?.role !== 'admin'" class="dropdown-menu dropdown-menu-right sm-menu"
+                aria-labelledby="userDropdown">
+                <a class="dropdown-item" [routerLink]="['/customer']">
+                  <svg version="1.1" class="bi bi-bookmark-heart" fill="currentColor" id="Layer_1"
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    viewBox="0 0 12 12" style="enable-background: new 0 0 12 12" xml:space="preserve">
+                    <g>
+                      <path d="M4.7,9.9c0.1-0.2,0.2-0.6,0.2-1.1h2.2c0,0.5,0.1,0.9,0.2,1.1h0.6c0.2,0,0.4,0.2,0.4,0.4S8,10.7,7.8,10.7H4.2
+                   c-0.2,0-0.4-0.2-0.4-0.4S4,9.9,4.2,9.9H4.7z" />
+                      <path
+                        d="M10.1,1.3H1.9c-1.5,0-1.5,1.5-1.5,1.5v4.5c0,1.5,1.5,1.5,1.5,1.5h8.2c1.5,0,1.5-1.5,1.5-1.5V2.8
+                   C11.6,1.3,10.1,1.3,10.1,1.3z M10.8,7.3L10.8,7.3c0,0.2,0,0.3-0.1,0.4c0,0.1-0.1,0.2-0.2,0.2c-0.1,0.1-0.2,0.1-0.5,0.1H1.9l0,0
+                   C1.8,8.1,1.6,8,1.5,8c-0.1,0-0.2-0.1-0.2-0.2C1.2,7.7,1.2,7.6,1.2,7.3V2.8c0-0.1,0-0.3,0.1-0.4c0-0.1,0.1-0.2,0.2-0.2
+                   c0.1-0.1,0.2-0.1,0.5-0.1h8.1c0.1,0,0.3,0,0.4,0.1c0.1,0,0.2,0.1,0.2,0.2c0.1,0.1,0.1,0.2,0.1,0.5V7.3z" />
+                    </g>
+                  </svg>
+                  Dashboard</a>
+                <a class="dropdown-item" [routerLink]="['/customer/detail/profile']">
+                  <svg class="bi" fill="currentColor" viewBox="0 0 15 15" class="bi bi-person"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                      d="M10 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6 5c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                  </svg>
+                  My Profile</a>
+
+                <a class="dropdown-item" [routerLink]="['/customer/detail/orders']">
+                  <svg class="bi" fill="currentColor" version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50"
+                    style="enable-background: new 0 0 50 50" xml:space="preserve">
+                    <g>
+                      <g>
+                        <path
+                          d="M44.9,2H5.1C2.9,2,1,3.9,1,6.1v37.7C1,46.1,2.9,48,5.1,48h39.7c2.3,0,4.1-1.9,4.1-4.1V6.1C49,3.9,47.1,2,44.9,2z
+			 M45.8,7.8v34.4c0,1.5-1.2,2.6-2.6,2.6H6.8c-1.5,0-2.6-1.2-2.6-2.6V7.8c0-1.5,1.2-2.6,2.6-2.6h36.4C44.7,5.2,45.8,6.3,45.8,7.8z" />
+                      </g>
+                    </g>
+                    <g>
+                      <g>
+                        <path
+                          d="M40,13H23.3c-1.1,0-1.1,0.7-1.1,1.6c0,0.9-0.1,1.6,1.1,1.6H40c1.2,0,1.1-0.7,1.1-1.6S41.2,13,40,13z" />
+                      </g>
+                    </g>
+                    <g>
+                      <g>
+                        <path
+                          d="M40,23H23.3c-1.1,0-1.1,0.7-1.1,1.6s-0.1,1.6,1.1,1.6H40c1.2,0,1.1-0.7,1.1-1.6S41.2,23,40,23z" />
+                      </g>
+                    </g>
+                    <g>
+                      <g>
+                        <path
+                          d="M40,34H23.3c-1.1,0-1.1,0.7-1.1,1.6s-0.1,1.6,1.1,1.6H40c1.2,0,1.1-0.7,1.1-1.6S41.2,34,40,34z" />
+                      </g>
+                    </g>
+                    <path d="M12.2,17.7l0.2,0.1c0.1,0.1,0.2,0.2,0.4,0.2c0.1,0,0.2,0.1,0.4,0.1c0.1,0,0.1,0,0.2,0h0.1c0.1,0,0.2-0.1,0.3-0.1
+	c0.2-0.1,0.4-0.2,0.5-0.4l3.2-4.5c0.2-0.3,0.3-0.6,0.2-0.9c-0.1-0.3-0.2-0.6-0.5-0.8s-0.6-0.3-0.9-0.2c-0.3,0-0.6,0.2-0.8,0.5
+	L13,14.9L12.1,14c-0.5-0.5-1.3-0.5-1.8,0s-0.5,1.3,0,1.8L12.2,17.7z" />
+                    <path d="M16.2,21.1c-0.3,0-0.6,0.2-0.8,0.5L13,24.9L12.1,24c-0.5-0.5-1.3-0.5-1.8,0s-0.5,1.3,0,1.8l1.9,1.9l0.2,0.1
+	c0.1,0.1,0.3,0.2,0.4,0.2c0.1,0,0.2,0.1,0.4,0.1c0.1,0,0.1,0,0.2,0h0.1c0.1,0,0.2,0,0.3-0.1c0.2-0.1,0.4-0.2,0.5-0.4l3.2-4.5
+	c0.2-0.3,0.3-0.6,0.2-0.9c-0.1-0.3-0.2-0.6-0.5-0.8C16.8,21.1,16.5,21.1,16.2,21.1z" />
+                    <path d="M16.2,32.1c-0.3,0-0.6,0.2-0.8,0.5L13,35.9L12.1,35c-0.5-0.5-1.3-0.5-1.8,0s-0.5,1.3,0,1.8l1.9,1.9l0.2,0.1
+	c0.1,0.1,0.3,0.2,0.4,0.2c0.1,0,0.2,0.1,0.4,0.1c0.1,0,0.1,0,0.2,0h0.1c0.1,0,0.2,0,0.3-0.1c0.2-0.1,0.4-0.2,0.5-0.4l3.2-4.5
+	c0.2-0.3,0.3-0.6,0.2-0.9c-0.1-0.3-0.2-0.6-0.5-0.8C16.8,32.1,16.5,32.1,16.2,32.1z" />
+                  </svg>
+                  Orders List</a>
+
+                <a class="dropdown-item" [routerLink]="['/customer/detail/wishlist']">
+                  <svg viewBox="0 0 16 16" class="bi bi-bookmark-heart" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                      d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+                    <path fill-rule="evenodd"
+                      d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z" />
+                  </svg>
+                  Wishlist</a>
+
+                <a class="dropdown-item" [routerLink]="['/customer/detail/address']">
+                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-journal-text" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z" />
+                    <path
+                      d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z" />
+                    <path fill-rule="evenodd"
+                      d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                  </svg>
+                  Address</a>
+                <!-- <a
+                  class="dropdown-item"
+                  [routerLink]="['/customer/detail/vouchers']"
+                >
+                  <svg
+                    class="bi"
+                    fill="currentColor"
+                    version="1.1"
+                    id="Layer_2"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    x="0px"
+                    y="0px"
+                    viewBox="0 0 50 50"
+                    style="enable-background: new 0 0 50 50"
+                    xml:space="preserve"
+                  >
+                    <g>
+                      <g>
+                        <path
+                          d="M28,15c-2.4,0-4.4,2-4.4,4.4s2,4.4,4.4,4.4s4.4-2,4.4-4.4S30.5,15,28,15z M28,20.8c-0.8,0-1.5-0.7-1.5-1.5
+			s0.7-1.5,1.5-1.5s1.5,0.7,1.5,1.5S28.8,20.8,28,20.8z"
+                        />
+                      </g>
+                    </g>
+                    <g>
+                      <g>
+                        <path
+                          d="M39.7,26.7c-2.4,0-4.4,2-4.4,4.4s2,4.4,4.4,4.4s4.4-2,4.4-4.4S42.2,26.7,39.7,26.7z M39.7,32.6c-0.8,0-1.5-0.7-1.5-1.5
+			s0.7-1.5,1.5-1.5s1.5,0.7,1.5,1.5S40.6,32.6,39.7,32.6z"
+                        />
+                      </g>
+                    </g>
+                    <g>
+                      <g>
+                        <path
+                          d="M40.6,15.2c-0.7-0.4-1.6-0.3-2,0.4L26.8,33.2c-0.4,0.7-0.3,1.6,0.4,2c0.7,0.4,1.6,0.3,2-0.4L41,17.3
+			C41.4,16.6,41.2,15.7,40.6,15.2z"
+                        />
+                      </g>
+                    </g>
+                    <g>
+                      <g>
+                        <path
+                          d="M48.5,7.1H1.5C0.7,7.1,0,7.8,0,8.6v10.8c0,0.8,0.7,1.5,1.5,1.5c2.4,0,4.4,2,4.4,4.4s-2,4.4-4.4,4.4
+			c-0.8,0-1.5,0.7-1.5,1.5v10.8c0,0.8,0.7,1.5,1.5,1.5h47.1c0.8,0,1.5-0.7,1.5-1.5V8.6C50,7.8,49.3,7.1,48.5,7.1z M47.1,40.4H14.6
+			v-3.5c0-0.8-0.7-1.5-1.5-1.5s-1.5,0.7-1.5,1.5v3.5H2.9v-8c3.3-0.7,5.9-3.6,5.9-7.2s-2.5-6.5-5.9-7.2v-8h8.9v3.5
+			c0,0.8,0.7,1.5,1.5,1.5s1.5-0.7,1.5-1.5V10h32.3V40.4z"
+                        />
+                      </g>
+                    </g>
+                    <g>
+                      <g>
+                        <path
+                          d="M13.2,26.7c-0.8,0-1.5,0.7-1.5,1.5v2.9c0,0.8,0.7,1.5,1.5,1.5s1.5-0.7,1.5-1.5v-2.9C14.6,27.4,14,26.7,13.2,26.7z"
+                        />
+                      </g>
+                    </g>
+                    <g>
+                      <g>
+                        <path
+                          d="M13.2,17.9c-0.8,0-1.5,0.7-1.5,1.5v2.9c0,0.8,0.7,1.5,1.5,1.5s1.5-0.7,1.5-1.5v-2.9C14.6,18.6,14,17.9,13.2,17.9z"
+                        />
+                      </g>
+                    </g>
+                  </svg>
+                  Voucher Vault</a
+                > -->
+                <a class="dropdown-item" [routerLink]="['/customer/detail/rewards']">
+                  <svg class="bi" fill="currentColor" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50"
+                    style="enable-background: new 0 0 50 50" xml:space="preserve">
+                    <g>
+                      <path
+                        d="M43.9,13.6l-4.3-4.2l-2.7-5.4l-6-0.9l-5.4-2.8L20.2,3l-6,0.9l-2.7,5.4l-4.3,4.2l1,6l-1,6l4.3,4.2l2.7,5.4l6,0.9l5.4,2.8
+                     l5.4-2.8l6-0.9l2.7-5.4l4.3-4.2l-1-6L43.9,13.6z M41.7,24.8l-3.8,3.7l-2.4,4.8l-5.3,0.8l-4.7,2.4l-4.7-2.4l-5.3-0.8l-2.4-4.8
+                     l-3.8-3.7l0.9-5.3l-0.9-5.3l3.8-3.7l2.4-4.8L20.8,5l4.7-2.4L30.3,5l5.3,0.8l2.4,4.8l3.8,3.7l-0.9,5.3L41.7,24.8z" />
+                      <polygon points="25.5,41.1 19.5,38 13.4,37 13.4,49.8 25.5,46.7 37.6,49.8 37.6,37 31.5,38 	" />
+                      <polygon
+                        points="25.4,7.7 22.3,15.3 14.1,15.9 20.4,21.3 18.5,29.3 25.4,24.9 32.8,29.3 30.5,21.3 36.9,15.9 28.6,15.3 	" />
+                    </g>
+                  </svg>
+                  Reward Points</a>
+                <!-- <a
+                  class="dropdown-item"
+                  [routerLink]="['/customer/detail/tickets']"
+                >
+                  <svg
+                    class="bi"
+                    fill="currentColor"
+                    version="1.1"
+                    id="Layer_12"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    x="0px"
+                    y="0px"
+                    viewBox="0 0 50 50"
+                    style="enable-background: new 0 0 50 50"
+                    xml:space="preserve"
+                  >
+                    <g>
+                      <path
+                        d="M47.4,26.8h1c0.9,0,1.6-0.7,1.6-1.6v-3.6c0-2.5-1.7-4.7-4-5.4L42.5,5.8c-0.6-1.9-2.9-2.9-4.7-2.2L4.7,15.9c0,0,0,0,0,0
+		C2,16.5,0,18.8,0,21.6v3.6c0,0.9,0.7,1.6,1.6,1.6h1c2,0,3.6,1.6,3.6,3.6c0,2-1.6,3.6-3.6,3.6h-1c-0.9,0-1.6,0.7-1.6,1.6v3.6
+		C0,42.4,2.6,45,5.7,45h38.5c3.2,0,5.7-2.6,5.7-5.7v-3.6c0-0.9-0.7-1.6-1.6-1.6h-1c-1,0-1.9-0.4-2.6-1.1s-1.1-1.6-1.1-2.6
+		C43.8,28.4,45.4,26.8,47.4,26.8z M39.1,6.5c0.3,0,0.4,0.2,0.5,0.4l3.1,9H13.9L39.1,6.5z M42.6,35.2c1.2,1.2,2.7,1.8,4.3,2v2.1
+		c0,1.4-1.2,2.6-2.6,2.6H19.8v-2.6h-3.1v2.6H5.7c-1.4,0-2.6-1.2-2.6-2.6v-2.1c3.5-0.3,6.3-3.2,6.3-6.8c0-3.6-2.8-6.5-6.3-6.8v-2.1
+		c0-1.4,1.2-2.6,2.6-2.6h10.9v2.6h3.1V19h24.5c1.4,0,2.6,1.2,2.6,2.6v2.1c-3.5,0.3-6.3,3.2-6.3,6.8C40.6,32.2,41.3,33.9,42.6,35.2z"
+                      />
+                      <rect x="16.7" y="26.3" width="3.1" height="8.3" />
+                    </g>
+                    <g>
+                      <path
+                        d="M30.9,27.9c-1.4,0-2.6,1.2-2.6,2.6s1.2,2.6,2.6,2.6s2.6-1.2,2.6-2.6S32.3,27.9,30.9,27.9z M30.9,29.6c0.5,0,1,0.4,1,1
+		s-0.4,1-1,1s-1-0.4-1-1S30.3,29.6,30.9,29.6z"
+                      />
+                      <path
+                        d="M37,31.5l-0.6-0.5c0-0.1,0-0.3,0-0.4s0-0.3,0-0.4l0.6-0.5c0.5-0.5,0.6-1.2,0.3-1.8l-0.9-1.5c-0.3-0.6-1-0.9-1.7-0.7
+		L34,25.9c-0.2-0.2-0.5-0.3-0.7-0.4l-0.2-0.8c-0.1-0.6-0.7-1.1-1.4-1.1H30c-0.7,0-1.2,0.5-1.4,1.1l-0.2,0.8
+		c-0.2,0.1-0.5,0.3-0.7,0.4L27,25.7c-0.6-0.2-1.3,0.1-1.7,0.6l-0.9,1.5c-0.3,0.6-0.2,1.3,0.3,1.8l0.6,0.5c0,0.1,0,0.3,0,0.4
+		s0,0.3,0,0.4l-0.6,0.5c-0.5,0.5-0.6,1.2-0.3,1.8l0.9,1.5c0.3,0.6,1,0.9,1.7,0.7l0.7-0.2c0.2,0.2,0.5,0.3,0.7,0.4l0.2,0.8
+		c0.1,0.6,0.7,1.1,1.4,1.1h1.8c0.7,0,1.2-0.5,1.4-1.1l0.2-0.8c0.2-0.1,0.5-0.3,0.7-0.4l0.7,0.2c0.6,0.2,1.3-0.1,1.7-0.6l0.9-1.5
+		C37.6,32.6,37.5,31.9,37,31.5z M34.1,33.3c-0.3-0.1-0.6,0-0.8,0.2c-0.3,0.3-0.7,0.5-1,0.6c-0.3,0.1-0.5,0.3-0.6,0.6l-0.2,0.9h-1.2
+		l-0.2-0.9c-0.1-0.3-0.3-0.5-0.6-0.6c-0.4-0.1-0.7-0.3-1-0.6c-0.2-0.2-0.6-0.3-0.8-0.2l-0.9,0.3l-0.6-1l0.7-0.6
+		c0.2-0.2,0.3-0.5,0.3-0.8c0-0.2,0-0.4,0-0.6s0-0.4,0-0.6c0-0.3-0.1-0.6-0.3-0.8l-0.7-0.6l0.6-1l0.9,0.3c0.3,0.1,0.6,0,0.8-0.2
+		c0.3-0.3,0.7-0.5,1-0.6c0.3-0.1,0.5-0.3,0.6-0.6l0.2-0.9h1.2l0.2,0.9c0.1,0.3,0.3,0.5,0.6,0.6c0.4,0.1,0.7,0.3,1,0.6
+		c0.2,0.2,0.6,0.3,0.8,0.2l0.9-0.3l0.6,1l-0.7,0.6c-0.2,0.2-0.3,0.5-0.3,0.8c0,0.2,0,0.4,0,0.6s0,0.4,0,0.6c0,0.3,0.1,0.6,0.3,0.8
+		l0.7,0.6l-0.6,1L34.1,33.3z"
+                      />
+                    </g>
+                  </svg>
+                  Support Tickets</a
+                > -->
+                <!-- <a
+                  class="dropdown-item"
+                  [routerLink]="['/customer/detail/tickets']"
+                >
+                  <svg
+                    width="1em"
+                    height="1em"
+                    viewBox="0 0 16 16"
+                    class="bi bi-file-lock2"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M4 0h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H4z"
+                    />
+                    <path
+                      fill-rule="evenodd"
+                      d="M8 5a1 1 0 0 0-1 1v1h2V6a1 1 0 0 0-1-1zm2 2.076V6a2 2 0 1 0-4 0v1.076c-.54.166-1 .597-1 1.224v2.4c0 .816.781 1.3 1.5 1.3h3c.719 0 1.5-.484 1.5-1.3V8.3c0-.627-.46-1.058-1-1.224z"
+                    />
+                  </svg>
+                  Change Password</a
+                > -->
+                <a class="dropdown-item" href="javascript:;" (click)="onLogOut()">
+                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-power" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                      d="M5.578 4.437a5 5 0 1 0 4.922.044l.5-.866a6 6 0 1 1-5.908-.053l.486.875z" />
+                    <path fill-rule="evenodd" d="M7.5 8V1h1v7h-1z" />
+                  </svg>
+                  Logout</a>
+              </div>
+            </li>
+
+            <li class="nav-item">
+              <a id="sidebar-desktop-cart-open" class="nav-link">
+                <div class="row">
+                  <div class="col-auto p-0">
+                    <img src="./assets/images/cart-icon.svg" alt="" /><span class="badge">{{ cartProductCount }}</span>
+                  </div>
+                  <div class="col p-0 pl-5 pointerCursor">
+                    <small>My Cart</small>
+                    <span class="cart-price" *ngIf="cart">
+                      {{ settings?.currency }}
+                      {{ cart.cart_total_price | shortDecimal }}
+                    </span>
+                    <span class="cart-price" *ngIf="!cart">
+                      {{ settings?.currency }} {{ 0 | shortDecimal }}
+                    </span>
+                  </div>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </nav>		
+	</div>		
+	</div>
+	
+<!--
+	<div class="row">
+<div class="container-fluid p-0">
+ 
+ <nav class="navbar navbar-expand-lg main-menu">	
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+	
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+    <ul class="navbar-nav">
+      <li class="nav-item"><a class="nav-link" href="#">E-Liquids</a></li>	
+      <li class="nav-item"><a class="nav-link active" href="#">Nic Salt</a></li>
+	  <li class="nav-item"><a class="nav-link" href="#">E-Cig Kits</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">Vape Tanks</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">Vape Coils</a></li>
+      <li class="nav-item"><a class="nav-link" href="#">RDA/RTA</a></li>		
+      <li class="nav-item"><a class="nav-link" href="#">Mods</a></li>	
+      <li class="nav-item"><a class="nav-link" href="#">Accessories</a></li>
+	  <li class="nav-item"><a class="nav-link" href="#"><img src="images/percentage.svg" alt=""> DEALS</a></li>
+    </ul>
+  </div>	
+</nav>
+	
+</div> 
+	</div> 
+-->
+</div> 
+  
+</header>
+
+<div class="container">
+  <app-search-bar *ngIf="isSearching" [searchResults]="searchResults" [currency]="settings?.currency"
+    [isShowNoResultValue]="isShowNoResultValue" [isLoading]="isSearchloading" [queryValue]="queryValue">
+  </app-search-bar>
+</div>
+<!--mobile section-->
+
+<div class="mob_nav">
+  <ul [ngClass]="isLogin ? '' : 'listFour'">
+    <li>
+      <a [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <svg version="1.1" id="home" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px" y="0px" viewBox="0 0 21.5 20.1" style="enable-background: new 0 0 21.5 20.1" xml:space="preserve">
+          <path id="Path_3374" class="svg-pc" d="M21.3,9.3l-8.4-8.4c-1.2-1.2-3.2-1.2-4.4,0L0.2,9.3c-0.3,0.3-0.3,0.7,0,1c0.3,0.3,0.7,0.3,1,0
+      l0.5-0.5v8.5c0,1.1,0.9,1.9,1.9,1.9h14.3c1.1,0,1.9-0.9,1.9-1.9V9.7l0.5,0.5c0.3,0.3,0.7,0.3,1,0S21.6,9.5,21.3,9.3L21.3,9.3
+      L21.3,9.3z M8.7,18.8v-5.3c0-0.4,0.3-0.8,0.8-0.8H12c0.4,0,0.8,0.3,0.8,0.8v5.3H8.7z M18.5,18.2c0,0.3-0.3,0.6-0.6,0.6l0,0h-3.8
+      v-5.3c0-1.2-0.9-2.1-2.1-2.1h0H9.5c-1.2,0-2.1,0.9-2.1,2.1l0,0v5.3H3.6c-0.3,0-0.6-0.3-0.6-0.6l0,0V8.3l6.5-6.5
+      c0.7-0.7,1.8-0.7,2.5,0l6.5,6.5L18.5,18.2z" />
+          <g id="home-2">
+            <path id="Path_3374-2" class="svg-sc" d="M8.7,18.8v-5.3c0-0.4,0.3-0.8,0.8-0.8H12c0.4,0,0.8,0.3,0.8,0.8v5.3H8.7z M14.1,18.8v-5.3
+          c0-1.2-0.9-2.1-2.1-2.1h0H9.5c-1.2,0-2.1,0.9-2.1,2.1l0,0v5.3H14.1z" />
+          </g>
+        </svg>
+        Home</a>
+    </li>
+    <li>
+      <a id="category">
+        <svg version="1.1" id="category" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px" y="0px" viewBox="0 0 20.2 20.2" style="enable-background: new 0 0 20.2 20.2" xml:space="preserve">
+          <g id="Group_1578">
+            <path id="Path_3383" class="svg-pc" d="M6.9,9.5H2.6C1.2,9.5,0,8.3,0,6.9V2.6C0,1.2,1.2,0,2.6,0h4.3c1.4,0,2.6,1.2,2.6,2.6v4.3
+          C9.5,8.3,8.3,9.5,6.9,9.5z M2.6,1.3c-0.7,0-1.3,0.6-1.3,1.3v4.3c0,0.7,0.6,1.3,1.3,1.3h4.3c0.7,0,1.3-0.6,1.3-1.3V2.6
+          c0-0.7-0.6-1.3-1.3-1.3H2.6z" />
+          </g>
+          <g id="Group_1579" transform="translate(10.747)">
+            <path id="Path_3384" class="svg-pc" d="M6.9,9.5H2.6C1.2,9.5,0,8.3,0,6.9V2.6C0,1.2,1.2,0,2.6,0h4.3c1.4,0,2.6,1.2,2.6,2.6v4.3
+          C9.5,8.3,8.3,9.5,6.9,9.5z M2.6,1.3c-0.7,0-1.3,0.6-1.3,1.3v4.3c0,0.7,0.6,1.3,1.3,1.3h4.3c0.7,0,1.3-0.6,1.3-1.3V2.6
+          c0-0.7-0.6-1.3-1.3-1.3L2.6,1.3z" />
+          </g>
+          <g id="Group_1580" transform="translate(10.747 10.747)">
+            <path id="Path_3385" class="svg-sc"
+              d="M4.7,9.5C2.1,9.5,0,7.4,0,4.7S2.1,0,4.7,0s4.7,2.1,4.7,4.7l0,0C9.5,7.4,7.4,9.5,4.7,9.5z
+           M4.7,1.3c-1.9,0-3.5,1.6-3.5,3.5c0,1.9,1.6,3.5,3.5,3.5c1.9,0,3.5-1.6,3.5-3.5c0,0,0,0,0,0C8.2,2.8,6.7,1.3,4.7,1.3z" />
+          </g>
+          <g id="Group_1581" transform="translate(0 10.747)">
+            <path id="Path_3386" class="svg-pc" d="M6.9,9.5H2.6C1.2,9.5,0,8.3,0,6.9V2.6C0,1.2,1.2,0,2.6,0h4.3c1.4,0,2.6,1.2,2.6,2.6v4.3
+          C9.5,8.3,8.3,9.5,6.9,9.5z M2.6,1.3c-0.7,0-1.3,0.6-1.3,1.3v4.3c0,0.7,0.6,1.3,1.3,1.3h4.3c0.7,0,1.3-0.6,1.3-1.3V2.6
+          c0-0.7-0.6-1.3-1.3-1.3H2.6z" />
+          </g>
+        </svg>
+
+        Products</a>
+    </li>
+
+    <li *ngIf="isLogin">
+      <a routerLink="customer/detail/wishlist" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <svg version="1.1" id="saved" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px" y="0px" viewBox="0 0 13.3 20.5" style="enable-background: new 0 0 13.3 20.5" xml:space="preserve">
+          <g id="noun_bookmark_3399394">
+            <g id="Bookmark_favourite_like_thumb_wish">
+              <path id="Path_2737" class="svg-pc" d="M12.7,0H0.6C0.3,0,0,0.3,0,0.6v19.3c0,0.3,0.3,0.6,0.6,0.6c0.2,0,0.3-0.1,0.4-0.2l5.7-5.1
+              l5.5,5c0.1,0.1,0.3,0.2,0.4,0.2c0.1,0,0.2,0,0.3-0.1c0.2-0.1,0.4-0.3,0.4-0.6V0.6C13.3,0.3,13.1,0,12.7,0L12.7,0z M12.1,1.3v2H1.3
+              v-2H12.1z M7.2,14c-0.2-0.2-0.6-0.2-0.8,0l-5.1,4.5v-14h10.8v13.9L7.2,14z" />
+            </g>
+          </g>
+          <path id="Path_3408" class="svg-sc" d="M1.2,3.3h10.9v1.3H1.2V3.3z" />
+        </svg>
+
+        Wishlist
+        <span class="badge">{{ customerMenuCounts.wishListCount }}</span></a>
+    </li>
+    <li *ngIf="!isLogin">
+      <a [routerLink]="['/login']" routerLinkActive="active">
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px" y="0px" viewBox="0 0 20.1 20.1" style="enable-background: new 0 0 20.1 20.1" xml:space="preserve">
+          <g id="account" transform="translate(-24.895 -9.761)">
+            <g id="user_4_" transform="translate(24.895 9.761)">
+              <path id="Path_3392" class="svg-pc" d="M17.1,2.9C13.2-1,6.9-1,2.9,2.9C-0.7,6.6-1,12.5,2.4,16.5c0.4,0.4,0.7,0.8,1.2,1.2l0,0l0,0
+              c4.2,3.6,10.6,3.1,14.2-1.1C21.1,12.6,20.9,6.6,17.1,2.9L17.1,2.9z M4.5,16.9c-0.7-3.1,1.3-6.1,4.3-6.7C9.2,10.1,9.6,10,10,10h0.2
+              c3.1,0,5.6,2.6,5.6,5.7c0,0.4,0,0.7-0.1,1.1C12.3,19.5,7.7,19.5,4.5,16.9L4.5,16.9z M10,8.8c-1.4,0-2.5-1.1-2.5-2.5
+              S8.7,3.8,10,3.8c1.4,0,2.5,1.1,2.5,2.5v0C12.6,7.7,11.4,8.8,10,8.8z M16.9,15.5c-0.1-2.8-1.9-5.3-4.5-6.3C14,7.9,14.3,5.5,13,3.9
+              S9.3,2,7.7,3.3S5.8,7,7.1,8.6C7.3,8.8,7.5,9,7.7,9.2c-2.7,1-4.4,3.5-4.5,6.3c-3-3.8-2.4-9.3,1.5-12.3s9.3-2.4,12.3,1.5
+              C19.5,7.8,19.5,12.3,16.9,15.5L16.9,15.5z" />
+            </g>
+            <g id="user_4_2" transform="translate(24.895 9.761)">
+              <path id="Path_3392-2" class="svg-sc" d="M17.1,2.9C13.2-1,6.9-1,2.9,2.9C-0.7,6.6-1,12.5,2.4,16.5c0.4,0.4,0.7,0.8,1.2,1.2l0,0l0,0
+              c4.2,3.6,10.6,3.1,14.2-1.1C21.1,12.6,20.9,6.6,17.1,2.9L17.1,2.9z M10,18.8c-6.7,0-8.8-6.8-8.8-8.8C1.2,5.2,5.2,1.5,10,1.4
+              c4.9-0.1,8.7,3.6,8.8,8.5c0,0.1,0,0.1,0,0.2C18.8,12,16.7,18.8,10,18.8L10,18.8z" />
+            </g>
+          </g>
+        </svg>
+
+        Login</a>
+    </li>
+    <li *ngIf="isLogin">
+      <a id="user-nav">
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px" y="0px" viewBox="0 0 20.1 20.1" style="enable-background: new 0 0 20.1 20.1" xml:space="preserve">
+          <g id="account" transform="translate(-24.895 -9.761)">
+            <g id="user_4_" transform="translate(24.895 9.761)">
+              <path id="Path_3392" class="svg-pc" d="M17.1,2.9C13.2-1,6.9-1,2.9,2.9C-0.7,6.6-1,12.5,2.4,16.5c0.4,0.4,0.7,0.8,1.2,1.2l0,0l0,0
+                c4.2,3.6,10.6,3.1,14.2-1.1C21.1,12.6,20.9,6.6,17.1,2.9L17.1,2.9z M4.5,16.9c-0.7-3.1,1.3-6.1,4.3-6.7C9.2,10.1,9.6,10,10,10h0.2
+                c3.1,0,5.6,2.6,5.6,5.7c0,0.4,0,0.7-0.1,1.1C12.3,19.5,7.7,19.5,4.5,16.9L4.5,16.9z M10,8.8c-1.4,0-2.5-1.1-2.5-2.5
+                S8.7,3.8,10,3.8c1.4,0,2.5,1.1,2.5,2.5v0C12.6,7.7,11.4,8.8,10,8.8z M16.9,15.5c-0.1-2.8-1.9-5.3-4.5-6.3C14,7.9,14.3,5.5,13,3.9
+                S9.3,2,7.7,3.3S5.8,7,7.1,8.6C7.3,8.8,7.5,9,7.7,9.2c-2.7,1-4.4,3.5-4.5,6.3c-3-3.8-2.4-9.3,1.5-12.3s9.3-2.4,12.3,1.5
+                C19.5,7.8,19.5,12.3,16.9,15.5L16.9,15.5z" />
+            </g>
+            <g id="user_4_2" transform="translate(24.895 9.761)">
+              <path id="Path_3392-2" class="svg-sc" d="M17.1,2.9C13.2-1,6.9-1,2.9,2.9C-0.7,6.6-1,12.5,2.4,16.5c0.4,0.4,0.7,0.8,1.2,1.2l0,0l0,0
+                c4.2,3.6,10.6,3.1,14.2-1.1C21.1,12.6,20.9,6.6,17.1,2.9L17.1,2.9z M10,18.8c-6.7,0-8.8-6.8-8.8-8.8C1.2,5.2,5.2,1.5,10,1.4
+                c4.9-0.1,8.7,3.6,8.8,8.5c0,0.1,0,0.1,0,0.2C18.8,12,16.7,18.8,10,18.8L10,18.8z" />
+            </g>
+          </g>
+        </svg>
+        Account</a>
+    </li>
+    <li>
+      <a id="sidebar-cart-open">
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px" y="0px" viewBox="0 0 16.9 21.2" style="enable-background: new 0 0 16.9 21.2" xml:space="preserve">
+          <g id="cart" transform="translate(-26.695 -9.762)">
+            <g id="Group_1549" transform="translate(0 1)">
+              <path id="Path_3298" class="svg-pc" d="M43.6,27.1l-1.2-13.7c0-0.3-0.3-0.5-0.6-0.5h-2.5c0-2.3-1.9-4.2-4.2-4.1
+              c-2.3,0-4.1,1.9-4.1,4.1h-2.5c-0.3,0-0.6,0.2-0.6,0.5l-1.2,13.7c0,0,0,0,0,0.1c0.1,1.7,1.5,2.9,3.2,2.8h10.6
+              C42.1,30,43.5,28.8,43.6,27.1C43.6,27.1,43.6,27.1,43.6,27.1z M35.2,9.9c1.6,0,3,1.3,3,2.9h-6C32.2,11.2,33.5,9.9,35.2,9.9z
+               M40.5,28.8H29.9c-1,0.1-1.9-0.6-2-1.6L29,14.1h2v1.8c0,0.3,0.3,0.6,0.6,0.6s0.6-0.3,0.6-0.6l0,0v-1.8h6v1.8
+              c0,0.3,0.3,0.6,0.6,0.6s0.6-0.3,0.6-0.6l0,0v-1.8h2l1.2,13.1C42.3,28.1,41.5,28.8,40.5,28.8z" />
+            </g>
+            <g id="Group_1594" transform="translate(0 1)">
+              <path id="Path_3298-2" class="svg-sc" d="M39.3,12.9c0-2.3-1.9-4.2-4.2-4.1c-2.3,0-4.1,1.9-4.1,4.1H39.3z M35.2,9.9
+              c1.6,0,3,1.3,3,2.9h-6C32.2,11.2,33.5,9.9,35.2,9.9z M31,12.9v2.9c0,0.3,0.3,0.6,0.6,0.6s0.6-0.3,0.6-0.6l0,0v-2.9h6v2.9
+              c0,0.3,0.3,0.6,0.6,0.6s0.6-0.3,0.6-0.6l0,0v-2.9H31z" />
+            </g>
+          </g>
+        </svg>
+
+        <span class="badge">{{ cartProductCount }}</span>Cart</a>
+    </li>
+  </ul>
+</div>
+
+<div id="sidbar-2">
+  <div class="sidebar-header">
+    Products <a id="s2-close" class="side-close"></a>
+  </div>
+
+  <div class="sidebar-div">
+    <div class="col-12">
+      <ul class="nav-product" *ngIf="settings">
+        <div *ngFor="let menu of settings.menu" style="border-bottom: solid 1px #f2f2f2">
+          <li>
+
+            <a *ngIf="
+                menu?.data?.sub_categories
+              " class="d-icon pl-0" data-toggle="collapse" [href]="'#' + menu.name.split(' ').join('-') + '-001'"
+              role="button" aria-expanded="false" [aria-controls]="menu.name.split(' ').join('-') + '-001'">
+              <img [src]="API_URL + menu.svg" alt="svg" />
+              {{ menu.name }}
+            </a>
+
+            <div *ngIf="menu?.data?.collections && menu?.type_id == 2" class="row m-0">
+              <div class="collapse w-100" [id]="menu.name.split(' ').join('-') + '-001'">
+                <div class="col-12 p-0">
+                  <ul *ngIf="
+                      menu?.data?.collections && menu?.type_id === 2
+                    ">
+                    <h3>
+                      <!-- {{menu.name}} -->
+                      Shop By Collections
+                    </h3>
+                    <li *ngFor="
+                        let subCollec of menu?.data?.collections
+                      ">
+                      <a class="nav-bg" [routerLink]="[
+                          'collection',
+                          subCollec.type_id
+                        ]" routerLinkActive="active" (click)="onMobileSideBarClose()">
+                        <i class="fas fa-chevron-right"></i>{{ subCollec.name }}
+                      </a>
+                    </li>
+                    <li>
+                      <a class="nav-bg nav-view-all" [routerLink]="['category/vape-kits']" (click)="onMobileSideBarClose()">View All Vape Kits</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+
+            <div *ngIf="menu?.data?.brands && menu?.type_id == 2" class="row m-0">
+              <div class="collapse w-100" [id]="menu.name.split(' ').join('-') + '-001'">
+                <div class="col-12 p-0">
+                  <ul>
+                    <h3>Featured Brands</h3>
+                    <li *ngFor="let subBrand of menu?.data?.brands">
+                      <a class="nav-bg" [routerLink]="[subBrand.url]" (click)="onMobileSideBarClose()">
+                        <i class="fas fa-chevron-right"></i>{{ subBrand.name }}
+                      </a>
+                    </li>
+                    <li>
+                      <a class="nav-bg nav-view-all" [routerLink]="['brands']">
+                        View All Brands
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row m-0" *ngIf="menu?.data?.sub_categories">
+              <div class="collapse w-100" [id]="menu.name.split(' ').join('-') + '-001'">
+                <div class="col-12 p-0">
+                  <ul>
+                    <h3>Shop By Type</h3>
+                    <li *ngFor="let subCategory of menu?.data?.sub_categories">
+                      <a class="nav-bg" [routerLink]="['category', menu.slug]" (click)="onMobileSideBarClose()"
+                        [queryParams]="{
+                          subId: subCategory.type_id,
+                          subCategory: subCategory.name
+                        }">
+                        <i class="fas fa-chevron-right"></i>{{ subCategory.name }}
+                      </a>
+                    </li>
+                    <li>
+                      <a class="nav-bg nav-view-all" [routerLink]="['category', menu.slug]"
+                        (click)="onMobileSideBarClose()">
+                        View All {{ menu.name }}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+
+
+            <!-- =================Normal value===================== -->
+
+            <a *ngIf="getObjectkeysCount(menu.data) === 0" class="d-icon d-icon-hidden pl-0"
+              [routerLink]="['/category', menu.slug]" (click)="onMobileSideBarClose()">
+              <img [src]="API_URL + menu.svg" alt="svg" />
+              {{ menu.name }}
+            </a>
+
+
+            <!-- =================promotions===================== -->
+            <a *ngIf="
+                menu?.data?.promotions && getObjectkeysCount(menu.data) === 1
+              " class="d-icon pl-0" data-toggle="collapse" [href]="'#' + menu.name.split(' ').join('-') + '-001'"
+              role="button" aria-expanded="false" [aria-controls]="menu.name.split(' ').join('-') + '-001'" (click)="onMobileSideBarClose()">
+              <img [src]="API_URL + menu.svg" alt="svg" />
+              {{ menu.name }}
+            </a>
+            <div class="row m-0" *ngIf="menu?.data?.promotions && menu?.type_id == 1">
+              <div class="collapse w-100" [id]="menu.name.split(' ').join('-') + '-001'">
+                <div class="col-12 p-0">
+                  <ul>
+                    <!-- <h3>Shop by Deals</h3>
+                    <li *ngFor="let subColl of menu?.data?.promotions">
+                      <a class="nav-bg" [routerLink]="[subColl.url]" (click)="onMobileSideBarClose()">
+                        <i class="fas fa-chevron-right"></i>{{ subColl.name }}
+                      </a>
+                    </li> -->
+                    <h3>
+                      <!-- {{ subPromo.name }} -->
+                      Shop By Deals
+                    </h3>
+
+                    <li *ngFor="let subPromo of menu?.data?.promotions">
+                      <h5 style="
+                          font-size: 0.938rem;
+                        ">
+                        {{ subPromo.name }}
+                      </h5>
+                      <p *ngFor="let promo of subPromo.promotions">
+                        <!-- <a
+                          [routerLink]="['promotion', promo.type_id]"
+                          routerLinkActive="active"
+                        > -->
+                        <a href="#/{{ promo.url }}" class="nav-bg" (click)="onMobileSideBarClose()">
+                          <i class="fas fa-chevron-right"></i>{{ promo.name }}
+                        </a>
+                      </p>
+                    </li>
+                    <li>
+                      <a class="nav-bg nav-view-all" [routerLink]="['deals']" (click)="onMobileSideBarClose()">
+                        View All Deals
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+
+
+            <!-- =================Shop By Flavours===================== -->
+            <!-- <a *ngIf="menu?.data?.brands && getObjectkeysCount(menu.data) === 1" class="d-icon pl-0"
+              data-toggle="collapse" [href]="'#' + menu.name.split(' ').join('-') + '-001'" role="button"
+              aria-expanded="false" [aria-controls]="menu.name.split(' ').join('-') + '-001'">
+              <img src="../../../assets/images/brands.svg" alt="Brands" />
+              {{ menu.name }}
+            </a> -->
+            <div *ngIf="menu?.data?.properties && menu?.type_id == 1" class="row m-0">
+              <div class="collapse w-100" [id]="menu.name.split(' ').join('-') + '-001'">
+                <div class="col-12 p-0">
+                  <ul *ngIf="
+                      menu?.data?.properties && menu?.type_id == 1
+                    ">
+                    <h3>
+                      <!-- {{menu.name}} -->
+                      Shop By Flavour
+                    </h3>
+                    <span *ngFor="
+                        let propValue of menu?.data?.properties
+                          ?.values;
+                        let fi = index
+                      ">
+                      <li *ngIf="fi < 10">
+                        <a class="nav-bg" [routerLink]="[
+                            'flavour',
+                            propValue.property_value
+                          ]" routerLinkActive="active" (click)="onMobileSideBarClose()">
+                          <i class="fas fa-chevron-right"></i>{{ propValue.property_value }}
+                        </a>
+                      </li>
+                    </span>
+
+                    <li>
+                      <a class="nav-bg nav-view-all" [routerLink]="['flavours']" (click)="onMobileSideBarClose()">View All
+                        Flavours</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- =================Brands===================== -->
+            <a *ngIf="menu?.data?.brands && getObjectkeysCount(menu.data) === 1" class="d-icon pl-0"
+              data-toggle="collapse" [href]="'#' + menu.name.split(' ').join('-') + '-001'" role="button"
+              aria-expanded="false" [aria-controls]="menu.name.split(' ').join('-') + '-001'">
+              <!-- <img [src]="API_URL + menu.svg" alt="svg"> -->
+              <img src="../../../assets/images/brands.svg" alt="Brands" />
+              {{ menu.name }}
+            </a>
+            <div *ngIf="menu?.data?.brands && menu?.type_id != 2" class="row m-0">
+              <div class="collapse w-100" [id]="menu.name.split(' ').join('-') + '-001'">
+                <div class="col-12 p-0">
+                  <ul>
+                    <h3>Featured Brands</h3>
+                    <li *ngFor="let subBrand of menu?.data?.brands">
+                      <a class="nav-bg" [routerLink]="[subBrand.url]" (click)="onMobileSideBarClose()">
+                        <i class="fas fa-chevron-right"></i>{{ subBrand.name }}
+                      </a>
+                    </li>
+                    <li>
+                      <a class="nav-bg nav-view-all" [routerLink]="['brands']" (click)="onMobileSideBarClose()">
+                        View All Brands
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+
+
+            <!-- =================Collections===================== -->
+            <!-- <a *ngIf="
+                menu?.data?.collections && getObjectkeysCount(menu.data) === 1
+              " class="d-icon pl-0" data-toggle="collapse" [href]="'#' + menu.name.split(' ').join('-') + '-001'"
+              role="button" aria-expanded="false" [aria-controls]="menu.name.split(' ').join('-') + '-001'">
+              <img src="../../../assets/images/collection.svg" alt="Collections" />
+              {{ menu.name }}
+            </a>
+            <div class="row m-0" *ngIf="menu?.data?.collections">
+              <div class="collapse w-100" [id]="menu.name.split(' ').join('-') + '-001'">
+                <div class="col-12 p-0">
+                  <ul>
+                    <h3>Collections</h3>
+                    <li *ngFor="let subColl of menu?.data?.collections">
+                      <a class="nav-bg" [routerLink]="[subColl.url]" (click)="onMobileSideBarClose()">
+                        <i class="fas fa-chevron-right"></i>{{ subColl.name }}
+                      </a>
+                    </li>
+                    <li>
+                      <a class="nav-bg nav-view-all" [routerLink]="['collections']" (click)="onMobileSideBarClose()">
+                        View All Collections
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div> -->
+          </li>
+        </div>
+
+
+        <li class="deal">
+          <a [routerLink]="['/deals']" (click)="onMobileSideBarClose()"><img src="../assets/images/percentage.svg"
+              alt="" /> DEALS</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===========================ACCOUNTS NAVBAR Mobilr========================= -->
+<div id="sidbar-3" *ngIf="userInfo">
+  <div class="sidebar-header">
+    Account <a id="s3-close" class="side-close"></a>
+  </div>
+  <div class="sidebar-div">
+    <div class="col-12">
+      <ul *ngIf="userInfo?.role === 'admin'" class="nav-product">
+        <li>
+          <a [routerLink]="['/customer/detail/carts']" (click)="onAccountSidebarClose()">
+            <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50"
+              style="enable-background: new 0 0 50 50" xml:space="preserve">
+              <g>
+                <g>
+                  <path
+                    d="M44.9,2H5.1C2.9,2,1,3.9,1,6.1v37.7C1,46.1,2.9,48,5.1,48h39.7c2.3,0,4.1-1.9,4.1-4.1V6.1C49,3.9,47.1,2,44.9,2z
+           M45.8,7.8v34.4c0,1.5-1.2,2.6-2.6,2.6H6.8c-1.5,0-2.6-1.2-2.6-2.6V7.8c0-1.5,1.2-2.6,2.6-2.6h36.4C44.7,5.2,45.8,6.3,45.8,7.8z" />
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M40,13H23.3c-1.1,0-1.1,0.7-1.1,1.6c0,0.9-0.1,1.6,1.1,1.6H40c1.2,0,1.1-0.7,1.1-1.6S41.2,13,40,13z" />
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M40,23H23.3c-1.1,0-1.1,0.7-1.1,1.6s-0.1,1.6,1.1,1.6H40c1.2,0,1.1-0.7,1.1-1.6S41.2,23,40,23z" />
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M40,34H23.3c-1.1,0-1.1,0.7-1.1,1.6s-0.1,1.6,1.1,1.6H40c1.2,0,1.1-0.7,1.1-1.6S41.2,34,40,34z" />
+                </g>
+              </g>
+              <path d="M12.2,17.7l0.2,0.1c0.1,0.1,0.2,0.2,0.4,0.2c0.1,0,0.2,0.1,0.4,0.1c0.1,0,0.1,0,0.2,0h0.1c0.1,0,0.2-0.1,0.3-0.1
+      c0.2-0.1,0.4-0.2,0.5-0.4l3.2-4.5c0.2-0.3,0.3-0.6,0.2-0.9c-0.1-0.3-0.2-0.6-0.5-0.8s-0.6-0.3-0.9-0.2c-0.3,0-0.6,0.2-0.8,0.5
+      L13,14.9L12.1,14c-0.5-0.5-1.3-0.5-1.8,0s-0.5,1.3,0,1.8L12.2,17.7z" />
+              <path d="M16.2,21.1c-0.3,0-0.6,0.2-0.8,0.5L13,24.9L12.1,24c-0.5-0.5-1.3-0.5-1.8,0s-0.5,1.3,0,1.8l1.9,1.9l0.2,0.1
+      c0.1,0.1,0.3,0.2,0.4,0.2c0.1,0,0.2,0.1,0.4,0.1c0.1,0,0.1,0,0.2,0h0.1c0.1,0,0.2,0,0.3-0.1c0.2-0.1,0.4-0.2,0.5-0.4l3.2-4.5
+      c0.2-0.3,0.3-0.6,0.2-0.9c-0.1-0.3-0.2-0.6-0.5-0.8C16.8,21.1,16.5,21.1,16.2,21.1z" />
+              <path d="M16.2,32.1c-0.3,0-0.6,0.2-0.8,0.5L13,35.9L12.1,35c-0.5-0.5-1.3-0.5-1.8,0s-0.5,1.3,0,1.8l1.9,1.9l0.2,0.1
+      c0.1,0.1,0.3,0.2,0.4,0.2c0.1,0,0.2,0.1,0.4,0.1c0.1,0,0.1,0,0.2,0h0.1c0.1,0,0.2,0,0.3-0.1c0.2-0.1,0.4-0.2,0.5-0.4l3.2-4.5
+      c0.2-0.3,0.3-0.6,0.2-0.9c-0.1-0.3-0.2-0.6-0.5-0.8C16.8,32.1,16.5,32.1,16.2,32.1z" />
+            </svg>
+            Cart List
+          </a>
+          <a class="dropdown-item" href="javascript:;" (click)="onLogOut()">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-power" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M5.578 4.437a5 5 0 1 0 4.922.044l.5-.866a6 6 0 1 1-5.908-.053l.486.875z" />
+              <path fill-rule="evenodd" d="M7.5 8V1h1v7h-1z" />
+            </svg>
+            Logout</a>
+        </li>
+      </ul>
+      <ul *ngIf="userInfo?.role !== 'admin'" class="nav-product">
+        <li>
+          <a [routerLink]="['/customer']" (click)="onAccountSidebarClose()">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+              style="enable-background: new 0 0 12 12" xml:space="preserve">
+              <g>
+                <path d="M4.7,9.9c0.1-0.2,0.2-0.6,0.2-1.1h2.2c0,0.5,0.1,0.9,0.2,1.1h0.6c0.2,0,0.4,0.2,0.4,0.4S8,10.7,7.8,10.7H4.2
+          c-0.2,0-0.4-0.2-0.4-0.4S4,9.9,4.2,9.9H4.7z" />
+                <path d="M10.1,1.3H1.9c-1.5,0-1.5,1.5-1.5,1.5v4.5c0,1.5,1.5,1.5,1.5,1.5h8.2c1.5,0,1.5-1.5,1.5-1.5V2.8
+          C11.6,1.3,10.1,1.3,10.1,1.3z M10.8,7.3L10.8,7.3c0,0.2,0,0.3-0.1,0.4c0,0.1-0.1,0.2-0.2,0.2c-0.1,0.1-0.2,0.1-0.5,0.1H1.9l0,0
+          C1.8,8.1,1.6,8,1.5,8c-0.1,0-0.2-0.1-0.2-0.2C1.2,7.7,1.2,7.6,1.2,7.3V2.8c0-0.1,0-0.3,0.1-0.4c0-0.1,0.1-0.2,0.2-0.2
+          c0.1-0.1,0.2-0.1,0.5-0.1h8.1c0.1,0,0.3,0,0.4,0.1c0.1,0,0.2,0.1,0.2,0.2c0.1,0.1,0.1,0.2,0.1,0.5V7.3z" />
+              </g>
+            </svg>
+            Dashborad</a>
+        </li>
+        <li>
+          <a class="active" [routerLink]="['/customer/detail/profile']" (click)="onAccountSidebarClose()">
+            <svg viewBox="0 0 15 15" class="bi bi-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M10 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6 5c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+            </svg>
+            My Profile</a>
+        </li>
+        <li>
+          <a [routerLink]="['/customer/detail/orders']" (click)="onAccountSidebarClose()">
+            <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50"
+              style="enable-background: new 0 0 50 50" xml:space="preserve">
+              <g>
+                <g>
+                  <path
+                    d="M44.9,2H5.1C2.9,2,1,3.9,1,6.1v37.7C1,46.1,2.9,48,5.1,48h39.7c2.3,0,4.1-1.9,4.1-4.1V6.1C49,3.9,47.1,2,44.9,2z
+             M45.8,7.8v34.4c0,1.5-1.2,2.6-2.6,2.6H6.8c-1.5,0-2.6-1.2-2.6-2.6V7.8c0-1.5,1.2-2.6,2.6-2.6h36.4C44.7,5.2,45.8,6.3,45.8,7.8z" />
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M40,13H23.3c-1.1,0-1.1,0.7-1.1,1.6c0,0.9-0.1,1.6,1.1,1.6H40c1.2,0,1.1-0.7,1.1-1.6S41.2,13,40,13z" />
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M40,23H23.3c-1.1,0-1.1,0.7-1.1,1.6s-0.1,1.6,1.1,1.6H40c1.2,0,1.1-0.7,1.1-1.6S41.2,23,40,23z" />
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M40,34H23.3c-1.1,0-1.1,0.7-1.1,1.6s-0.1,1.6,1.1,1.6H40c1.2,0,1.1-0.7,1.1-1.6S41.2,34,40,34z" />
+                </g>
+              </g>
+              <path d="M12.2,17.7l0.2,0.1c0.1,0.1,0.2,0.2,0.4,0.2c0.1,0,0.2,0.1,0.4,0.1c0.1,0,0.1,0,0.2,0h0.1c0.1,0,0.2-0.1,0.3-0.1
+        c0.2-0.1,0.4-0.2,0.5-0.4l3.2-4.5c0.2-0.3,0.3-0.6,0.2-0.9c-0.1-0.3-0.2-0.6-0.5-0.8s-0.6-0.3-0.9-0.2c-0.3,0-0.6,0.2-0.8,0.5
+        L13,14.9L12.1,14c-0.5-0.5-1.3-0.5-1.8,0s-0.5,1.3,0,1.8L12.2,17.7z" />
+              <path d="M16.2,21.1c-0.3,0-0.6,0.2-0.8,0.5L13,24.9L12.1,24c-0.5-0.5-1.3-0.5-1.8,0s-0.5,1.3,0,1.8l1.9,1.9l0.2,0.1
+        c0.1,0.1,0.3,0.2,0.4,0.2c0.1,0,0.2,0.1,0.4,0.1c0.1,0,0.1,0,0.2,0h0.1c0.1,0,0.2,0,0.3-0.1c0.2-0.1,0.4-0.2,0.5-0.4l3.2-4.5
+        c0.2-0.3,0.3-0.6,0.2-0.9c-0.1-0.3-0.2-0.6-0.5-0.8C16.8,21.1,16.5,21.1,16.2,21.1z" />
+              <path d="M16.2,32.1c-0.3,0-0.6,0.2-0.8,0.5L13,35.9L12.1,35c-0.5-0.5-1.3-0.5-1.8,0s-0.5,1.3,0,1.8l1.9,1.9l0.2,0.1
+        c0.1,0.1,0.3,0.2,0.4,0.2c0.1,0,0.2,0.1,0.4,0.1c0.1,0,0.1,0,0.2,0h0.1c0.1,0,0.2,0,0.3-0.1c0.2-0.1,0.4-0.2,0.5-0.4l3.2-4.5
+        c0.2-0.3,0.3-0.6,0.2-0.9c-0.1-0.3-0.2-0.6-0.5-0.8C16.8,32.1,16.5,32.1,16.2,32.1z" />
+            </svg>
+            Orders List
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/customer/detail/wishlist']" (click)="onAccountSidebarClose()">
+            <svg viewBox="0 0 16 16" class="bi bi-bookmark-heart" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z" />
+              <path fill-rule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z" />
+            </svg>
+            Wishlist</a>
+        </li>
+        <li>
+          <a [routerLink]="['/customer/detail/address']" (click)="onAccountSidebarClose()">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-journal-text" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z" />
+              <path
+                d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z" />
+              <path fill-rule="evenodd"
+                d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+            </svg>
+            Address</a>
+        </li>
+
+        <li>
+          <a [routerLink]="['/customer/detail/rewards']" (click)="onAccountSidebarClose()">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50"
+              style="enable-background: new 0 0 50 50" xml:space="preserve">
+              <g>
+                <path
+                  d="M43.9,13.6l-4.3-4.2l-2.7-5.4l-6-0.9l-5.4-2.8L20.2,3l-6,0.9l-2.7,5.4l-4.3,4.2l1,6l-1,6l4.3,4.2l2.7,5.4l6,0.9l5.4,2.8
+                l5.4-2.8l6-0.9l2.7-5.4l4.3-4.2l-1-6L43.9,13.6z M41.7,24.8l-3.8,3.7l-2.4,4.8l-5.3,0.8l-4.7,2.4l-4.7-2.4l-5.3-0.8l-2.4-4.8
+                l-3.8-3.7l0.9-5.3l-0.9-5.3l3.8-3.7l2.4-4.8L20.8,5l4.7-2.4L30.3,5l5.3,0.8l2.4,4.8l3.8,3.7l-0.9,5.3L41.7,24.8z" />
+                <polygon points="25.5,41.1 19.5,38 13.4,37 13.4,49.8 25.5,46.7 37.6,49.8 37.6,37 31.5,38 	" />
+                <polygon
+                  points="25.4,7.7 22.3,15.3 14.1,15.9 20.4,21.3 18.5,29.3 25.4,24.9 32.8,29.3 30.5,21.3 36.9,15.9 28.6,15.3 	" />
+              </g>
+            </svg>
+            Reward Points
+          </a>
+        </li>
+
+        <li>
+          <a href="javascript:;" (click)="onLogOut()" (click)="onAccountSidebarClose()">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-power" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M5.578 4.437a5 5 0 1 0 4.922.044l.5-.866a6 6 0 1 1-5.908-.053l.486.875z" />
+              <path fill-rule="evenodd" d="M7.5 8V1h1v7h-1z" />
+            </svg>
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===========================SIDEBAR CART========================= -->
+
+<div id="sidebar-cart">
+  <div class="cart-header">
+    Shopping Bag
+    <button type="button" class="btn clear-cart-lsit" data-toggle="modal" *ngIf="cart?.cartItems?.length"
+      data-target="#clearall-item">
+      Clear All
+    </button>
+    <a id="s4-close" class="side-close"></a>
+  </div>
+  <div class="sidebar-div">
+    <!-- <div class="col-12">
+      <div class="row discount-firstorder">
+        <div class="col-auto p-0">
+          <img src="../../../assets/images/percentage-green.svg" alt="" />
+        </div>
+        <div class="col discount-cont d-flex align-items-center" style="display: none;">
+          <div>
+            <h3>10% Discount <span>on your first order</span></h3>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="col-12">
+      <div class="delivery-hours">
+        <div class="hours-icon">
+          <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            x="0px" y="0px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+            <g id="Outline_43_">
+              <path class="svg-color" d="M45.7,23.1l-3.9-5.9h-8.4l0.5-3.5h-3.6C30,9.9,26.8,7,23,7s-7,2.9-7.3,6.6H6.6v1.5h9.1
+           c0.4,3.7,3.5,6.6,7.3,6.6s7-2.9,7.3-6.6h1.9l-2.7,17.4H15.8c-2.7-4.2-8.7-4.2-11.4,0H0v4.4h3.4c0.4,3.4,3.3,6.1,6.7,6.1
+           s6.4-2.7,6.7-6.1h13.9c0.4,3.4,3.3,6.1,6.7,6.1c3.5,0,6.4-2.7,6.7-6.1H50c0-1.3,0-8,0-9.1C50,25.3,48.1,23.3,45.7,23.1z M23,20.3
+           c-3.3,0-5.9-2.7-5.9-5.9s2.7-5.9,5.9-5.9s5.9,2.7,5.9,5.9S26.3,20.3,23,20.3z M3.4,35.4H1.5V34h2.2C3.5,34.5,3.4,34.9,3.4,35.4z
+            M10.1,41.5c-2.9,0-5.3-2.4-5.3-5.3c0-2.9,2.4-5.3,5.3-5.3s5.3,2.4,5.3,5.3C15.4,39.1,13,41.5,10.1,41.5z M36.6,18.7H41l2.9,4.4h-8
+           L36.6,18.7z M30.8,35.4H16.9c-0.1-0.5-0.2-1-0.3-1.5h14.6C31,34.5,30.9,34.9,30.8,35.4z M37.5,41.5c-2.9,0-5.3-2.4-5.3-5.3
+           c0-2.9,2.4-5.3,5.3-5.3c2.9,0,5.3,2.4,5.3,5.3C42.9,39.1,40.5,41.5,37.5,41.5z M48.5,35.4h-4.2c-0.1-0.5-0.2-1-0.3-1.5h4.6V35.4z
+            M48.5,32.5h-5.3c-2.7-4.2-8.7-4.2-11.4,0H31l2.2-13.9h2l-1,5.9h11.1c1.6,0,2.9,1.1,3.2,2.5h-2.6c-1.2,0-2.2,1-2.2,2.2
+           c0,1.2,1,2.2,2.2,2.2h2.7V32.5z M48.5,30h-2.7c-1,0-1-1.5,0-1.5h2.7V30z" />
+              <path class="svg-color" d="M1.5,17.4H3v1.5H1.5V17.4z" />
+              <path class="svg-color" d="M4.4,17.4H11v1.5H4.4V17.4z" />
+              <path class="svg-color" d="M4.5,20.9H6v1.5H4.5V20.9z" />
+              <path class="svg-color" d="M7.5,20.9h8.4v1.5H7.5V20.9z" />
+              <path class="svg-color" d="M3.1,24.5h8.4V26H3.1V24.5z" />
+              <path class="svg-color" d="M0.1,24.5h1.5V26H0.1V24.5z" />
+              <path class="svg-color" d="M10.1,34c-1.2,0-2.2,1-2.2,2.2c0,1.2,1,2.2,2.2,2.2s2.2-1,2.2-2.2C12.3,35,11.3,34,10.1,34z M9.4,36.2
+           c0-1,1.5-1,1.5,0C10.8,36.6,9.4,37.2,9.4,36.2z" />
+              <path class="svg-color" d="M37.5,34c-1.2,0-2.2,1-2.2,2.2c0,1.2,1,2.2,2.2,2.2c1.2,0,2.2-1,2.2-2.2C39.7,35,38.8,34,37.5,34z M37.5,36.9
+           c-1,0-1-1.5,0-1.5C38.5,35.4,38.5,36.9,37.5,36.9z" />
+              <path class="svg-color" d="M23.8,10.2h-1.5v5.3h3.5v-1.5h-2V10.2z" />
+            </g>
+          </svg>
+        </div>
+        <div class="hours-cont">
+          <h3>Want it delivered by {{dateTime | date: 'fullDate' }}?
+            <!-- <span>Order within the next 5 hours, 53 minutes and choose DPD Next Working Day.</span> -->
+            <span>Order within the next {{cutOffTime}} and choose DPD Next Working Day.</span>
+          </h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12" *ngIf="!cart || cart?.cartItems?.length === 0">
+      <div class="no-itemList">
+        <div class="item-middle">
+          <img alt="" src="./assets/images/empty-cart.svg" />
+          <h4>Your cart is currently empty.</h4>
+          <button class="btn btn-primary" [routerLink]="['category/', 'e-liquids']" (click)="onSidebarCheckoutClose()">
+            Continue Shopping
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-12" *ngIf="cart?.cartItems?.length">
+      <div *ngFor="let item of cart.cartItems; let i = index">
+        <div class="row itemlist" *ngIf="item.product_id > 0">
+          <button type="button" (click)="deleteCartItemClicked(i)" class="btn delete-item">
+            <i class="far fa-trash-alt"></i>
+          </button>
+          <div class="col-auto p-0 pointerCursor" [routerLink]="['product', item.sku]"
+            (click)="onSidebarCheckoutClose()">
+            <img [src]="API_URL + '/' + item.thumbnail" alt="" />
+          </div>
+          <div class="col pr-0">
+            <h2 class="pointerCursor" (click)="onSidebarCheckoutClose()" [routerLink]="['product', item.sku]">
+              {{ item.name }}
+            </h2>
+
+            <div class="discount-cart-sidebar-lab" *ngIf="item.is_promotion || item.is_deal_of_the_day">
+              {{
+              item.is_deal_of_the_day == true
+              ? item.deal_of_the_day.title
+              : item.promotion_title
+              }}
+            </div>
+
+            <div class="flavors-lab-cart">
+              <strong>{{ item.property_name }}: </strong>{{ item.property_value }}
+            </div>
+            <div class="lab-size-cart">
+              <span>{{ item.attributes_detail }}</span>
+            </div>
+            <div class="col-12 pt-5 pr-0">
+              <div class="row">
+                <div class="col-auto cart-quantity">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <button type="button" class="btn btn-primary" (click)="
+                          onMinusQuantity(
+                            item.product_id,
+                            i,
+                            item.variant_id,
+                            item.quantity
+                          )
+                        ">
+                        <i class="fa fa-minus"></i>
+                      </button>
+                    </div>
+                    <input type="text" disabled class="form-control" placeholder="1" [value]="item.quantity" />
+                    <div class="input-group-prepend">
+                      <button type="button" class="btn btn-primary" (click)="
+                          onPlusQuantity(
+                            item.product_id,
+                            i,
+                            item.variant_id,
+                            item.quantity,
+                            item
+                          )
+                        ">
+                        <i class="fa fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col cart-price pl-0 pr-0">
+                  <b class="op-span" *ngIf="
+                      item.is_deal_of_the_day === true ||
+                      (item.is_promotion &&
+                        item.cart_item_promotion?.promotion_type ===
+                          'discount-offer') ||
+                      (item?.cart_item_promotion?.promotion_type ===
+                        'bulk-offer' &&
+                        item.cart_item_promotion?.quantity <= item.quantity)
+                    ">
+                    {{ settings?.currency }}{{ item.price | shortDecimal }}
+                  </b>
+                  {{ settings?.currency }}{{ item.total_price | shortDecimal }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 freeitem-sec" *ngIf="item.freeProduct">
+            <h4>Free Nic Shot</h4>
+            <div class="row freeitem">
+              <div class="col-auto p-0">
+                <img src="{{ API_URL }}/{{
+                    item.freeProduct.variant?.variant_image?.image
+                  }}" [alt]="item.freeProduct.product_name" />
+              </div>
+              <div class="col">
+                <h2>
+                  {{
+                  item.freeProduct.product_name +
+                  "(" +
+                  item.freeProduct.quantity +
+                  ")"
+                  }}
+                </h2>
+                <!-- <div class="flavors-lab-cart"><strong>Strength:</strong> 10mg </div> -->
+                <div class="lab-size-cart">
+                  <span>{{
+                    item.freeProduct.assignment.split(", ").join(" - ")
+                    }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- =========================Free products permotion ======================================== -->
+
+          <div class="col-12 expand-detail-div" *ngIf="
+              item?.freeProducts?.length &&
+              item.cart_item_promotion?.promotion_type === 'free-product'
+            ">
+            <div class="row row-div">
+              <div class="col-12">
+                <button type="button" class="btn btn-expand collapsed" data-toggle="collapse"
+                  [attr.data-target]="'#collapseCartf-' + i" aria-expanded="false"
+                  [aria-controls]="'collapseCartf-' + i">
+                  Free Products: <i class="fas fa-chevron-up"></i>
+                </button>
+              </div>
+            </div>
+            <div class="collapse" [id]="'collapseCartf-' + i">
+              <div class="flavors-il">
+                <div class="campaign-items" *ngFor="let exItem of item?.freeProducts">
+                  <div class="row">
+                    <div class="col-auto">
+                      <span class="badge">{{
+                        exItem.quantity *
+                        onParseInt(
+                        item.quantity / item.cart_item_promotion.quantity
+                        )
+                        }}</span>
+                      <img class="campaign-img" [src]="
+                          API_URL + '/' + exItem.variants[0].variant_image.image
+                        " alt="{{ exItem.name }}" />
+                    </div>
+                    <div class="col campaign-item-title d-flex align-items-center">
+                      {{ exItem.name }} ({{ exItem.attrValues }})
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- =========================End Free products permotion ======================================== -->
+        </div>
+        <!-- ===============================ExclusiveOffer=========================== -->
+
+        <div *ngIf="
+            item.product_id === 0 && item.promotion_type !== 'mixMatchOffer'
+          ">
+          <div class="row itemlist">
+            <button type="button" class="btn delete-item" (click)="deleteCartItemClicked(i)">
+              <i class="far fa-trash-alt"></i>
+            </button>
+
+            <div class="col-12 pl-0">
+              <h2>{{ item.promotion_title }}</h2>
+              <div class="lab-size-cart" *ngFor="let exItemAttr of distinctAttr(item.exclusiveItems)">
+                <span>{{
+                  getQtyExItemByAttrValue(item.exclusiveItems, exItemAttr) +
+                  " x " +
+                  exItemAttr
+                  }}</span>
+              </div>
+              <div class="col-12 pt-5">
+                <div class="row">
+                  <div class="col-auto cart-quantity">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <button type="button" class="btn btn-primary" (click)="
+                            onMinusQuantity(
+                              item.product_id,
+                              i,
+                              item.variant_id,
+                              item.quantity
+                            )
+                          ">
+                          <i class="fa fa-minus"></i>
+                        </button>
+                      </div>
+                      <input type="text" class="form-control" placeholder="1" [value]="item.quantity" />
+                      <div class="input-group-prepend">
+                        <button type="button" class="btn btn-primary" (click)="
+                            onPlusQuantity(
+                              item.product_id,
+                              i,
+                              item.variant_id,
+                              item.quantity,
+                              item
+                            )
+                          ">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col cart-price">
+                    {{ settings?.currency
+                    }}{{ item.quantity * item.unit_price | shortDecimal }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 expand-detail-div">
+              <div class="row row-div">
+                <div class="col-12">
+                  <button type="button" class="btn btn-expand collapsed" data-toggle="collapse"
+                    [attr.data-target]="'#collapseCart-' + i" aria-expanded="false"
+                    [aria-controls]="'collapseCart-' + i">
+                    Products: <i class="fas fa-chevron-up"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="collapse" [id]="'collapseCart-' + i">
+                <div class="flavors-il">
+                  <div class="campaign-items" *ngFor="let exItem of item.exclusiveItems">
+                    <div class="row">
+                      <div class="col-auto">
+                        <span class="badge">{{
+                          exItem.quantity * item.quantity
+                          }}</span>
+                        <img class="campaign-img" [src]="
+                            API_URL + '/' + exItem.variant.variant_image.image
+                          " alt="{{ exItem.name }}" />
+                      </div>
+                      <div class="col campaign-item-title d-flex align-items-center">
+                        {{ exItem.name }} ({{ exItem.attribute_value }})
+                      </div>
+                      <!-- <div class="lab-size-cart">
+                        <span>
+                          {{exItem.quantity + ' x ' + exItem.attribute_value}}
+                        </span>
+                      </div> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===============================END ExclusiveOffer=========================== -->
+
+        <!-- ===============================mixMatchOffer=========================== -->
+        <div *ngIf="item.promotion_type === 'mixMatchOffer'">
+          <div class="row itemlist">
+            <button type="button" class="btn delete-item" (click)="deleteCartItemClicked(i)">
+              <i class="far fa-trash-alt"></i>
+            </button>
+
+            <div class="col-12 pl-0">
+              <h2>{{ item.promotion_title }}</h2>
+              <!-- <div class="lab-size-cart" *ngFor="let exItemAttr of distinctAttr(item.exclusiveItems)">
+                <span>{{ getQtyExItemByAttrValue(item.exclusiveItems, exItemAttr) + ' x ' + exItemAttr }}</span>
+              </div> -->
+              <div class="col-12 pt-5">
+                <div class="row">
+                  <div class="col-auto cart-quantity">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <button type="button" class="btn btn-primary" (click)="
+                            onMinusQuantity(
+                              item.product_id,
+                              i,
+                              item.variant_id,
+                              item.quantity
+                            )
+                          ">
+                          <i class="fa fa-minus"></i>
+                        </button>
+                      </div>
+                      <input type="text" class="form-control" placeholder="1" [value]="item.quantity" />
+                      <div class="input-group-prepend">
+                        <button type="button" class="btn btn-primary" (click)="
+                            onPlusQuantity(
+                              item.product_id,
+                              i,
+                              item.variant_id,
+                              item.quantity,
+                              item
+                            )
+                          ">
+                          <i class="fa fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col cart-price">
+                    {{ settings?.currency
+                    }}{{ item.quantity * item.unit_price | shortDecimal }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 expand-detail-div" *ngIf="item.promotion_type === 'mixMatchOffer'">
+              <div class="row row-div">
+                <div class="col-12">
+                  <button type="button" class="btn btn-expand collapsed" data-toggle="collapse"
+                    [attr.data-target]="'#collapseCart--' + i" aria-expanded="false"
+                    [aria-controls]="'collapseCart--' + i">
+                    Products: <i class="fas fa-chevron-up"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="collapse" [id]="'collapseCart--' + i">
+                <div class="flavors-il">
+                  <div class="campaign-items" *ngFor="let exItem of item.mixMatchItems">
+                    <div class="row">
+                      <div class="col-auto">
+                        <span class="badge">{{
+                          exItem.quantity * item.quantity
+                          }}</span>
+                        <img class="campaign-img" [src]="
+                            API_URL + '/' + exItem.variant.variant_image.image
+                          " alt="{{ exItem.name }}" />
+                      </div>
+                      <div class="col campaign-item-title d-flex align-items-center">
+                        {{ exItem.name }}
+                        <!-- ({{exItem.attribute_value}}) -->
+                      </div>
+                      <!-- <div class="lab-size-cart">
+                    <span>
+                      {{exItem.quantity + ' x ' + exItem.attribute_value}}
+                    </span>
+                  </div> -->
+                    </div>
+                    <!-- free Nicshoot in mix and match -->
+                    <div class="col-12 freeitem-sec" *ngIf="exItem?.freeProduct">
+                      <h4>Free Nic Shot</h4>
+                      <div class="row freeitem">
+                        <div class="col-auto p-0">
+                          <img src="{{ API_URL }}/{{
+                              exItem.freeProduct.variant?.variant_image?.image
+                            }}" [alt]="exItem.freeProduct.product_name" />
+                        </div>
+                        <div class="col">
+                          <h2>
+                            {{
+                            exItem.freeProduct.product_name +
+                            "(" +
+                            exItem.freeProduct.quantity +
+                            ")"
+                            }}
+                          </h2>
+                          <!-- <div class="flavors-lab-cart"><strong>Strength:</strong> 10mg </div> -->
+                          <div class="lab-size-cart">
+                            <span>{{
+                              exItem.freeProduct.assignment
+                              .split(", ")
+                              .join(" - ")
+                              }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===============================END mixMatchOffer=========================== -->
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-cart-bottom">
+    <div class="row m-0">
+      <div class="col">
+        <div class="row">
+          <div class="col-sm-6 col-12 pr-0">
+            Total Items: <strong>{{ cart?.cartItems?.length || 0 }}</strong>
+          </div>
+          <div class="col-sm-6 col-12 pr-0">
+            Total:
+            <strong *ngIf="cart">{{ settings?.currency
+              }}{{ cart?.cart_total_price | shortDecimal }}
+            </strong>
+            <strong *ngIf="!cart">{{ settings?.currency }}{{ 0 | shortDecimal }}
+            </strong>
+          </div>
+        </div>
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-primary" [disabled]="!cart || cart?.cartItems?.length === 0" [routerLink]="['/checkout']"
+          (click)="onSidebarCheckoutClose()">
+          Checkout <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

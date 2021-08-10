@@ -1,0 +1,27 @@
+// @import '../../../assets/scss/main.scss';
+
+// @import '../../../assets/scss/sidebar-cart';
+// @import '../../../assets/scss/nav-top';
+// @import '../../../assets/scss/nav-mobile';
+
+.d-icon-hidden:after {
+    display: none;
+}
+
+.dropdown-menu {
+    transform: translateY(30px);
+}
+.dropdown:hover .dropdown-menu {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+.dropdown:hover .dropdown-menu {
+    transform: translateY(0px);
+}
+
+// .show {
+//     color:green !important;
+//     background-color:salmon !important;
+// }
+

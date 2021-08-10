@@ -1,0 +1,235 @@
+.disclaimer-sec{  
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	min-height: 100vh;
+	background-image: url(../images/disclaimer-bg.jpg);
+	background-repeat: no-repeat;
+	background-position: center top;
+	background-attachment: fixed;
+	background-size:auto 100%;
+	background-color: $secondary; position: relative;
+ 
+	.vape-suite-logo {
+		position: absolute; top: 1.875rem; left: 1.875rem;		
+		img {height: 1.875rem; width: auto}
+	} 
+ 	
+	.disclaimer-text-wrap{ position: absolute; display: table;	width: 100%; top: 50%; left: 0;
+	transform: translate(0, -50%);
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	text-align: center;	
+		
+   .disclaimer-card{background-color: #fff; border-radius: $border-radius; padding: 1.875rem;
+	   margin: auto; max-width: 34.375rem; box-shadow: 0 0 1.3rem 0 rgba(0, 0, 0, 0.2); position: relative;
+	   .set-z-index{z-index: 50; position: relative;}
+	   
+	  .largetext{ position: relative; z-index: 0;
+	  &::before, &::after{
+		content: "18+"; left:-9.688rem; bottom:-10rem; position: absolute; font-size:14.375rem; font-family: $primary-font; font-weight: weight(exbold); color: rgba(1,1,2,0.1); line-height: 1; 
+	   } 
+	   
+	  &::after{
+		color: rgba(1,1,2,0.1);
+		text-transform: uppercase;
+		-webkit-text-fill-color: transparent;
+		-webkit-text-stroke-width: 0.063rem;
+		-webkit-text-stroke-color: $primary;  left:-10.313rem; bottom:-10.625rem; opacity: 0.6;
+	   } 
+	   }
+	   
+		
+	h1{color: $secondary; font-size: 1.875rem; margin-bottom: 2.188rem; position: relative;
+	   &::before{
+			border-top: 0.063rem solid $primary;content: "";left: 50%; bottom: -0.938rem;position: absolute; width: 3.125rem; transform: translate(-50%, 0); 
+	   		}
+	   }
+	h4{ font-size: 1.125rem; margin-bottom: 1.25rem;}
+	   
+	p{margin-bottom: 1.25rem;} 
+	
+	.btn{padding:0.188rem 1.875rem;  margin-left: 0.313rem; margin-right: 0.313rem;} 
+	}
+	
+	}
+	
+	footer{position: fixed; bottom: 0; left: 0; width: 100%; font-size: 0.875rem; text-align: center; padding: 0.938rem; color: #fff; letter-spacing: 0.063rem; opacity: 0.7}
+	
+}
+ 
+
+@include media-1366 { 
+
+	.disclaimer-sec{  
+		.vape-suite-logo {
+			img {height: 1.625rem; width: auto}
+		} 
+
+		.disclaimer-text-wrap{  
+
+	   .disclaimer-card{ 
+		   max-width: 31.25rem; 
+		   
+		.largetext{
+		  &::before, &::after{
+			left:-9.063rem; bottom:-10.313rem; font-size:12.5rem; 
+		   } 
+
+		  &::after{ left:-9.688rem; bottom:-10.938rem;} 
+		}
+
+		h1{font-size: 1.625rem; margin-bottom: 1.875rem; 
+		   }
+		h4{ font-size: 1rem;}
+		}
+
+		}
+
+	}
+	
+}
+
+
+@include media-800 { 
+
+	.disclaimer-sec{  
+		.vape-suite-logo { top: 1.25rem; left: 1.25rem;		
+			img {height: 1.5rem;}
+		} 
+
+		.disclaimer-text-wrap{  
+
+	   .disclaimer-card{ 
+		   max-width: 28.125rem; 
+		
+		 .largetext{
+		  &::before, &::after{
+			left:-8.438rem; bottom:-9.688rem; font-size:11.25rem; 
+		   } 
+
+		  &::after{ left:-9.063rem; bottom:-10.313rem;} 
+		  }
+
+
+		h1{font-size: 1.5rem; margin-bottom:1.563rem; 
+			&::before{bottom: -0.625rem;}
+		   }
+		h4{ font-size: 1rem;}
+		}
+
+		}
+
+	}
+	
+}
+
+
+
+@include media-767 {
+
+	.disclaimer-sec{padding-top: 3.438rem; padding-bottom: 1.875rem; height: 25rem;
+
+		.disclaimer-text-wrap{ z-index: 5;  
+
+	   .disclaimer-card{ 
+		 max-width: 25rem;  
+		   
+		.largetext{
+		  &::before, &::after{
+			left:-7.188rem; bottom:-8.438rem; font-size:10rem; 
+		   } 
+
+		  &::after{left:-7.813rem; bottom:-9.063rem;} 
+		 }
+		   
+		h1{font-size: 1.25rem; margin-bottom:1.25rem; 
+			&::before{bottom: -0.625rem;}
+		   }
+		h4{ font-size: 0.938rem;}
+		.btn{padding:0.188rem 1.563rem; font-size: 0.875rem;} 
+		
+        }
+
+		}
+		
+		footer{font-size: 0.813rem;}
+
+	}
+	
+}
+
+@include media-480 { 
+
+	.disclaimer-sec{ height: auto; background-image: url(../images/disclaimer-bg-sm.jpg); background-size:100% auto;
+		
+		.vape-suite-logo { top: 0.938rem; left: 0.938rem;} 
+
+		.disclaimer-text-wrap{   
+
+	   .disclaimer-card{ 
+		   
+		  .largetext{
+		  &::before, &::after{
+			left:-3.438rem; bottom:-7.5rem; font-size:8.125rem;
+		   } 
+		  &::after{ left:-3.75rem; bottom:-7.813rem;}
+		  }
+ 
+		}
+
+		}
+
+	}
+	
+}
+
+
+@include media-425 { 
+
+	.disclaimer-sec{ 
+		
+		.disclaimer-text-wrap{   
+
+	   .disclaimer-card{ margin-left: 1.25rem; margin-right:1.25rem; 
+		   
+		.largetext{
+		  &::before, &::after{
+			left:-2.5rem; bottom:-6.25rem; font-size:6.875rem; 
+		   } 
+
+		  &::after{ left:-2.813rem; bottom:-6.875rem;} 
+		 }
+		   
+		}
+
+		}
+
+	}
+	
+}
+
+@include media-375 { 
+
+	.disclaimer-sec{ 
+		
+		.disclaimer-text-wrap{   
+
+	   .disclaimer-card{ 
+		   
+		.largetext{
+		  &::before, &::after{
+			left:-2.813rem; bottom:-5.938rem; font-size:6.25rem; 
+		   } 
+
+		  &::after{ left:-3.125rem; bottom:-6.25rem;} 
+		 }
+		   
+		}
+
+		}
+
+	}
+	
+}

@@ -1,0 +1,714 @@
+.pt-10 {
+	padding-top: 0.625rem !important;
+}
+.pb-10 {
+	padding-bottom: 0.625rem !important;
+}
+.sub-header-campaign-deal {
+	background-color: $secondary;
+	background-image: url(../images/header-lg.jpg);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100% auto;
+	width: 100%;
+	height: 18.75rem;
+	-ms-flex-pack: center;
+	justify-content: center;
+	display: -ms-flexbox;
+	display: flex;
+}
+
+.campaign-deal-lab {
+	background-color: #fff;
+	padding: 0.938rem;
+	position: relative;
+	box-shadow: 0 0 1.3rem 0 rgba(0, 0, 0, 0.1);
+	border-radius: $border-radius;
+	@include transition-all;
+	margin-bottom: 1.563rem;
+
+	h3 {
+		margin-bottom: 0.625rem;
+		font-size: 1.25rem;
+		color: $secondary;
+	}
+	.cp-lab-size {
+		@extend .product-ml-size;
+		padding-top: 0.625rem;
+		padding-bottom: 0;
+		margin-bottom: 0.5rem;
+
+		ul {
+			li {
+				label span {
+					font-size: 1rem !important;
+				}
+			}
+		}
+	}
+}
+
+.comp-deal-head {
+	text-align: left !important;
+	margin-bottom: 1.25rem !important;
+	h1 {
+		font-size: 1.25rem !important;
+		margin-bottom: 0 !important;
+		line-height: 1;
+		padding-top: 0.625rem;
+		span {
+			font-family: $font-family-base;
+			letter-spacing: normal;
+			font-size: 1rem;
+			display: block;
+			margin-top: 0.188rem;
+			font-weight: weight(regular);
+			color: $primary;
+		}
+	}
+	i {
+		-moz-transition: all 0.21s linear;
+		-webkit-transition: all 0.21s linear;
+		transition: all 0.21s linear;
+	}
+	.collapsed i {
+		-moz-transform: rotate(180deg);
+		-webkit-transform: rotate(180deg);
+		transform: rotate(180deg);
+		-moz-transition: all 0.21s linear;
+		-webkit-transition: all 0.21s linear;
+		transition: all 0.21s linear;
+	}
+}
+
+.comp-deal-search {
+	width: 70%;
+	position: relative;
+	margin-left: auto;
+	.form-control {
+		width: 100% !important;
+		@include transition-all;
+		font-size: 0.875rem;
+	}
+	.btn-search {
+		position: absolute;
+		right: 0.313rem;
+		padding: 0.25rem 0.375rem !important;
+		border: none;
+		letter-spacing: 0.063rem;
+		i {
+			font-size: 1.125rem;
+		}
+		&:hover,
+		&:focus {
+			background-color: transparent !important;
+		}
+	}
+}
+
+.btn-link-remove {
+	text-decoration: underline;
+	padding: 0.625rem 0.625rem;
+	float: right;
+	font-size: 0.875rem;
+	line-height: 1;
+	border: none;
+	color: $primary;
+	background-color: transparent !important;
+	&:hover,
+	&:focus {
+		text-decoration: none;
+		background-color: transparent !important;
+		border: none;
+		color: $primary;
+		margin: 0;
+	}
+}
+
+.btn-link-disable {
+	color: #777777;
+	text-decoration: none;
+	&:hover,
+	&:focus {
+		color: #777777;
+	}
+}
+
+.product-card-deal { 
+
+	.flavor-name {
+		line-height: 1.25rem !important;
+		height: 2.688rem !important;
+		-webkit-line-clamp: 2 !important;
+		font-size: 0.938rem !important;
+		padding-right: 0 !important;
+		margin-bottom: 0.625rem;
+	}
+
+	.pb-sec {
+		background-color: #f8f8f8;
+		border-top: solid 0.063rem #e7e7e7;
+	}
+	.btn-primary {
+		padding: 0.5rem 0rem;
+		letter-spacing: 0.031rem;
+	}
+}
+
+.added-item {
+	border: solid 0.063rem $primary;
+}
+
+.add-cart-div {
+	@extend .campaign-deal-lab;
+	width: 100%;
+
+	.cap-deal-quantity {
+		@include quantity;
+	}
+
+	.price-div {
+		font-family: $primary-font;
+		background-color: #f9f9f9;
+		border: solid 0.063rem #f0f0f0;
+		border-radius: $border-radius;
+		padding: 0.625rem 0.938rem;
+		font-size: 0.875rem;
+		margin-top: 0.625rem;
+		display: inline-block;
+		width: 100%;
+		margin-top: 0.625rem !important;
+
+		.pf-price {
+			color: $primary;
+			margin-left: 0.313rem;
+			font-weight: weight(bold);
+			font-size: 1.125rem;
+		}
+
+		.btn-primary {
+			font-size: 0.875rem;
+			letter-spacing: normal;
+			width: 100%;
+			background-color: $addtocart-btn-bg-color !important;
+			border-color: $addtocart-btn-bg-color !important;
+			&:hover,
+			&:focus {
+				background-color: $addtocart-btn-bg-color-h !important;
+				border-color: $addtocart-btn-bg-color-h !important;
+			}
+		}
+	}
+}
+
+.item-qty-show {
+	background-color: $greencard;
+	border: solid 0.063rem $greencard-border;
+	color: $green;
+	border-radius: $border-radius;
+	padding: 0.75rem 0.938rem;
+	margin-top: 0;
+	font-size: 1rem;
+	font-family: $primary-font;
+	line-height: 1;
+	font-weight: weight(medium);
+}
+
+.add-item-list {
+	background-color: #fff;
+	border-radius: $border-radius;
+	padding: 0.625rem 0.75rem;
+	margin-top: 0;
+	font-size: 0.938rem;
+	font-family: $primary-font;
+	line-height: 1;
+	font-weight: weight(medium);
+	margin-top: 0.938rem;
+	box-shadow: 0 0 1.3rem 0 rgba(0, 0, 0, 0.1);
+	transition: all 0.4s ease-in-out;
+
+	img {
+		width: 2.375rem;
+		height: 2.375rem;
+		border-radius: $border-radius;
+		box-shadow: 0 0 0.188rem 0 rgba(0, 0, 0, 0.2);
+	}
+
+	.delete-flavors {
+		z-index: 5;
+		padding: 0.563rem 0.25rem;
+		background-color: transparent !important;
+		border: none;
+		font-size: 1.125rem;
+		line-height: 1;
+		&:hover,
+		&:focus {
+			background-color: transparent !important;
+			color: #f12300;
+		}
+	}
+
+	&:hover {
+		box-shadow: 0 0 1.3rem 0 rgba(0, 0, 0, 0.25);
+		transition: all 0.4s ease-in-out;
+	}
+
+	.badge {
+		position: absolute;
+		right: 0.313rem;
+		top: -0.313rem;
+		font-size: 0.625rem;
+		border-radius: 0.313rem;
+		background-color: #1f283b;
+		color: #ffffff;
+	}
+
+	.add-item-title {
+		padding: 0.688rem 0 0 0.313rem;
+	}
+}
+.pl-0-md {
+	padding-left: 0;
+}
+
+.s-down .sticky-on-top {
+	position: sticky;
+	top: 6.25rem;
+}
+.add-to-cart-fix {
+	display: none;
+}
+
+.btn-flavors-list-mobile {
+	display: none;
+}
+
+@include media-1280 {
+	.campaign-deal-lab {
+		h3 {
+			font-size: 1.125rem;
+		}
+	}
+	.comp-deal-head {
+		h1 {
+			font-size: 1.125rem !important;
+		}
+	}
+}
+
+@include media-1024 {
+	.product-grid {
+		.col-lg-4 {
+			flex: 0 0 50%;
+			max-width: 50%;
+		}
+	}
+
+	.comp-deal-search {
+		width: 90%;
+	}
+
+	.add-cart-div {
+		.cap-deal-quantity {
+			.input-group {
+				.form-control {
+					width: 2.813rem;
+					margin: 0 0.313rem;
+				}
+			}
+		}
+
+		.price-div {
+			padding: 0.313rem 1.875rem 0.625rem 1.875rem;
+			.col-6 {
+				flex: 0 0 100%;
+				max-width: 100%;
+				padding: 0;
+				text-align: center;
+				.btn-primary {
+					margin-top: 0.188rem;
+				}
+			}
+		}
+	}
+
+	.item-qty-show {
+		font-size: 0.875rem;
+	}
+
+	.add-item-list {
+		.add-item-title {
+			padding: 0.75rem 0 0 0.313rem;
+			font-size: 0.875rem;
+		}
+	}
+}
+
+.campaign-fix {
+	margin-bottom: 0.938rem;
+}
+
+@include media-800 {
+	.product-grid {
+		.col-lg-4 {
+			flex: 0 0 33.333%;
+			max-width: 33.333%;
+		}
+	}
+	.comp-deal-search {
+		width: calc(100% - 0.938rem);
+	}
+
+	.add-cart-div {
+		padding: 0.313rem 0 0 0;
+		box-shadow: none;
+		margin: 0;
+		background-color: transparent;
+		.cap-deal-quantity {
+			.input-group {
+				.form-control {
+					width: 2.813rem;
+					margin: 0 0.313rem;
+				}
+			}
+		}
+
+		.price-div {
+			padding: 0.625rem 1.875rem;
+			.col-6 {
+				flex: 0 0 50%;
+				max-width: 50%;
+				text-align: left;
+				.btn-primary {
+					width: auto;
+					margin-top: 0;
+					float: right;
+				}
+			}
+		}
+	}
+
+	.comp-deal-head {
+		margin-bottom: 0.625rem !important;
+		h1 {
+			clear: both;
+			font-size: 1.125rem;
+		}
+	}
+	.item-qty-show {
+		font-size: 0.875rem;
+		padding: 0.5rem;
+	}
+	.add-item-list {
+		padding: 0.5rem;
+		.add-item-title {
+			padding: 0.5rem 0.125rem 0 0.125rem;
+		}
+		img {
+			width: 1.875rem;
+			height: 1.875rem;
+		}
+	}
+
+	.delete-flavors {
+		padding: 0.313rem 0.25rem 0 0.25rem !important;
+		font-size: 0.938rem;
+	}
+
+	.product-card-deal {
+		.flavor-name {
+			font-size: 0.813rem !important;
+		}
+		.pb-sec {
+			padding-left: 0.625rem;
+			padding-right: 0.625rem;
+			letter-spacing: normal;
+		}
+	}
+	.pt-md {
+		padding-top: 0.938rem !important;
+	}
+
+	.campaign-fix {
+		@include transition-all;
+		margin-bottom: 0.938rem;
+	}
+	.add-item-list .add-item-title .add-to-cart-fix {
+		.row {
+			margin: 0;
+		}
+		background-color: #f9f9f9;
+		border-radius: $border-radius;
+		padding: 0.313rem 0;
+		font-family: $primary-font;
+		font-size: 0.875rem;
+		span {
+			color: $primary;
+			margin-left: 0.313rem;
+			font-weight: weight(bold);
+			font-size: 1rem;
+		}
+		.btn-primary {
+			float: right;
+			font-size: 0.813rem;
+			margin-top: -0.125rem;
+			margin-bottom: -0.125rem;
+			line-height: 1;
+		}
+	}
+
+	.down .campaign-fix {
+		position: sticky;
+		z-index: 25;
+		width: auto;
+		top: 3.5rem;
+		left: 0;
+		right: 0;
+		margin: 0;
+		@include transition-all;
+		background-color: #fff;
+		padding: 0.938rem 0.625rem 0.625rem 0.625rem;
+		margin-left: -0.938rem;
+		margin-right: -0.938rem;
+		box-shadow: 0 0 1.3rem 0 rgba(0, 0, 0, 0.3);
+	}
+
+	.down .add-to-cart-fix {
+		display: block;
+		.btn-primary {
+			font-size: 0.813rem;
+			padding: 0.125rem 1.125rem;
+			float: right;
+			margin-top: 0.313rem;
+			background-color: $addtocart-btn-bg-color !important;
+			border-color: $addtocart-btn-bg-color !important;
+			&:hover,
+			&:focus {
+				background-color: $addtocart-btn-bg-color-h !important;
+				border-color: $addtocart-btn-bg-color-h !important;
+			}
+		}
+	}
+	.down .campaign-fix .comp-deal-head {
+		margin-bottom: 0.5rem !important;
+	}
+
+	.tab-sc {
+		flex: 0 0 100% !important;
+		max-width: 100% !important;
+	}
+
+	.btn-flavors-list-mobile {
+		background-color: transparent !important;
+		color: $secondary !important;
+		float: right;
+		border: none;
+		text-decoration: underline;
+		padding: 0.188rem 0;
+		margin-top: -0.313rem;
+		font-size: 0.875rem;
+		display: block;
+		&:hover,
+		&:focus {
+			background-color: transparent !important;
+			color: $secondary !important;
+			border: none;
+		}
+	}
+}
+
+@include media-767 {
+	.product-grid {
+		.col-lg-4 {
+			flex: 0 0 50%;
+			max-width: 50%;
+		}
+	}
+	.comp-deal-search {
+		width: 100%;
+		margin-bottom: 0.313rem;
+	}
+
+	.pl-0-md {
+		padding-left: 0.938rem;
+	}
+	.comp-deal-head {
+		h1 {
+			letter-spacing: normal;
+			span {
+				display: inline;
+			}
+		}
+	}
+
+	.down .campaign-fix {
+		top: 2.875rem;
+		padding: 0.625rem 0.625rem 0.625rem 0.625rem;
+	}
+
+	.campaign-deal-lab {
+		.cp-lab-size {
+			margin-bottom: 0 !important;
+			ul {
+				li {
+					margin-bottom: 0.625rem !important;
+					label span {
+						font-size: 0.938rem !important;
+					}
+				}
+			}
+		}
+	}
+
+	.add-item-list {
+		padding: 0.5rem;
+		box-shadow: 0 0 0.375rem 0 rgba(0, 0, 0, 0.15);
+		margin-top: 0.625rem;
+	}
+	.down .campaign-fix .comp-deal-head {
+		margin-bottom: 0.25rem !important;
+	}
+	.down .campaign-fix h1 {font-size: 1rem !important;}
+}
+
+@include media-480 {
+	.add-cart-div .price-div {
+		padding: 0.5rem 1.563rem;
+	}
+	.product-card-deal .btn-primary,
+	.btn-link-remove {
+		font-size: 0.75rem;
+	}
+	.down .add-to-cart-fix {
+		.btn-primary {
+			padding: 0.125rem 0.625rem;
+			margin-top: 0;
+		}
+	}
+}
+
+@include media-425 {
+	.add-to-cart-fix {
+		padding: 0.313rem;
+		padding-right: 0.313rem;
+		font-size: 0.688rem;
+		letter-spacing: 0.063rem;
+		line-height: 1;
+		.col-4 {
+			padding-left: 0.625rem;
+			padding-right: 0.625rem;
+		}
+		span {
+			display: block;
+			font-size: 0.813rem;
+			margin: 0;
+			margin-top: 0.063rem;
+			font-weight: weight(medium);
+		}
+	}
+
+	.add-cart-div {
+		.price-div {
+			font-size: 0.813rem;
+			.pf-price {
+				font-size: 0.938rem;
+			}
+
+			.btn-primary {
+				font-size: 0.813rem;
+			}
+		}
+	}
+
+	.add-to-cart-fix {
+		.btn-primary {
+			padding-top: 0.5rem;
+			padding-bottom: 0.5rem;
+			letter-spacing: normal;
+		}
+	}
+
+	.btn-flavors-list-mobile {
+		font-size: 0.813rem;
+	}
+
+	.down .campaign-fix {
+		padding: 0.625rem 0.625rem 0.25rem 0.625rem;
+	}
+}
+
+@include media-375 {
+	.product-card-deal .btn-primary,
+	.btn-link-remove {
+		font-size: 0.688rem;
+	}
+
+	.add-item-list {
+		.add-item-title {
+			font-size: 0.75rem;
+		}
+	}
+
+	.product-card-deal .p-val {
+		 bottom: 4.125rem;
+	}
+}
+
+@include media-320 {
+	.product-grid {
+		.col-lg-4 {
+			flex: 0 0 100%;
+			max-width: 100%;
+		}
+	}
+	.add-cart-div {
+		.cap-deal-quantity {
+			.input-group {
+				.form-control {
+					width: 2.813rem;
+					margin: 0 0.313rem;
+				}
+			}
+		}
+
+		.price-div {
+			.col-6 {
+				flex: 0 0 100%;
+				max-width: 100%;
+				text-align: center;
+				padding-top: 0 !important;
+				.btn-primary {
+					width: 100%;
+					float: none;
+					margin-top: 0.313rem;
+				}
+			}
+		}
+	}
+	.campaign-deal-lab {
+		h3 {
+			font-size: 1rem;
+		}
+	}
+
+	.add-to-cart-fix {
+		.btn-primary {
+			padding-left: 0.563rem;
+			padding-right: 0.563rem;
+		}
+	}
+
+	.add-item-list {
+		.add-item-title {
+			font-size: 0.688rem;
+		}
+	}
+	.campaign-fix h1 {font-size: 1rem !important;}
+}
+
+.disable-p-list {
+	filter: blur(0.188rem) grayscale(1);
+	opacity: 0.6;
+	pointer-events: none;
+	cursor: not-allowed;
+}

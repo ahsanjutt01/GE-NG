@@ -1,0 +1,21 @@
+<app-cart-modal></app-cart-modal>
+<h2 class="up-heading">My <span>Wishlist</span></h2>
+<div class="wishlist-pro">
+    <div class="row" *ngIf="products">
+        <div class="col-lg-3" *ngFor="let product of products">
+            <app-product-card [product]="product" [isWishlistShowPage]="isWishlistShowPage"></app-product-card>
+        </div>
+
+    </div>
+
+    <div class="no-wishlistitem" *ngIf="isLoading">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    </div>
+    <div *ngIf="!products?.length && loadingComplete" class="no-wishlistitem">
+        <img class="no-wishlist-icon" src="../assets/images/no-wishlist.svg" alt="">
+        <h3> No products in wishlist</h3>
+    </div>
+
+</div>
+
+ 

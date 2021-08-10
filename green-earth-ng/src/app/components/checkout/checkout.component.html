@@ -1,0 +1,673 @@
+<div class="checkoutpage">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="site-logo">
+          <img
+            src="../../../assets/images/vape-suite.svg"
+            alt=""
+            [routerLink]="['/']"
+          />
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="row">
+          <div class="col-lg-7 col-12 sm-padd-0">
+            <div class="step-process">
+              <ng-stepper
+                #stepper
+                [linear]="true"
+                (selectionChange)="selectionChange($event)"
+              >
+                <!-- <ng-stepper #cdkStepper [linear]="true"> -->
+                <cdk-step [stepControl]="stepOne" [optional]="false">
+                  <ng-template cdkStepLabel>
+                    <div class="step-bullet"><i class="far fa-user"></i></div>
+                    <div class="step-title">
+                      Customer<span class="required">*</span>
+                    </div>
+                  </ng-template>
+                  <app-customer #stepOne [stepperr]="stepper"></app-customer>
+                </cdk-step>
+
+                <cdk-step
+                  [stepControl]="stepTwo.billingGroup"
+                  [optional]="false"
+                >
+                  <ng-template cdkStepLabel>
+                    <div class="step-bullet"><i class="fas fa-truck"></i></div>
+                    <div class="step-title">
+                      Address<span class="required">*</span>
+                    </div>
+                  </ng-template>
+                  <app-address
+                    [type]="'billing'"
+                    #stepTwo
+                    [stepper]="stepper"
+                  ></app-address>
+                </cdk-step>
+
+                <cdk-step
+                  [stepControl]="stepThree.stepThreeForm"
+                  [optional]="false"
+                >
+                  <ng-template cdkStepLabel>
+                    <div class="step-bullet">
+                      <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="step-title">
+                      Payment<span class="required">*</span>
+                    </div>
+                  </ng-template>
+                  <app-payment #stepThree></app-payment>
+                </cdk-step>
+              </ng-stepper>
+            </div>
+          </div>
+
+          <div class="col-lg-5 col-12 order-summary-desk">
+            <div class="checkout-section p-0">
+              <div class="headercheckout">
+                <h3>Order Summary ({{ cartProductCount }})</h3>
+                <a [routerLink]="['/mycart']">Edit Cart</a>
+              </div>
+              <div class="ord-overflow-y" *ngIf="cart && cart.cartItems">
+                <!-- <div *ngFor="let item of cart.cartItems" [routerLink]="['../product', item.sku]"> -->
+                <div *ngFor="let item of cart.cartItems; let i = index">
+                  <div class="ord-itemslist" *ngIf="item.product_id === 0">
+                    <div class="row m-0">
+                      <div class="col-12 pl-0">
+                        <div class="row">
+                          <div class="col pr-0">
+                            <h2>{{ item.promotion_title }}</h2>
+                          </div>
+                          <div class="col-3 ord-item-price">
+                            {{ currency
+                            }}{{
+                              item.quantity * item.unit_price | shortDecimal
+                            }}
+                          </div>
+                        </div>
+
+                        <div
+                          class="lab-size-cart"
+                          *ngFor="
+                            let exItemAttr of distinctAttr(item.exclusiveItems)
+                          "
+                        >
+                          <span>{{
+                            getQtyExItemByAttrValue(
+                              item.exclusiveItems,
+                              exItemAttr
+                            ) +
+                              " x " +
+                              exItemAttr
+                          }}</span>
+                        </div>
+                        <div class="ord-item-qty left-pos">
+                          <strong>QTY: </strong> {{ item.quantity }}
+                        </div>
+                      </div>
+
+                      <div class="col-12 expand-detail-div ed-bg">
+                        <div class="row">
+                          <div class="col-12">
+                            <button
+                              type="button"
+                              class="btn btn-expand-check collapsed m-0"
+                              data-toggle="collapse"
+                              [attr.data-target]="'#collapseCart--' + i"
+                              aria-expanded="false"
+                              [aria-controls]="'collapseCart--' + i"
+                            >
+                              Products: <i class="fas fa-chevron-up"></i>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div class="collapse" [id]="'collapseCart--' + i">
+                          <div class="flavors-il set-pm">
+                            <div
+                              class="campaign-items"
+                              *ngFor="let exItem of item.exclusiveItems"
+                            >
+                              <div class="row">
+                                <div class="col-auto">
+                                  <span class="badge">{{
+                                    exItem.quantity * item.quantity
+                                  }}</span>
+                                  <img
+                                    class="campaign-img"
+                                    [src]="
+                                      API_URL +
+                                      '/' +
+                                      exItem.variant.variant_image.image
+                                    "
+                                    alt="{{ exItem.name }}"
+                                    style="
+                                      width: 2rem !important;
+                                      height: 2rem !important;
+                                    "
+                                  />
+                                </div>
+                                <div
+                                  class="col campaign-item-title d-flex align-items-center"
+                                >
+                                  {{ exItem.name }} ({{
+                                    exItem.attribute_value
+                                  }})
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- ===============================END ExclusiveOffer=========================== -->
+
+                  <!-- ===============================mixMatchOffer=========================== -->
+                  <div
+                    class="ord-itemslist"
+                    *ngIf="item.promotion_type === 'mixMatchOffer'"
+                  >
+                    <div class="row m-0">
+                      <div class="col pl-0">
+                        <h2 class="mb-0">{{ item.promotion_title }}</h2>
+
+                        <!-- <div class="lab-size-cart" *ngFor="let exItemAttr of distinctAttr(item.exclusiveItems)">
+                                      <span>{{ getQtyExItemByAttrValue(item.exclusiveItems, exItemAttr) + ' x ' + exItemAttr }}</span>
+                                    </div> -->
+                      </div>
+                      <div class="col-3 ord-item-price">
+                        {{ currency }}
+                        {{ item.quantity * item.unit_price | shortDecimal }}
+                      </div>
+                    </div>
+
+                    <div
+                      class="col-12 expand-detail-div ed-bg"
+                      *ngIf="item.promotion_type === 'mixMatchOffer'"
+                    >
+                      <div class="row row-div">
+                        <div class="col-12">
+                          <button
+                            type="button"
+                            class="btn btn-expand collapsed mb-0"
+                            data-toggle="collapse"
+                            [attr.data-target]="'#collapseCarts--' + i"
+                            aria-expanded="false"
+                            [aria-controls]="'collapseCarts--' + i"
+                          >
+                            Products: <i class="fas fa-chevron-up"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="collapse" [id]="'collapseCarts--' + i">
+                        <div class="flavors-il set-pm">
+                          <div
+                            class="campaign-items"
+                            *ngFor="let exItem of item.mixMatchItems"
+                          >
+                            <div class="row">
+                              <div class="col-auto">
+                                <span class="badge">{{
+                                  exItem.quantity * item.quantity
+                                }}</span>
+                                <img
+                                  class="campaign-img"
+                                  [src]="
+                                    API_URL +
+                                    '/' +
+                                    exItem.variant.variant_image.image
+                                  "
+                                  alt="{{ exItem.name }}"
+                                />
+                              </div>
+                              <div
+                                class="col campaign-item-title d-flex align-items-center"
+                              >
+                                {{ exItem.name }}
+                              </div>
+                            </div>
+                            <!-- free product nic shot -->
+                            <div
+                              class="ord-itemslist freeitem"
+                              *ngIf="exItem.freeProduct"
+                            >
+                              <div class="row m-0">
+                                <div class="col-auto p-0">
+                                  <img
+                                    src="{{ API_URL }}/{{
+                                      exItem.freeProduct.variant?.variant_image
+                                        ?.image
+                                    }}"
+                                    alt=""
+                                  />
+                                </div>
+                                <div class="col pl-10">
+                                  <div class="row">
+                                    <div class="col pr-0">
+                                      <h2>
+                                        {{ exItem.freeProduct.product_name }}
+                                      </h2>
+                                    </div>
+                                    <div class="col-3 ord-item-price">Free</div>
+                                  </div>
+
+                                  <div class="lab-size-cart">
+                                    <span>{{
+                                      exItem.freeProduct.assignment
+                                        .split(", ")
+                                        .join(" - ")
+                                    }}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- ===============================END mixMatchOffer=========================== -->
+
+                  <div class="ord-itemslist" *ngIf="item.product_id > 0">
+                    <div class="row m-0">
+                      <div class="col-auto p-0 pointerCursor">
+                        <img [src]="API_URL + '/' + item.thumbnail" alt="" />
+                      </div>
+                      <div class="col pl-10">
+                        <div class="row">
+                          <div class="col pr-0 pointerCursor">
+                            <h2>{{ item.name }}</h2>
+                          </div>
+                          <div class="col-3 ord-item-price">
+                            {{ currency
+                            }}<span
+                              *ngIf="
+                                item.is_deal_of_the_day === true ||
+                                (item.is_promotion &&
+                                  item.cart_item_promotion?.promotion_type ===
+                                    'discount-offer') ||
+                                (item?.cart_item_promotion?.promotion_type ===
+                                  'bulk-offer' &&
+                                  item.cart_item_promotion?.quantity <=
+                                    item.quantity)
+                              "
+                            >
+                              {{ currency$ | async
+                              }}{{ item.price | shortDecimal }}
+                            </span>
+                            {{ currency$ | async
+                            }}{{ item.total_price | shortDecimal }}
+                          </div>
+
+                          <div class="col-12">
+                            <div
+                              class="discount-lab-ord-sum"
+                              *ngIf="item.is_promotion"
+                            >
+                              {{ item.promotion_title }}
+                            </div>
+
+                            <div class="flavors-lab-cart">
+                              <strong>{{ item.property_name }}: </strong>
+                              {{ item.property_value }}
+                            </div>
+                            <div class="lab-size-cart">
+                              <span>{{ item.attributes_detail }}</span>
+                            </div>
+                            <div class="ord-item-qty">
+                              <strong>QTY: </strong> {{ item.quantity }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="col-12 expand-detail-div ed-bg"
+                      *ngIf="
+                        item?.freeProducts?.length &&
+                        item.cart_item_promotion?.promotion_type ===
+                          'free-product'
+                      "
+                    >
+                      <div class="row row-div">
+                        <div class="col-12">
+                          <button
+                            type="button"
+                            class="btn btn-expand mb-0 collapsed"
+                            data-toggle="collapse"
+                            [attr.data-target]="'#collapseCartf-' + i"
+                            aria-expanded="false"
+                            [aria-controls]="'collapseCartf-' + i"
+                          >
+                            Free Products: <i class="fas fa-chevron-up"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="collapse" [id]="'collapseCartf-' + i">
+                        <div class="flavors-il set-pm">
+                          <div
+                            class="campaign-items"
+                            *ngFor="let exItem of item?.freeProducts"
+                          >
+                            <div class="row">
+                              <div class="col-auto">
+                                <span class="badge">{{
+                                  exItem.quantity *
+                                    onParseInt(
+                                      item.quantity /
+                                        item.cart_item_promotion.quantity
+                                    )
+                                }}</span>
+                                <img
+                                  class="campaign-img"
+                                  [src]="
+                                    API_URL +
+                                    '/' +
+                                    exItem.variants[0].variant_image.image
+                                  "
+                                  alt="{{ exItem.name }}"
+                                />
+                              </div>
+                              <div
+                                class="col campaign-item-title d-flex align-items-center"
+                              >
+                                {{ exItem.name }}
+                                ({{ exItem.attrValues }})
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="ord-itemslist freeitem" *ngIf="item.freeProduct">
+                    <div class="row m-0">
+                      <div class="col-auto p-0">
+                        <img
+                          src="{{ API_URL }}/{{
+                            item.freeProduct.variant?.variant_image?.image
+                          }}"
+                          alt=""
+                        />
+                      </div>
+                      <div class="col pl-10">
+                        <div class="row">
+                          <div class="col pr-0">
+                            <h2>{{ item.freeProduct.product_name }}</h2>
+                          </div>
+                          <div class="col-3 ord-item-price">Free</div>
+                        </div>
+
+                        <div class="lab-size-cart">
+                          <span>{{
+                            item.freeProduct.assignment.split(", ").join(" - ")
+                          }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- =========================Free products permotion ======================================== -->
+
+                  <!-- =========================End Free products permotion ======================================== -->
+                </div>
+              </div>
+              <div class="coupon-code" *ngIf="!isPaymentPage">
+                <div class="row" *ngIf="couponNotFound" style="color: red">
+                  <p>This Coupon code is invalid.</p>
+                </div>
+                <div class="row" *ngIf="couponMinOrderError" style="color: red">
+                  <p>
+                    This Coupon code is valid for min order total price
+                    {{ couponMinOrderPrice }}
+                  </p>
+                </div>
+                <div
+                  class="row"
+                  *ngIf="cart && !cart.is_coupon && !isPaymentPage"
+                >
+                  <div class="col">
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="couponCode"
+                      #ctrl="ngModel"
+                      placeholder="Gift Card or Coupon Code"
+                      required
+                    />
+                  </div>
+                  <div class="col-auto pl-0">
+                    <button
+                      type="submit"
+                      class="btn btn-primary"
+                      [disabled]="!ctrl.valid"
+                      (click)="onApplyCoupon()"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                </div>
+                <div class="row" *ngIf="cart && cart.is_coupon">
+                  <div class="col-auto pl-0" *ngIf="cart.is_coupon">
+                    <button
+                      type="submit"
+                      class="btn btn-primary"
+                      (click)="onRemoveCoupon()"
+                    >
+                      Remove Coupon
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="totalvalues">
+                <div class="row">
+                  <div class="col-auto">Subtotal</div>
+                  <div class="col">
+                    {{ currency }}{{ cart.cart_price | shortDecimal }}
+                  </div>
+                </div>
+
+                <div class="row" *ngIf="isLoggedIn">
+                  <div class="col lab-text-reward">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        [disabled]="!isAbleToUtilize"
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="reward-points001"
+                        [(ngModel)]="isRewardChecked"
+                        [checked]="isRewardChecked ? 'checked' : ''"
+                        (change)="onRewardCheckboxChange(isRewardChecked)"
+                      />
+                      <label
+                        *ngIf="isAbleToUtilize"
+                        class="custom-control-label"
+                        for="reward-points001"
+                        >Utilize
+                        <strong class="primarycolor">
+                          {{ consumesPoints }} ({{ currency
+                          }}{{ transformedAmount }})
+                        </strong>
+                        Reward Points</label
+                      >
+                      <label
+                        *ngIf="!isAbleToUtilize"
+                        class="custom-control-label"
+                        for="reward-points001"
+                        >You must have minimum
+                        <strong class="primarycolor">
+                          {{ reward?.minimum_points_discount }}
+                        </strong>
+                        Reward Points to redeem.</label
+                      >
+                    </div>
+                  </div>
+                  <div class="col-auto weight-bold">
+                    {{ currency
+                    }}{{
+                      (isRewardChecked ? cart.reward_amount : 0.0)
+                        | shortDecimal
+                    }}
+                  </div>
+                </div>
+                <!-- <div class="row" *ngIf="cart.is_reward && isLoggedIn && isPaymentPage">
+                                        <div class="col-auto">Reward Points ({{cart.reward_points}})</div>
+                                        <div class="col">
+                                            {{currency}}{{ cart.reward_amount | shortDecimal }}</div>
+                                    </div> -->
+
+                <div class="row">
+                  <div class="col-auto">Discount</div>
+                  <div class="col">
+                    {{ currency
+                    }}{{
+                      cart.cart_price -
+                        cart.cart_total_price -
+                        cart.coupon_total_discount_price | shortDecimal
+                    }}
+                  </div>
+                </div>
+
+                <!-- Addtional Discount -->
+                <div
+                  class="row"
+                  *ngIf="cart?.is_additional_discount && isPaymentPage"
+                >
+                  <div class="col-auto">
+                    Addtional Discount ({{ cart.additional_discount_type }})
+                  </div>
+                  <div class="col">
+                    {{ currency
+                    }}{{ cart.additional_discount_price | shortDecimal }}
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-auto">
+                    Shipping
+                    {{
+                      cart?.selected_delivery_method?.title && shipingPrice == 0
+                        ? "(FREE)"
+                        : ""
+                    }}
+                  </div>
+                  <div class="col">
+                    {{
+                      cart?.selected_delivery_method
+                        ? cart.selected_delivery_method.title + ":"
+                        : ""
+                    }}
+                    {{ currency }}{{ shipingPrice }}
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-auto">Tax</div>
+                  <div class="col">{{ currency }}0.00</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-auto">Coupon Price</div>
+                  <div class="col">
+                    {{ currency
+                    }}{{ cart.coupon_total_discount_price | shortDecimal }}
+                  </div>
+                </div>
+
+                <div class="row total-valuse-ord">
+                  <div class="col-auto">Total</div>
+                  <div class="col">
+                    {{ currency }}
+                    <span *ngIf="isPaymentPage">
+                      {{
+                        (cart.is_reward
+                          ? cart?.is_additional_discount
+                            ? cartTotalPrice -
+                              cart.reward_amount +
+                              shipingPrice -
+                              cart.additional_discount_price
+                            : cartTotalPrice - cart.reward_amount + shipingPrice
+                          : cart?.is_additional_discount
+                          ? cartTotalPrice +
+                            shipingPrice -
+                            cart.additional_discount_price
+                          : cartTotalPrice + shipingPrice
+                        ) | shortDecimal
+                      }}
+                    </span>
+                    <span *ngIf="!isPaymentPage">
+                      {{
+                        (cart.is_reward
+                          ? cartTotalPrice - cart.reward_amount + shipingPrice
+                          : cartTotalPrice - cart.reward_amount + shipingPrice
+                          ? cartTotalPrice + shipingPrice
+                          : cartTotalPrice + shipingPrice
+                        ) | shortDecimal
+                      }}
+                    </span>
+                  </div>
+                </div>
+                <!-- <h4>you earned  reward points from this order </h4> -->
+              </div>
+
+              <div class="row reward-points-sign">
+                <div class="col-auto pr-0">
+                  <svg
+                    version="1.1"
+                    id="Layer_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    x="0px"
+                    y="0px"
+                    viewBox="0 0 50 50"
+                    style="enable-background: new 0 0 50 50"
+                    xml:space="preserve"
+                  >
+                    <g>
+                      <path
+                        class="p-st0"
+                        d="M43.9,13.6l-4.3-4.2L36.9,4l-6-0.9l-5.4-2.8L20.2,3l-6,0.9l-2.7,5.4l-4.3,4.2l1,6l-1,6l4.3,4.2l2.7,5.4l6,0.9
+                                        l5.4,2.8L31,36l6-0.9l2.7-5.4l4.3-4.2l-1-6L43.9,13.6z M41.7,24.8l-3.8,3.7l-2.4,4.8l-5.3,0.8l-4.7,2.4l-4.7-2.4l-5.3-0.8l-2.4-4.8
+                                        l-3.8-3.7l0.9-5.3l-0.9-5.3l3.8-3.7l2.4-4.8L20.8,5l4.7-2.4L30.3,5l5.3,0.8l2.4,4.8l3.8,3.7l-0.9,5.3L41.7,24.8z"
+                      />
+                      <polygon
+                        class="s-st1"
+                        points="25.5,41.1 19.5,38 13.4,37 13.4,49.8 25.5,46.7 37.6,49.8 37.6,37 31.5,38 	"
+                      />
+                      <polygon
+                        class="s-st1"
+                        points="25.4,7.7 22.3,15.3 14.1,15.9 20.4,21.3 18.5,29.3 25.4,24.9 32.8,29.3 30.5,21.3 36.9,15.9
+                                        28.6,15.3 	"
+                      />
+                    </g>
+                  </svg>
+                </div>
+                <div class="col text-left pl-10 d-flex align-items-center h-35">
+                  <div>
+                    You can earn 
+                    <strong class="primarycolor">{{
+                      cart?.earnablPoints || 0
+                    }}</strong>
+                    reward points from this order
+                    <span *ngIf="!isLoggedIn"> with </span>
+                    <strong class="primarycolor" *ngIf="!isLoggedIn">
+                      Sign In
+                    </strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

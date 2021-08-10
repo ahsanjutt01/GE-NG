@@ -1,0 +1,30 @@
+.loader {
+	position: fixed;
+	width: 100vw;
+	height: calc(100vh - 3.875rem); top: 3.875rem;
+	z-index: 1015;	 
+	background-image:url(../images/loader.gif);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-color: #fff; background-size: auto 5.875rem;
+}
+.loader-pl{ width: 100%;
+	height: calc(100vh - 16.625rem);  
+	background-image:url(../images/loader.gif);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: auto 5.875rem;
+}
+
+ 
+@include media-1024 {
+.loader {height: calc(100vh - 5.313rem); top: 5.313rem;}
+}
+@include media-800 { 
+	.loader {height: calc(100vh - 8.125rem); top: 3.625rem; background-size: auto 4.125rem;}
+	.loader-pl{ background-size: auto 4.125rem;}
+	
+}
+ @include media-640 {
+	.loader {height: calc(100vh - 6.375rem); top: 2.938rem;}
+}

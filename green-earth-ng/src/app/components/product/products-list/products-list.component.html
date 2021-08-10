@@ -1,0 +1,112 @@
+<!--filter mobiles-->
+<div appScrollTracker (scrollingFinished)="onWindowScroll($event)">
+  <app-cart-modal></app-cart-modal>
+ 
+
+  <div class="sub-header">
+    <div class="hd-content m-0 w-100">
+    <div class="container"> 
+      <h2>RECYCLED CONSUMER PRODUCTS</h2>
+       <!-- <h2>{{product?.result?.moduleData?.category_name || product?.result?.moduleData?.name || product?.result?.title}}</h2>
+     <p *ngIf="queryParams.isSearch">{{'Search: ' + queryParams.queryParam}}</p> -->
+    </div>
+    </div> 
+  </div>
+
+  <div class="container">
+    <div class="row">
+     
+
+      <div class="col-12 product-list min-100">
+
+        <div *ngIf="discriptionHtml?.length">
+          <div class="description-html" [ngClass]="isViewMoreDesc ? '': 'descp-active'"
+            [innerHtml]="discriptionHtml">
+
+          </div>
+          <div class="col-12 view-more-div" *ngIf="discriptionHtml?.length">
+            <a href="javascript:;" (click)="onViewMoreDesc()">{{isViewMoreDesc ? 'View Less' : 'View More'}}</a>
+          </div>
+        </div>
+        
+        <div class="row" *ngIf="listing?.category?.sub_categories">
+          <div class="col-12">
+            <div class="sub-category">
+
+              <div class="owl-carousel owl-theme">
+                <div class="item menu-items" *ngFor="let category of listing?.category?.sub_categories">
+                  <a [ngClass]="(category?.id===selectedSubcateoryId)? 'active' : ''"
+                    (click)="onSubCategoryChange(category.id, category?.category_name)">
+                    {{category?.category_name}}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+        <p class="text-info">Green Earth Recycling (Pakistan) has devised a high quality environment friendly and long lasting wood alternative by utilizing a winning combination of material and technology.</p>
+
+        <!-- ========================SEARCH BAR===================== -->
+
+
+        <div class="row sorting">
+          <div class="col-12">
+            <hr>
+          </div>
+          <div class="col-lg-6 col-6"><span>Showing {{ sortedProducts.length }} /
+              {{product?.filters?.totalProducts}} results</span>
+            <!-- <button data-toggle="modal" data-target="#bottom_modal" class="btn btn-primary"><i
+              class="fas fa-shopping-bag" (click)="showModal()"></i>
+            Add
+          </button> -->
+          </div>
+          <div class="col-lg-6 col-6">
+            <!-- <button id="p-filter" class="btn btn-secondary btn-filter-mob">Filter <img
+                src="./assets/images/filter-icon.svg" alt=""></button> -->
+            <select class="custom-select custom-select-sm" (change)="onSortChange($event.target.value)">
+              <option selected>Sort by:</option>
+              <option value="1">Price low to high</option>
+              <option value="2">Price high to low</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <hr>
+          </div>
+        </div>
+        <!-- ===============================PRODUCTS========================== -->
+
+        <!-- no products -->
+        <h1 *ngIf="isNoProducts && !isloading" class="text-center">No products found.</h1>
+
+        <div class="row pr-row min-100" *ngIf="isloading">
+          <div class="col-lg-4 col-md-6 col-6 set-col-320" *ngFor="let i of effect">
+            <div class="product-card" style="box-shadow: none; background-color:transparent; border: none">
+              <div class="pr-card-img shine"></div>
+              <div class="lines shine"></div>
+              <div class="lines shine"></div>
+              <div class="lines shine"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row pr-row min-100" *ngIf="sortedProducts.length">
+          <div class="col-lg-4 col-md-6 col-6 set-col-320" *ngFor="let prod of sortedProducts; let i = index">
+            <app-product-card [product]="prod" [listingPage]="true" [isSearch]="category > 0">
+            </app-product-card>
+          </div>
+        </div>
+
+        <!-- <div class="row" *ngIf="loadMoreBtnIsDisabled">
+          <div class="col-md-12" style="text-align: center;margin-bottom: 3%;">
+            <button type="button" class="btn btn-primary loadMore" [disabled]="isLoadMoreClicked" (click)="load_more()">
+              <span *ngIf="isLoadMoreClicked" class="spinner-border spinner-border-sm" role="status"
+                aria-hidden="true"></span>
+              Load More</button>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+</div>

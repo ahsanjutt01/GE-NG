@@ -1,0 +1,65 @@
+// @import "../../../../styles.scss";
+// @import '../../../assets/scss/sidebar';
+// @import '../../../assets/scss/product-list';
+// @import '../../../assets/css/nouislider.min';
+
+// .pl-loading .loader {
+//   width: 100%;
+//   margin-left: -15;
+//   margin-right: -15;
+//   height: calc(100vh - 150px);
+//   top: 150px;
+// }
+.subCategoryTop {
+  background-color: #009cde !important;
+  color: #fff;
+  top: 0rem;
+}
+.min-100 {
+  min-height: 100vh;
+  // display: block;
+}
+
+// virtual-scroller {
+//     height: 500px;
+//   }
+
+.menu-items > a {
+  margin-left: 5px;
+  cursor: pointer;
+}
+// mat-slider {
+//   width: 300px;
+// }
+
+.hidden {
+  display: none;
+}
+
+// $white: #F8F8F8;
+
+.viewport {
+  width: 100%;
+  background: #c4bbb8;
+  box-shadow: 1px 1px 1px grey;
+}
+
+.description-html {
+  padding: 0;
+  text-align: left;
+  padding-bottom: 10px;
+  // height: 10px;
+  // overflow: hidden;
+}
+
+.descp-active {
+  height: 3.313rem;
+  overflow: hidden;
+}
+
+.no-scroll-body {
+  overflow: hidden !important;
+}
+
+
+.sub-category{padding-top: 1.875rem;}

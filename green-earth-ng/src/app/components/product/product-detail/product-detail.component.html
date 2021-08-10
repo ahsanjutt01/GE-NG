@@ -1,0 +1,1348 @@
+<div *ngIf="isloading" style="text-align: center">
+  <app-loader></app-loader>
+</div>
+
+<div *ngIf="productDetail && !isloading">
+  <div class="container">
+    <div class="row">
+      <app-cart-modal></app-cart-modal>
+
+      <div class="col-12">
+        <div class="product-detail">
+          <div class="row">
+            <div class="col-lg-6 col-12">
+              <!--mobile view title start-->
+              <div class="mobileview">
+                <div class="row">
+                  <div class="col pr-0">
+                    <h2 class="heading-d2">{{ productDetail.product.name }}</h2>
+                  </div>
+                  <div class="col-auto">
+                    <div class="customer-reviews">
+                      <div class="review-icons">
+                        <i class="fa fas fa-star"></i
+                        ><i class="fas fas fa-star"></i
+                        ><i class="fas fas fa-star"></i
+                        ><i class="far fas fa-star"></i
+                        ><i class="far fas fa-star"></i><span>(3)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6 setfont-s">
+                    <!-- <div class="vg-val" *ngIf="greenLabel">{{greenLabel}}</div> -->
+                    Brand:
+                    <a
+                      [routerLink]="[
+                        '/brand',
+                        productDetail?.product?.brand?.id
+                      ]"
+                      class="b-link"
+                      >{{ productDetail?.product?.brand?.name }}</a
+                    >
+                  </div>
+                  <div
+                    *ngIf="selectedVariant"
+                    class="col-6 stockval"
+                    [ngClass]="selectedVariant.maxQty === 0 ? 'redColor' : ''"
+                  >
+                    In Stock
+                    <!-- ({{selectedVariant.maxQty}}) -->
+                  </div>
+                </div>
+              </div>
+              <!--mobile view title end-->
+
+              <div class="dl-section">
+                <!-- <div class="brandlab">
+                  <div class="vg-val" *ngIf="greenLabel">{{ greenLabel }}</div>
+                </div> -->
+
+                <!-- <img class="brandlab" [src]="API_URL + productDetail.product.brand.logo"
+                  [alt]="productDetail.product.brand.name"> -->
+                <!-- <div class="discountlab">35<small>%</small> OFF</div> -->
+
+                <!-- <div
+                  class="discountlab"
+                  *ngIf="
+                    productDetail?.product?.promotion ||
+                    productDetail?.product?.deal_of_the_day != null
+                  "
+                >
+                  {{
+                    productDetail?.product?.deal_of_the_day != null
+                      ? productDetail.product.deal_of_the_day.title
+                      : productDetail.product.promotion.title
+                  }}
+                </div> -->
+
+                <div class="ribbon-top-left">
+                  <div class="ribbon" *ngIf="
+                    productDetail?.product?.promotion ||
+                    productDetail?.product?.deal_of_the_day != null
+                  ">{{
+                  productDetail?.product?.deal_of_the_day != null
+                    ? productDetail.product.deal_of_the_day.title
+                    : productDetail.product.promotion.title
+                }}
+              </div></div>
+
+                <!-- <div class="discountlab label-pr-featured">FEATURED</div> -->
+
+                <div class="product-img">
+                  <gallery
+                    class="ng-gallery"
+                    #lightbox123
+                    id="basic-test"
+                    fluid
+                    [items]="items"
+                  ></gallery>
+                </div>
+
+                <!-- <div class="discountlab label-pr-popular">POPULAR</div> -->
+                <!-- <div class="discountlab label-pr-featured">FEATURED</div> -->
+                <!-- <div class="discountlab label-pr-new">NEW</div> -->
+                <div
+                  *ngIf="product?.sub_category?.title_tag"
+                  [ngClass]="
+                    productDetail?.product?.promotion ||
+                    productDetail?.product?.deal_of_the_day != null
+                      ? 'discountlab label-pr-category'
+                      : 'top-category-detail discountlab'
+                  "
+                >
+                  {{ productDetail?.product?.sub_category?.tag_title }}
+                </div>
+
+                <!--desktop offers start-->
+                <div class="desktopview">
+
+                 <!-- <div
+                    class="col-12 offer-div"
+                    *ngIf="
+                      productDetail?.product?.promotion?.promotion_type ===
+                      'bulk-offer'
+                    "
+                  >
+                     <div class="row">
+                      <div class="col">
+                        <div class="d-flex align-items-center h-100">
+                          <h3>
+                            {{ productDetail?.product?.promotion?.title }} - Mix
+                            & Match
+                            
+                          </h3>
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <a
+                          [routerLink]="[
+                            '../../exclusive',
+                            productDetail?.product?.promotion?.id
+                          ]"
+                          class="btn btn-secondary"
+                          >View Detail</a
+                        >
+                      </div>
+                    </div> 
+
+                  </div>
+                -->
+
+                  <!-- <div class="price-div">
+                    <div class="row">
+                      <div class="col-12">
+                        <h3 class="mb-10">Share on Social Media</h3>
+                        <div class="social-media-links">
+                          <a
+                            class="social-link facebook"
+                            title="Facebook"
+                            (click)="share('facebook')"
+                            ><i class="fab fa-facebook-f"></i
+                          ></a>
+                          <a
+                            class="social-link twitter"
+                            title="Twitter"
+                            (click)="share('twitter')"
+                            ><i class="fab fa-twitter"></i
+                          ></a>
+                          <a
+                            class="social-link whatsapp"
+                            title="Whatsapp"
+                            (click)="share('whatsapp')"
+                            ><i class="fab fa-whatsapp"></i
+                          ></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
+
+                  <!-- <div class="price-div order-rel-info">
+                    <div class="row">
+                      <div class="col-auto pr-0">
+                        <img
+                          src="../../../../assets/images/stopwatch.svg"
+                          alt=""
+                        />
+                      </div>
+                      <div class="col" >
+                        Order within {{cutOffTimeDetail}} for Next Day UK Dispatch
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <hr />
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-auto pr-0">
+                        <img
+                          src="../../../../assets/images/shipment-icon.svg"
+                          alt=""
+                        />
+                      </div>
+                      <div class="col">Free delivery on orders over <b> £ 20 </b></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <hr />
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-auto pr-0">
+                        <img
+                          src="../../../../assets/images/emblem-icon.svg"
+                          alt=""
+                        />
+                      </div>
+                      <div class="col">
+                        <b>Earn {{ points | shortDecimal }} reward points </b>
+                        with this item.
+                        <span *ngIf="!isLoggedIn">
+                          Not a Member? <b> Sign up today.</b>
+                        </span>
+                      </div>
+                    </div>
+                  </div> -->
+
+                  <!-- <div class="col-12 delivery-hours">
+                    <div class="hours-icon"><img src="../../assets/images/24-icon.svg" alt=""></div>
+                    <div class="hours-cont">
+                      <h3>24 Hours Delivery <span>Want it delivered by the next working day? Order by
+                          4pm and choose Next Day Delivery.</span></h3>
+                    </div>
+                  </div> -->
+                </div>
+                <!--desktop offers start-->
+              </div>
+            </div>
+
+            <div class="col-lg-6 col-12">
+              <!--desktop view title start-->
+              <div class="desktopview">
+                <div class="row">
+                  <div class="col pr-0">
+                    <h2 class="desktopview">
+                      {{ productDetail.product.name }}
+                    </h2>
+                  </div>
+                  <div class="col-auto">
+                    <div class="customer-reviews">
+                      <div class="review-icons">
+                        <i class="fa fas fa-star"></i
+                        ><i class="fas fas fa-star"></i
+                        ><i class="fas fas fa-star"></i
+                        ><i class="far fas fa-star"></i
+                        ><i class="far fas fa-star"></i><span>(3)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <!-- <div class="vg-val" *ngIf="greenLabel">{{greenLabel}}</div> -->
+                    Brand:
+                    <a
+                      [routerLink]="[
+                        '/brand',
+                        productDetail?.product?.brand?.id
+                      ]"
+                      class="b-link"
+                      >{{ productDetail?.product?.brand?.name }}</a
+                    >
+                  </div>
+                  <div
+                    class="col-6 stockval"
+                    *ngIf="selectedVariant"
+                    [ngClass]="selectedVariant.maxQty === 0 ? 'redColor' : ''"
+                  >
+                    In Stock
+                    <!-- ({{ selectedVariant.maxQty }}) -->
+                  </div>
+                </div>
+              </div>
+              <!--desktop view title end-->
+
+              <div class="row">
+                <div
+                  class="col-12"
+                  *ngIf="productDetail?.product?.short_description.length"
+                >
+                  <div
+                    class="card-gray bg-white"
+                    [innerHtml]="
+                      setHtmlDescription(
+                        productDetail?.product.short_description
+                      )
+                    "
+                  ></div>
+
+
+
+                </div>
+ 
+                <div class="col-12">
+                  <div class="card-gray">
+              
+
+                    <div class="row">
+                      <!-- ======================SELECTED FREE NIC SHOT============== -->
+
+                      <div
+                        class="col-12"
+                        *ngIf="selectedFreeProduct || isNicShotAdding"
+                      >
+                        <div class="free-nic-div">
+                          <div class="row" *ngIf="!isNicShotAdding">
+                            <div class="col">
+                              <strong>Free Nicshoots: </strong>
+                              {{
+                                selectedFreeProduct.product_name +
+                                  " " +
+                                  selectedFreeProduct.assignment +
+                                  " " +
+                                  "(" +
+                                  selectedFreeProduct.quantity *
+                                    cartProduct.quantity +
+                                  ")"
+                              }}
+                            </div>
+                            <div
+                              class="col-auto pl-0"
+                              *ngIf="!cartProduct.product && !isProductAdded"
+                            >
+                              <button
+                                type="button"
+                                (click)="removeFreeProduct()"
+                                class="btn delete-item-nic"
+                              >
+                                <i class="far fa-trash-alt"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <!-- ======================= Don't Want Nic shot============ -->
+
+                          <!-- [disabled]="(isNicShotAdding && isProductAdded) ? true : false" -->
+                          <div class="row" *ngIf="isNicShotAdding">
+                            <div class="col">
+                              <div
+                                class="custom-control custom-checkbox font-14"
+                              >
+                                <input
+                                  type="checkbox"
+                                  class="custom-control-input"
+                                  id="free-nic"
+                                  [(ngModel)]="isNicShotAdding"
+                                  [checked]="isNicShotAdding"
+                                  (change)="onFreeNicShotCheckedUnchecked()"
+                                />
+                                <label
+                                  class="custom-control-label"
+                                  for="free-nic"
+                                  >I don't want a free nic shot.</label
+                                >
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- =====================================Start addedFreePromotionProducts===================== -->
+
+                      <div
+                        class="col-12"
+                        *ngFor="
+                          let freeItem of addedFreePromotionProducts;
+                          let i = index
+                        "
+                      >
+                        <div class="free-nic-div">
+                          <div class="row" *ngIf="true">
+                            <div class="col">
+                              <strong>Selected Product: </strong>
+                              {{
+                                freeItem.name +
+                                  " (" +
+                                  freeItem?.attrValues +
+                                  ") " +
+                                  " "
+                              }}
+                              (<span style="font-weight: bold">
+                                {{
+                                  freeItem.quantity *
+                                    onParseInt(
+                                      cartProduct.quantity /
+                                        productDetail.product?.promotion
+                                          ?.quantity
+                                    )
+                                }} </span
+                              >)
+                            </div>
+                            <div class="col-auto pl-0">
+                              <button
+                                type="button"
+                                (click)="onRemoveFreePromotionProduct(i)"
+                                class="btn delete-item-nic"
+                              >
+                                <i class="far fa-trash-alt"></i>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12" *ngIf="isFreePromotionProdAdding">
+                      <div class="free-nic-div">
+                        <div class="row">
+                          <div class="col">
+                            <div class="custom-control custom-checkbox font-14">
+                              <input
+                                type="checkbox"
+                                class="custom-control-input"
+                                id="free-promo-prod"
+                                [(ngModel)]="isFreePromotionProdAdding"
+                                [checked]="isFreePromotionProdAdding"
+                                (change)="
+                                  onFreePromotionProductsCheckedUnchecked()
+                                "
+                              />
+                              <label
+                                class="custom-control-label"
+                                for="free-promo-prod"
+                                >I don't want a free products.</label
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- =====================================END addedFreePromotionProducts===================== -->
+
+                    <!-- ======================END SELECTED FREE NIC SHOT============== -->
+                    <div
+                      class="row Reminderme"
+                      style="margin-top: 15px"
+                      [ngClass]="isLoggedIn ? 'displayNone' : ''"
+                      *ngIf="!isQuantityExists"
+                    >
+                      <div class="col-12">
+                        <h1 class="Reminderme-head">Availability Reminder</h1>
+                      </div>
+                      <div class="col-12">
+                        <div class="row">
+                          <div class="col-auto em-label">Enter Email:</div>
+                          <div class="col pl-0">
+                            <form [formGroup]="emailForm">
+                              <div
+                                class="form-group"
+                                [ngClass]="{
+                                  'is-invalid': submitted && f.email.errors
+                                }"
+                              >
+                                <input
+                                  type="email"
+                                  class="form-control"
+                                  placeholder="Enter Email"
+                                  name="email"
+                                  formControlName="email"
+                                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                />
+                                <div *ngIf="submitted && f.email.errors">
+                                  <p *ngIf="f.email.errors.required">
+                                    Email is Required
+                                  </p>
+                                  <p *ngIf="f.email.errors.email">
+                                    Email must be a valid email address
+                                  </p>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <p>We won't spam you with anything</p>
+                      </div>
+                    </div>
+                    <div class="price-div">
+                      <!-- <p *ngIf="!isProductAdded && isShowFreeProductErorMessage" style="color: red;">Please select
+                      free product against this product.</p> -->
+
+                      <div class="row">
+                        <div
+                          class="col pr-0 set-w-a-375"
+                          *ngIf="selectedVariant"
+                        >
+                          <strong>Price:</strong>
+                          <span
+                            class="sl-price"
+                            *ngIf="
+                              productDetail?.product?.deal_of_the_day ||
+                              (productDetail?.product?.promotion &&
+                                (productDetail?.product?.promotion
+                                  ?.promotion_type === 'discount-offer' ||
+                                  (productDetail?.product?.promotion
+                                    ?.promotion_type === 'bulk-offer' &&
+                                    productDetail?.product?.promotion
+                                      ?.quantity <= cartProduct.quantity)))
+                            "
+                          >
+                            {{ currency
+                            }}{{ getOldPrice() | shortDecimal }}</span
+                          >
+                          <span class="pf-price"
+                            >{{ currency }}
+                            {{ cartProduct.totalPrice | shortDecimal }}</span
+                          >
+                        </div>
+
+                        <div class="col-auto pr-quantity">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <button
+                              type="button"
+                              class="btn btn-primary"
+                              (click)="onMinusQuantity()"
+                            >
+                              <i class="fa fa-minus"></i>
+                            </button>
+                          </div>
+                          <form>
+                            <input
+                              type="text"
+                              name="quantity"
+                              disabled
+                              [(ngModel)]="cartProduct.quantity"
+                              class="form-control"
+                            />
+                          </form>
+                          <div class="input-group-prepend">
+                            <button
+                              type="button"
+                              class="btn btn-primary ml-0"
+                              (click)="onPlusQuantity()"
+                            >
+                              <i class="fa fa-plus"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                        <div class="col-auto set-w-c-375">
+                          <!-- [disabled]="isAddToCart" -->
+                          <button
+                            class="btn btn-primary m-0"
+                            [disabled]="isAddToCart"
+                            (click)="onAddToCart()"
+                          >
+                            <span *ngIf="isQuantityExists">
+                              <i class="fas fa-shopping-cart"></i>
+                              {{
+                                isProductAdded
+                                  ? "Add to Cart " +
+                                    "(" +
+                                    cartProduct.cartAddedQty +
+                                    ")"
+                                  : "Add to
+                              Cart"
+                              }}
+                            </span>
+                            <span *ngIf="!isQuantityExists">
+                              <i class="far fa-bell"></i> Notify Me
+                            </span>
+                          </button>
+                          <button
+                            *ngIf="isLoggedIn"
+                            class="btn btn-bookmark"
+                            [ngClass]="isWhishListItem ? 'active-bookmark' : ''"
+                            (click)="onAddToWishList(productDetail?.product.id)"
+                          >
+                          <i class="fas fa-heart"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div
+                    class="pd-ns-list"
+                    *ngIf="
+                      productDetail?.product?.free_product?.length &&
+                      isQuantityExists &&
+                      !isNicShotAdding
+                    "
+                  >
+                    <h3 *ngIf="!selectedFreeProduct">
+                      Select your
+                      {{ productDetail?.product?.free_product[0]?.quantity }}
+                      free Nic Shot:
+                    </h3>
+                    <h3 *ngIf="selectedFreeProduct">Add More Nic Shots:</h3>
+                    <ng-scrollbar
+                      #scrollable
+                      track="horizontal"
+                      pointerEventsMethod="scrollbar"
+                    >
+                      <div class="nic-shot-list">
+                        <div class="item-div">
+                          <div
+                            class="nic-shot-card"
+                            *ngFor="
+                              let item of productDetail?.product?.free_product
+                            "
+                          >
+                            <h4 class="ns-heading">
+                              {{ item?.product_name.slice(0, 21) }}...
+                            </h4>
+                            <img
+                              src="{{ API_URL }}/{{
+                                item?.variant?.variant_image?.image
+                              }}"
+                              [alt]="item?.product_name.slice(0, 10)"
+                            />
+                            <div class="lab-size">
+                              <span>{{
+                                item?.assignment.split(", ").join(" - ")
+                              }}</span>
+                            </div>
+                            <div *ngIf="isProductAdded || selectedFreeProduct">
+                              <p *ngIf="item.promotions.length">
+                                {{ item.promotions[0]?.title }}
+                              </p>
+                            </div>
+
+                            <button
+                              class="btn btn-primary"
+                              *ngIf="selectedFreeProduct; else elseBlock"
+                              (click)="onAddFreeProduct(item)"
+                            >
+                              <i class="fas fa-shopping-bag"></i>
+                              Add for
+                              {{ getPriceFreeProduct(item) | shortDecimal }}
+                            </button>
+
+                            <ng-template #elseBlock>
+                              <button
+                                class="btn btn-primary"
+                                (click)="onAddFreeProduct(item)"
+                              >
+                                <i class="fas fa-shopping-bag"></i>
+                                Add for Free
+                              </button>
+                            </ng-template>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-scrollbar>
+                    <div class="custom-control custom-checkbox font-14">
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="free-nic"
+                        [(ngModel)]="isNicShotAdding"
+                        [checked]="isNicShotAdding"
+                        (change)="onFreeNicShotCheckedUnchecked()"
+                      />
+                      <label class="custom-control-label" for="free-nic"
+                        >I don't want a free nic shot.</label
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ========================FREE Permotion Products================== -->
+                <div
+                  class="col-12"
+                  *ngIf="
+                    freePromotionProducts.length &&
+                    showFreeProductPromotion &&
+                    !isFreePromotionProdAdding
+                  "
+                >
+                  <div class="pd-ns-list">
+                    <!-- *ngIf="productDetail?.product?.free_product?.length && isQuantityExists && !isNicShotAdding"> -->
+                    <!-- <h3 *ngIf="!selectedFreeProduct">Select your -->
+                    <h3>
+                      Select your
+                      {{ this.productDetail.product.promotion.free_quantity }}
+                      free products:
+                    </h3>
+                    <!-- <h3 *ngIf="selectedFreeProduct">Add More Nic Shots:</h3> -->
+                    <ng-scrollbar
+                      #scrollable
+                      track="horizontal"
+                      pointerEventsMethod="scrollbar"
+                    >
+                      <div class="nic-shot-list">
+                        <div class="item-div">
+                          <div
+                            class="nic-shot-card"
+                            *ngFor="let item of freePromotionProducts"
+                          >
+                            <h4 class="ns-heading">
+                              {{ item?.name.slice(0, 21) }}...
+                            </h4>
+                            <img
+                              src="{{ API_URL }}/{{
+                                item?.variants[0]?.variant_image?.image
+                              }}"
+                              [alt]="item?.name.slice(0, 10)"
+                            />
+                            <div class="lab-size">
+                              <span>{{ item?.attrValues }}</span>
+                            </div>
+                            <!-- <div *ngIf="isProductAdded || selectedFreeProduct">
+                              <p *ngIf="item.promotions.length">{{item.promotions[0]?.title}}</p>
+                            </div> -->
+
+                            <!-- <button class="btn btn-primary" -->
+                            <!-- *ngIf="addFreePromotionProductssumQty === productDetail?.product?.promotion?.free_quantity || isProductAdded; else elseBlock"> -->
+                            <!-- (click)="onAddFreeProduct(item)"> -->
+                            <!-- <i class="fas fa-shopping-bag"></i>
+                              Add for {{item.variants[0].sell_price| shortDecimal}}
+                            </button> -->
+                            <!-- <ng-template #elseBlock> -->
+                            <button
+                              class="btn btn-primary"
+                              (click)="onAddFreePromotionProducts(item)"
+                            >
+                              <i class="fas fa-shopping-bag"> </i>
+                              Add for Free
+                              {{
+                                item.quantity > 0
+                                  ? "(" + item.quantity + ")"
+                                  : ""
+                              }}
+                            </button>
+                            <!-- </ng-template> -->
+                          </div>
+                        </div>
+                      </div>
+                    </ng-scrollbar>
+                    <div class="custom-control custom-checkbox font-14">
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="free-promo-prod"
+                        [(ngModel)]="isFreePromotionProdAdding"
+                        [checked]="isFreePromotionProdAdding"
+                        (change)="onFreePromotionProductsCheckedUnchecked()"
+                      />
+                      <label class="custom-control-label" for="free-promo-prod"
+                        >I don't want a free products.</label
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ========================END FREE Permotion Products================== -->
+
+                <div class="col-12">
+                  <div
+                    class="pd-ns-list"
+                    *ngIf="
+                      productDetail?.cross_sell_products.length &&
+                      isQuantityExists
+                    "
+                  >
+                    <h3>Add to Order</h3>
+
+                    <ng-scrollbar
+                      #scrollable
+                      track="horizontal"
+                      pointerEventsMethod="scrollbar"
+                    >
+                      <div class="fp-overflow-sm" style="margin-left: -15px">
+                        <div class="row justify-content-md-center add-to-order">
+                          <div
+                            class="col-lg-3 col-w-set"
+                            *ngFor="
+                              let product of productDetail?.cross_sell_products;
+                              let i = index
+                            "
+                          >
+                            <app-product-card
+                              [product]="product"
+                              [detailPage]="true"
+                              [currency]="currency"
+                            >
+                            </app-product-card>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-scrollbar>
+
+                  
+                  </div>
+                </div>
+
+                <div class="col-12">
+                <div class="price-div Social-Media">
+                    <div class="row">
+                      <div class="col-12">
+                        
+                        <div class="social-media-links"><h3>Share:</h3>
+                          <a
+                            class="social-link facebook"
+                            title="Facebook"
+                            (click)="share('facebook')"
+                            ><i class="fab fa-facebook-f"></i
+                          ></a>
+                          <a
+                            class="social-link twitter"
+                            title="Twitter"
+                            (click)="share('twitter')"
+                            ><i class="fab fa-twitter"></i
+                          ></a>
+                          <a
+                            class="social-link whatsapp"
+                            title="Whatsapp"
+                            (click)="share('whatsapp')"
+                            ><i class="fab fa-whatsapp"></i
+                          ></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!--mobile offers start-->
+
+              <!-- <div class="mobileview">
+                <div class="col-12 p-0">
+                  <div class="row m-0">
+                    <div
+                      class="col-12 offer-div"
+                      *ngIf="
+                        productDetail?.product?.promotion?.promotion_type ===
+                        'bulk-offer'
+                      "
+                    >
+                      <div class="row">
+                        <div class="col">
+                          <div class="d-flex align-items-center h-100">
+                            <h3>
+                              {{ productDetail?.product?.promotion?.title }} -
+                              Mix & Match 
+                            </h3>
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <a
+                            [routerLink]="[
+                              '../../exclusive',
+                              productDetail?.product?.promotion?.id
+                            ]"
+                            class="btn btn-secondary"
+                            >View Detail</a
+                          >
+                        </div>
+                      </div>
+                    </div> 
+
+                    <div class="price-div">
+                      <div class="row">
+                        <div class="col-12">
+                          <h3 class="mb-10">Share on Social Media</h3>
+                          <div class="social-media-links">
+                            <a
+                              class="social-link facebook"
+                              title="Facebook"
+                              (click)="share('facebook')"
+                              ><i class="fab fa-facebook-f"></i
+                            ></a>
+                            <a
+                              class="social-link twitter"
+                              title="Twitter"
+                              (click)="share('twitter')"
+                              ><i class="fab fa-twitter"></i
+                            ></a>
+                            <a
+                              class="social-link whatsapp"
+                              title="Whatsapp"
+                              (click)="share('whatsapp')"
+                              ><i class="fab fa-whatsapp"></i
+                            ></a> 
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="price-div order-rel-info">
+                      <div class="row">
+                        <div class="col-auto pr-0">
+                          <img
+                            src="../../../../assets/images/stopwatch.svg"
+                            alt=""
+                          />
+                        </div>
+                        <div class="col">
+                          Order by 4pm for Next Day UK Delivery
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12">
+                          <hr />
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-auto pr-0">
+                          <img
+                            src="../../../../assets/images/shipment-icon.svg"
+                            alt=""
+                          />
+                        </div>
+                        <div class="col">Free delivery on orders over <b> £ 20 </b></div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12">
+                          <hr />
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-auto pr-0">
+                          <img
+                            src="../../../../assets/images/emblem-icon.svg"
+                            alt=""
+                          />
+                        </div>
+                        <div class="col">
+                          <b>Earn {{ points | shortDecimal }} reward points </b>
+                          with this item.
+                          <span *ngIf="!isLoggedIn">
+                            Not a Member? <b> Sign up today.</b>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+              
+              <!--mobile offers start-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ======================================PRODUCT DETAILS================================ -->
+  <div class="container" style="padding-bottom: 1.875rem">
+    <div
+      *ngIf="productDetail?.product.description"
+      style="width: 100% !important"
+    >
+      <div class="col-12 product-fd pt-pb pl-0 pr-0">
+        <div class="collapse-div">
+          <h2
+            class="d-icon"
+            data-toggle="collapse"
+            href="#collapse-detail-001"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapse-detail-001"
+          >
+            Product <span>Details</span>
+          </h2>
+          <div class="row m-0">
+            <div class="collapse w-100" id="collapse-detail-001">
+              <div class="col-12 pt-10 pb-10">
+                <div
+                  class="row"
+                  [innerHtml]="
+                    setHtmlDescription(productDetail?.product.description)
+                  "
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================== END PRODUCT DETAILS================================ -->
+
+    <!-- ====================================== Key Features================================ -->
+    <div
+      *ngIf="productDetail?.product?.key_features"
+      style="width: 100% !important"
+    >
+      <div class="col-12 product-fd pt-pb pl-0 pr-0">
+        <div class="collapse-div">
+          <h2
+            class="d-icon"
+            data-toggle="collapse"
+            href="#collapse-detail-0012"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapse-detail-0012"
+          >
+            Key <span>Features</span>
+          </h2>
+          <div class="row m-0">
+            <div class="collapse w-100" id="collapse-detail-0012">
+              <div class="col-12 pt-10 pb-10">
+                <div class="row">
+                  <ul *ngIf="productDetail?.product?.key_features">
+                    <li *ngFor="let keyFeature of getKeyFeatures()">
+                      {{ keyFeature }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ====================================== END Key Features================================ -->
+
+    <!-- ====================================== Additional Information================================ -->
+    <div
+      *ngIf="productDetail?.product?.properties_data"
+      style="width: 100% !important"
+    >
+      <div class="col-12 product-fd pt-pb pl-0 pr-0">
+        <div class="collapse-div">
+          <h2
+            class="d-icon"
+            data-toggle="collapse"
+            href="#collapse-detail-0013"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapse-detail-0013"
+          >
+            Additional <span>Information</span>
+          </h2>
+          <div class="row m-0">
+            <div class="collapse w-100" id="collapse-detail-0013">
+              <div class="col-12 pt-10 pb-10">
+                <div class="row">
+                  <ng-container
+                    *ngFor="let prop of productDetail?.product?.properties_data"
+                  >
+                    <div class="col-md-6 w-box">
+                      <strong>
+                        {{ prop.property_name }}
+                      </strong>
+                    </div>
+                    <div class="col-md-6 w-box">
+                      {{ prop.property_value }}
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================== END Additional Information================================ -->
+
+    <!-- <div class="row">
+    <div class="col-12 product-fd">
+      <h2>Product <span>Details</span></h2>
+      <p>{{productDetail?.product.description}}</p>
+    </div>
+    <div class="col-12 product-fd">
+      <h2>Key <span>Features</span></h2>
+
+      <ul *ngIf="productDetail?.product?.key_features">
+        <li *ngFor="let keyFeature of getKeyFeatures()">{{keyFeature}}</li>
+      </ul>
+    </div>
+    <div class="col-12 product-fd" *ngIf="productDetail?.product?.properties_data">
+      <h2>Additional <span>Information</span></h2>
+      <div class="row m-0">
+        <ng-container *ngFor="let prop of productDetail?.product?.properties_data">
+          <div class="col-md-6 w-box">
+            <strong>
+              {{prop.property_name}}
+            </strong>
+          </div>
+          <div class="col-md-6 w-box">
+            {{prop.property_value}}
+          </div>
+        </ng-container>
+      </div>
+    </div> -->
+
+    <!-- =====================================HTML SECTION================================= -->
+    <div *ngIf="htmlcontent.length" style="width: 100% !important">
+      <div
+        class="col-12 product-fd pt-pb pl-0 pr-0"
+        *ngFor="let content of htmlcontent; let i = index"
+      >
+        <div class="collapse-div">
+          <h2
+            class="d-icon"
+            data-toggle="collapse"
+            [attr.href]="'#' + 'collapse-detail-' + i"
+            role="button"
+            aria-expanded="false"
+            [aria-controls]="'collapse-detail-' + i"
+            [attr.aria-expanded]="content.is_collapsed === 0 ? false : true"
+          >
+            {{ content.title.split(" ")[0] }}
+            <span>{{ content.title.split(" ").slice(1).join(" ") }}</span>
+          </h2>
+          <div class="row m-0">
+            <div
+              class="collapse w-100"
+              [ngClass]="content.is_collapsed === 0 ? '' : 'show'"
+              [id]="'collapse-detail-' + i"
+            >
+              <div class="col-12 pl-0 pr-0 pt-20">
+                <!-- <div class="row"> -->
+                <div [innerHtml]="content.content">
+                  <!-- </div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===========================REVIEW SECTION===================================== -->
+
+  <!-- <iframe id="FSI_IFrame" style="display: none; " width="0" height="0"
+                src="https://api.feefo.com/api/sales/merchant?merchantidentifier=vape-suite"
+                data-feefo-email="john.smith@emailaddress.com" data-feefo-orderref="123456789"
+                data-feefo-name="John Smith" data-feefo-customerref="123-456-789" data-feefo-feedbackdate="11/08/15"
+                data-feefo-products='[{"description":"PS4 500GB Black","productsearchcode":"PS4500GBBLACK","amount":"299.99","productlink":"http://www.merchant.com/products/ps4","currency":"GBP","tags":{"saleschannel":"Web","productline":"games"}},{"description":"Xbox One 500GB White","productsearchcode":"XBOXONE500GBWHITE","amount":"299.99","productlink":" http://www.merchant.com/products/xbox","currency":"GBP","tags":{"saleschannel":"Web","productline":"games"}}]'>
+              </iframe>
+  -->
+
+  <!--
+ <div class="review-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-12 p-set-sm">
+          <div class="row">
+            <div class="col">
+              <h2>Reviews <span>(250)</span></h2>
+              <p><i class="fa fa-star"></i> <strong>4/5</strong> Average Rating </p>
+            </div>
+            <div class="col-auto"><button class="btn btn-secondary" type="button" data-toggle="collapse"
+                data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Write
+                Review</button></div>
+          </div>
+
+
+          <div class="collapse" id="collapseExample">
+            <div class="col-12 p-0">
+              <div class="form-group">
+                <textarea class="form-control" id="" rows="7">Write Reviews</textarea>
+              </div>
+            </div>
+            <div class="col-12 pl-0 pb-30"><button class="btn btn-secondary" type="button">Post</button>
+              <button class="btn btn-outline-danger ml-5" type="button" type="button" data-toggle="collapse"
+                data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Cancel</button>
+            </div>
+          </div>
+
+
+          <div class="row m-0">
+            <div class="review-box">
+              <div class="row">
+                <div class="col-auto user-icon"><span><i class="far fa-user"></i></span></div>
+                <div class="col">
+                  <h3>Utba Aziz</h3>
+                  <div class="customer-reviews">
+                    <div class="review-icons">
+                      <i class="fa fas fa-star"></i><i class="fa fas fa-star"></i><i class="fas fas fa-star"></i><i
+                        class="fa fas fa-star"></i><i class="far fas fa-star"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto pl-0">
+                  <p>5 Sep 2018</p>
+                </div>
+              </div>
+
+              <p>Porta corporis nibh. Adipisci maiores dui torquent porttitor wisi necessitatibus lorem
+                perspiciatis repudiandae ad nesciunt deleniti facilisi, est orci libero, aspernatur
+                asperiores ornare aliquip vehicula? Proident? Nobis? Deserunt, conubia facilis, amet
+                torquent, voluptate dictum, sapien, lorem? Veniam! Vestibulum tenetur atque ultricies justo
+                pariatur dis eget condimentum libero, occaecat! Vulputate molestias quaerat, maxime!.</p>
+            </div>
+          </div>
+
+          <div class="row m-0">
+            <div class="review-box">
+              <div class="row">
+                <div class="col-auto user-icon"><span><i class="far fa-user"></i></span></div>
+                <div class="col">
+                  <h3>Utba Aziz</h3>
+                  <div class="customer-reviews">
+                    <div class="review-icons">
+                      <i class="fa fas fa-star"></i><i class="fa fas fa-star"></i><i class="fas fas fa-star"></i><i
+                        class="fa fas fa-star"></i><i class="far fas fa-star"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto pl-0">
+                  <p>5 Sep 2018</p>
+                </div>
+              </div>
+
+              <p>Porta corporis nibh. Adipisci maiores dui torquent porttitor wisi necessitatibus lorem
+                perspiciatis repudiandae ad nesciunt deleniti facilisi, est orci libero, aspernatur
+                asperiores ornare aliquip vehicula? Proident? Nobis? Deserunt, conubia facilis, amet
+                torquent, voluptate dictum, sapien, lorem? Veniam! Vestibulum tenetur atque ultricies justo
+                pariatur dis eget condimentum libero, occaecat! Vulputate molestias quaerat, maxime!.</p>
+            </div>
+          </div>
+
+          <div class="row m-0">
+            <div class="review-box">
+              <div class="row">
+                <div class="col-auto user-icon"><span><i class="far fa-user"></i></span></div>
+                <div class="col">
+                  <h3>Utba Aziz</h3>
+                  <div class="customer-reviews">
+                    <div class="review-icons">
+                      <i class="fa fas fa-star"></i><i class="fa fas fa-star"></i><i class="fas fas fa-star"></i><i
+                        class="fa fas fa-star"></i><i class="far fas fa-star"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto pl-0">
+                  <p>5 Sep 2018</p>
+                </div>
+              </div>
+
+              <p>Porta corporis nibh. Adipisci maiores dui torquent porttitor wisi necessitatibus lorem
+                perspiciatis repudiandae ad nesciunt deleniti facilisi, est orci libero, aspernatur
+                asperiores ornare aliquip vehicula? Proident? Nobis? Deserunt, conubia facilis, amet
+                torquent, voluptate dictum, sapien, lorem? Veniam! Vestibulum tenetur atque ultricies justo
+                pariatur dis eget condimentum libero, occaecat! Vulputate molestias quaerat, maxime!.</p>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-lg-4 col-12 hide-800">
+          <h2 class="h2-sm">Top <span>Reviews</span></h2>
+
+          <div class="review-box">
+            <div class="row">
+              <div class="col-auto user-icon"><span><i class="far fa-user"></i></span></div>
+              <div class="col">
+                <h3>Utba Aziz</h3>
+                <div class="customer-reviews">
+                  <div class="review-icons">
+                    <i class="fa fas fa-star"></i><i class="fa fas fa-star"></i><i class="fas fas fa-star"></i><i
+                      class="fa fas fa-star"></i><i class="far fas fa-star"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-auto pl-0">
+                <p>5 Sep 2018</p>
+              </div>
+            </div>
+
+            <p>Porta corporis nibh. Adipisci maiores dui torquent porttitor wisi necessitatibus lorem
+              perspiciatis repudiandae ad nesciunt deleniti facilisi, est orci libero, aspernatur asperiores
+              ornare aliquip vehicula? Proident? Nobis? Deserunt, conubia facilis, amet torquent, voluptate
+              dictum, sapien, lorem? Veniam! Vestibulum tenetur atque ultricies justo pariatur dis eget
+              condimentum libero, occaecat! Vulputate molestias quaerat, maxime!.</p>
+          </div>
+
+          <div class="review-box">
+            <div class="row">
+              <div class="col-auto user-icon"><span><i class="far fa-user"></i></span></div>
+              <div class="col">
+                <h3>Utba Aziz</h3>
+                <div class="customer-reviews">
+                  <div class="review-icons">
+                    <i class="fa fas fa-star"></i><i class="fa fas fa-star"></i><i class="fas fas fa-star"></i><i
+                      class="fa fas fa-star"></i><i class="far fas fa-star"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-auto pl-0">
+                <p>5 Sep 2018</p>
+              </div>
+            </div>
+
+            <p>Porta corporis nibh. Adipisci maiores dui torquent porttitor wisi necessitatibus lorem
+              perspiciatis repudiandae ad nesciunt deleniti facilisi, est orci libero, aspernatur asperiores
+              ornare aliquip vehicula? Proident? Nobis? Deserunt, conubia facilis, amet torquent, voluptate
+              dictum, sapien, lorem? Veniam! Vestibulum tenetur atque ultricies justo pariatur dis eget
+              condimentum libero, occaecat! Vulputate molestias quaerat, maxime!.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>   -->
+
+  <div class="related-pr-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 section-heading">
+          <h1>RELATED <span>PRODUCTS </span></h1>
+          <!-- <p>Check our related products</p> -->
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12" *ngIf="productDetail?.related_products?.length">
+          <ng-scrollbar
+            #scrollable
+            track="horizontal"
+            pointerEventsMethod="scrollbar"
+          >
+            <div class="fp-overflow-sm">
+              <div class="row justify-content-md-center">
+                <div
+                  class="col-lg-3 col-w-set"
+                  *ngFor="let product of productDetail?.related_products"
+                >
+                  <app-product-card
+                    [product]="product"
+                    [detailPage]="true"
+                    [currency]="currency"
+                  >
+                  </app-product-card>
+                </div>
+              </div>
+            </div>
+          </ng-scrollbar>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <script type="text/javascript">
+    var FPMH = new Feefo.PostMessageHandler();
+    FPMH.init();
+  </script> -->
+</div>

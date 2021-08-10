@@ -1,0 +1,27 @@
+.header1-section{ width: 100%; position: relative; margin: auto; display: block; margin-top: -5px;
+	a{text-decoration: none; color: #fff}
+	
+	.main-img{margin: auto; text-align: center; position: relative;
+			img {width: 100%; height: auto}
+	}
+	
+	.header1-content{ position: absolute; top:50%; right: 0; transform: translate(-50%, -50%);
+	-webkit-box-align:left; -ms-flex-align:left; align-items: left; text-align: left; display: table;
+		width: auto; color: #fff; letter-spacing: 2px;
+		
+		h4 {font-size: 22px; font-weight: normal; font-family:$font-family-base;}
+		h2 {font-size: 22px;}
+		h3 {font-size: 90px; line-height: 1.1;}
+		h5{font-size: 15px; font-weight: normal; margin-top: -4px; display: inline-block; margin-right: 30px;}
+		.btn-primary{font-size: 20px; padding: 6px 22px;}
+		
+		.coupon-sale-lab{padding: 4px 8px; margin: 0 .2em 0 .8em; vertical-align: sub; font-size: 13px; 
+    					position: relative; display: inline-block; padding: 5px 8px; transform: rotate(-2deg);
+						background-color:$green; color: #fff;
+			em {font-size: 2em; font-style: normal;}
+		}
+		
+	}
+	
+}
+ 

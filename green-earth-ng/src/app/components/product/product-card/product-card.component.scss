@@ -1,0 +1,9 @@
+.top-category {
+    background-color: #009cde;
+    color: #fff;
+    top: 0.563rem;
+    &::before {
+        border-top: 0.6rem solid #004360 !important;
+        border-left: 0.4rem solid transparent !important;
+      }
+}

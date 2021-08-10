@@ -1,0 +1,42 @@
+<h2 class="up-heading">Customer <span>Cart List</span></h2>
+
+<app-order-modal></app-order-modal>
+<table class="table" *ngIf="orders.length">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Order Price</th>
+            <th>Order Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let order of orders">
+            <td>{{order.order_number}}</td>
+            <td>{{order.order_total_price | number:"1.2-2"}}</td>
+            <td>{{order.created_at}}</td>
+            <td>
+                <button class="btn btn-primary" (click)="onShowOrderDetailModal(order)" data-toggle="modal"
+                    type="button" data-target="#exampleModal">Detail</button>
+                <!-- <button class="btn btn-primary mr-3" type="button" (click)="onGenerateUrl(order.order_number)"> -->
+                <!-- <span *ngIf="isgenUrlLoading" class="spinner-border spinner-border-sm" role="status"
+                        aria-hidden="true">
+                    </span> -->
+                <!-- {{ isgenUrlLoading ? '' : 'Generate Url'}} -->
+                <!-- Generate Url -->
+                <!-- </button> -->
+                <button class="btn btn-primary mr-3" style="margin-left: 3px;" type="button"
+                    (click)="onSendCartEmailToCustomer(order.order_number)">Send
+                    Link</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="no-wishlistitem" *ngIf="isLoading">
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+</div>
+<div class="no-wishlistitem" *ngIf="!orders.length && loadingComplete">
+    <img class="no-wishlist-icon" src="../assets/images/no-orders.svg" alt="">
+    <h3> No carts.</h3>
+</div>

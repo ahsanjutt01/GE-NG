@@ -1,0 +1,737 @@
+#deals-section {
+	color: #fff;
+	overflow: hidden;
+	letter-spacing: 0.063rem;
+	border-radius: $border-radius;
+	width: 100%;
+	margin: auto;
+	position: relative;
+	background-image: url(../images/deals-section-bg.png);
+	padding: 0.938rem 0;
+	margin-bottom: 1.875rem;
+
+	.col-12 {
+		background-image: url(../images/deal-desk-bg.png);
+		background-position: right top;
+		background-repeat: no-repeat;
+		position: relative;
+	}
+
+	.deal-img {
+		padding: 0.938rem 1.563rem 0.938rem 0.938rem;
+		display: inline-block;
+		background-color: #fff;
+		margin-left: 0.938rem;
+		position: relative;
+		border-top-left-radius: $border-radius;
+		border-bottom-left-radius: $border-radius;
+		&::after {
+			border-top: 18.25rem solid #fff;
+			border-right: 5.625rem solid transparent;
+			content: "";
+			right: -5.625rem;
+			position: absolute;
+			bottom: 0;
+			z-index: 1;
+		}
+
+		img {
+			width: 16.375rem;
+			height: 16.375rem;
+		}
+	}
+
+	.deals-title {
+		background-color: $primary;
+		height: 5.625rem;
+		width: 17.313rem;
+		transform: skew(-190deg);
+		position: absolute;
+		z-index: 15;
+		top: 2.813rem;
+		left: 20.063rem;
+
+		h1 {
+			font-family: $deal-font !important;
+			color: #fff;
+			font-weight: weight(bold);
+			font-size: 3.75rem;
+			padding: 0;
+			margin: 0;
+			line-height: 1;
+			text-align: center;
+			letter-spacing: 0.938rem;
+			span {
+				font-weight: weight(regular);
+				display: block;
+				font-size: 1.625rem;
+				letter-spacing: 0.375rem;
+			}
+		}
+	}
+
+	.brandtitle {
+		font-family: $deal-font !important;
+		font-size: 1.25rem;
+		color: $offer-color;
+		font-weight: weight(medium);
+		position: absolute;
+		z-index: 2;
+		left: 26.25rem;
+		top: 0.313rem;
+		letter-spacing: 0.063rem;
+		span {
+			color: #fff;
+			font-weight: weight(regular);
+		}
+	}
+
+	.discount {
+		font-family: $deal-font !important;
+		font-size: 3.875rem;
+		color: $secondary;
+		font-weight: weight(bold);
+		text-align: center;
+		background-color: $offer-color;
+		width: 8.125rem;
+		height: 8.125rem;
+		border-radius: 50%;
+		position: absolute;
+		left: 17.188rem;
+		top: 9.375rem;
+		z-index: 2;
+		line-height: 1;
+		padding-top: 1.25rem;
+
+		&::after {
+			content: "";
+			width: 8.125rem;
+			height: 8.125rem;
+			border-radius: 50%;
+			border: solid 0.063rem $primary;
+			right: -5.625rem;
+			position: absolute;
+			bottom: 0;
+			z-index: 1;
+			left: -0.313rem;
+		}
+
+		span {
+			font-size: 1.75rem;
+			display: block;
+			line-height: 1;
+			font-weight: weight(medium);
+			color: $primary;
+		}
+		b {
+			font-size: 1.75rem;
+			vertical-align: top;
+			margin-left: -1.125rem;
+		}
+	}
+
+	.timer-div {
+		position: absolute;
+		right: 0rem;
+		width: 15rem;
+		top: 4.375rem;
+		text-align: left;
+		h3 {
+			font-size: 1.25rem;
+			line-height: 1;
+			font-weight: weight(regular);
+			font-family: $deal-font !important;
+		}
+		.time {
+			font-family: $font-family-base;
+			font-size: 3.438rem;
+			font-weight: weight(bold);
+			line-height: 1;
+			-webkit-text-fill-color: transparent;
+			-webkit-text-stroke-width: 0.094rem;
+			-webkit-text-stroke-color: #fff;
+
+			span {
+				-webkit-text-stroke-color: $offer-color;
+			}
+		}
+	}
+
+	.productDetail {
+		position: absolute;
+		left: 28.125rem;
+		top: 10rem;
+		h2 {
+			font-size: 1.563rem;
+			line-height: 1;
+			font-weight: weight(medium);
+			font-family: $deal-font !important;
+		}
+		.deal-price {
+			font-size: 1.125rem;
+			font-family: $deal-font !important;
+			span {
+				text-decoration: line-through;
+				padding-right: 0.938rem;
+			}
+			b {
+				color: $price-text-color;
+				font-weight: weight(bold);
+				font-size: 1.375rem;
+			}
+		}
+	}
+
+	.deal-btn {
+		position: absolute;
+		right: 5rem;
+		bottom: 1.5rem;
+		font-weight: weight(bold);
+		font-family: $deal-font !important;
+		&:hover,
+		&:focus {
+			background-color: $primary !important;
+			border-color: $primary !important;
+		}
+	}
+}
+
+@include media-1024 {
+	#deals-section {
+		.deal-img {
+			padding: 0.938rem;
+			&::after {
+				border-top: 16.875rem solid #fff;
+				right: -5.625rem;
+			}
+
+			img {
+				width: 15rem;
+				height: 15rem;
+			}
+		}
+		.deals-title {
+			left: 16.313rem;
+			top: 2.563rem;
+		}
+		.brandtitle {
+			left: 24.063rem;
+		}
+		.discount {
+			left: 14.688rem;
+			top: 8.75rem;
+		}
+		.timer-div {
+			top: 3.25rem;
+			width: 13.563rem;
+			right: 0.938rem;
+		}
+		.productDetail {
+			left: 23.75rem;
+			h2 {
+				font-size: 1.375rem;
+			}
+		}
+		.deal-btn {
+			right: 0.938rem;
+			bottom: 0.625rem;
+		}
+	}
+}
+
+@include media-800 {
+	#deals-section {
+		.deal-img {
+			padding: 0.625rem;
+			&::after {
+				border-top: 13.75rem solid #fff;
+				right: -5.625rem;
+			}
+
+			img {
+				width: 12.5rem;
+				height: 12.5rem;
+			}
+		}
+		.deals-title {
+			height: 4.375rem;
+			width: 12.5rem;
+			top: 1.875rem;
+			left: 12.5rem;
+
+			h1 {
+				font-size: 2.875rem;
+				letter-spacing: 0.625rem;
+				span {
+					font-size: 1.25rem;
+					letter-spacing: 0.25rem;
+				}
+			}
+		}
+		.brandtitle {
+			font-size: 1rem;
+			left: 21.188rem;
+			top: 0.188rem;
+		}
+
+
+		.discount {
+			font-size: 2.813rem;
+			width: 6.563rem;
+			height: 6.563rem;
+			left: 12.125rem;
+			top: 6.813rem;
+
+			&::after {
+				width: 6.563rem;
+				height: 6.563rem;
+			}
+
+			span {
+				font-size: 1.375rem;
+			}
+			b {
+				font-size: 1.375rem;
+				margin-left: -0.625rem;
+			}
+		}
+
+		.timer-div {
+			top: 2.25rem;
+			width: 11.375rem;
+			right: 0;
+			h3 {
+				font-size: 1rem;
+			}
+			.time {
+				font-size: 2.625rem;
+				-webkit-text-fill-color: transparent;
+				-webkit-text-stroke-width: 0.063rem;
+				-webkit-text-stroke-color: #fff;
+			}
+		}
+
+		.productDetail {
+			left: 20rem;
+			top: 7.188rem;
+			h2 {
+				font-size: 1.125rem;
+			}
+			.deal-price {
+				font-size: 1rem;
+				span {
+					padding-right: 0.313rem;
+				}
+				b {
+					font-size: 1.125rem;
+				}
+			}
+		}
+		.deal-btn {
+			right: 0.938rem;
+			bottom: 0.313rem;
+			font-size: 0.875rem;
+		}
+	}
+}
+
+@include media-640 {
+	#deals-section { margin-bottom: 0.5rem;
+		.deal-img {
+			padding: 0.313rem;
+			&::after {
+				border-top: 10rem solid #fff;
+			}
+
+			img {
+				width: 9.375rem;
+				height: 9.375rem;
+			}
+		}
+
+		.deals-title {
+			height: 3.063rem;
+			width: 8.5rem;
+			top: 1.563rem;
+			left: 10rem;
+
+			h1 {
+				font-size: 2rem;
+				letter-spacing: 0.5rem;
+				span {
+					font-size: 0.875rem;
+					letter-spacing: 0.188rem;
+				}
+			}
+		}
+
+		.brandtitle {
+			font-size:0.75rem !important;
+			left: 17rem !important;
+			top: 0.125rem !important;
+		} 
+
+		.discount {
+			font-size: 1.875rem;
+			width: 5rem;
+			height: 5rem;
+			left: 9rem;
+			top: 5.125rem;
+
+			&::after {
+				width: 5rem;
+				height: 5rem;
+			}
+
+			span {
+				font-size: 1.125rem;
+			}
+			b {
+				font-size: 1.25rem;
+				margin-left: -0.625rem;
+			}
+		}
+
+		.timer-div {
+			right:0.938rem;
+			top: 1.563rem;
+			width: 9.563rem;
+			h3 {
+				font-size: 0.844rem;
+			}
+			.time {
+				font-size: 2.188rem;
+				-webkit-text-fill-color: transparent;
+				-webkit-text-stroke-width: 0.063rem;
+				-webkit-text-stroke-color: #fff;
+			}
+		}
+
+		.productDetail {
+			left: 15rem;
+			top: 5.313rem;
+			font-size: 0.813rem;
+			h2 {
+				font-size: 0.875rem;
+			}
+			.deal-price {
+				font-size: 0.813rem;
+				span {
+					padding-right: 0;
+				}
+				b {
+					font-size: 0.875rem;
+				}
+			}
+		}
+		.deal-btn {
+			font-size: 0.75rem;
+			padding: 0.313rem 0.625rem;
+			letter-spacing: normal;
+		}
+	}
+}
+
+@include media-480 {
+	#deals-section {
+		.col-12 {
+			background-image: url(../images/deal-desk-bg-xsm.png);
+			background-position: center top;
+		}
+
+		.deal-img {
+			padding: 0.313rem;
+			&::after {
+				border-top: 15.625rem solid #fff;
+			}
+
+			img {
+				width: 15rem;
+				height: 15rem;
+			}
+		}
+
+		.deals-title {
+			height: 3.063rem;
+			width: 8.5rem;
+			top: 13.75rem;
+			left: 12.813rem;
+			height: 5.625rem;
+			width: 16.063rem;
+
+			h1 {
+				font-size: 3.563rem;
+				letter-spacing: 0.5rem;
+				padding-left: 0.563rem;
+				text-align: left;
+				span {
+					font-size: 1.5rem;
+					letter-spacing: 0.25rem;
+					padding-left: 0.188rem;
+				}
+			}
+		}
+
+		.brandtitle {
+			font-size: 0.875rem !important;
+			position: relative;
+			left: 0.938rem !important;
+			top: auto !important;
+			margin-bottom: 0.625rem !important;
+		}
+
+		.discount {
+			font-size: 3.438rem;
+			width: 7.5rem;
+			height: 7.5rem;
+			left: 16.5rem;
+			top: 4.25rem;
+
+			&::after {
+				width: 7.5rem;
+				height: 7.5rem;
+			}
+
+			span {
+				font-size: 1.75rem;
+			}
+			b {
+				font-size: 1.875rem;
+				margin-left: -1.125rem;
+			}
+		}
+
+		.timer-div {
+			position: relative;
+			right: auto;
+			padding-top: 1.563rem;
+			padding-bottom: 1.563rem;
+			margin: auto;
+			width: 14.5rem;
+			text-align: center;
+			h3 {
+				font-size: 1.25rem;
+			}
+			.time {
+				font-size: 3.438rem;
+				-webkit-text-fill-color: transparent;
+				-webkit-text-stroke-width: 0.063rem;
+				-webkit-text-stroke-color: #fff;
+			}
+		}
+
+		.productDetail {
+			position: relative;
+			top: auto;
+			left: auto;
+			padding-top: 1.563rem;
+			font-size: 0.875rem;
+			text-align: center;
+			padding-bottom: 1.25rem;
+			h2 {
+				font-size: 1.125rem;
+				margin-bottom: 0.313rem;
+			}
+			.deal-price {
+				font-size: 0.938rem;
+				span {
+					padding-right: 0;
+				}
+				b {
+					font-size: 0.938rem;
+				}
+			}
+		}
+		.deal-btn {
+			right: auto;
+			bottom: auto;
+			position: relative;
+			font-size: 0.875rem;
+			letter-spacing: 0.063rem;
+			margin: auto;
+			display: block;
+			margin-bottom: 0.625rem;
+		}
+	}      
+}
+
+@include media-425 {
+	#deals-section {
+		.deal-img {
+			&::after {
+				border-top: 14.375rem solid #fff;
+			}
+
+			img {
+				width: 13.75rem;
+				height: 13.75rem;
+			}
+		}
+
+		.deals-title {
+			height: 4.75rem !important;
+			width: 8.5rem;
+			top: 12.438rem;
+			left: 10.938rem;
+			height: 5.625rem;
+			width: 16.063rem;
+
+			h1 {
+				font-size: 3.188rem;
+				span {
+					font-size: 1.313rem;
+				}
+			}
+		}
+
+		.brandtitle {
+			font-size: 0.875rem;
+		}
+
+		.discount {
+			font-size: 3.125rem;
+			width: 6.875rem;
+			height: 6.875rem;
+			left: 14.625rem;
+			top: 3rem;
+
+			&::after {
+				width: 6.875rem;
+				height: 6.875rem;
+			}
+
+			span {
+				font-size: 1.563rem;
+			}
+			b {
+				font-size: 1.75rem;
+				margin-left: -1.125rem;
+			}
+		}
+
+		.timer-div {
+			h3 {
+				font-size: 1.125rem;
+				width: 13rem;
+			}
+			.time {
+				font-size: 3.125rem;
+			}
+		}
+
+		.productDetail {
+			h2 {
+				font-size: 1rem;
+			}
+			.deal-price {
+				font-size: 0.875rem;
+				span {
+					padding-right: 0.625rem;
+				}
+				b {
+					font-size: 0.875rem;
+				}
+			}
+		}
+	}
+}
+
+@include media-375 {
+	#deals-section {
+		.deal-img {
+			&::after {
+				border-top: 11.875rem solid #fff;
+			}
+
+			img {
+				width: 11.25rem;
+				height: 11.25rem;
+			}
+		}
+
+		.deals-title {
+			height: 4.063rem !important;
+			top: 10.438rem;
+			left: 9.063rem;
+			height: 5.625rem;
+
+			h1 {
+				font-size: 2.625rem;
+				span {
+					font-size: 1.125rem;
+				}
+			}
+		}
+
+		.brandtitle {
+			font-size: 0.813rem;
+		}
+
+		.discount {
+			font-size: 2.813rem;
+			width: 6.25rem;
+			height: 6.25rem;
+			left: 12.188rem;
+			top: 2.813rem;
+
+			&::after {
+				width: 6.25rem;
+				height: 6.25rem;
+			}
+
+			span {
+				font-size: 1.375rem;
+			}
+			b {
+				font-size: 1.25rem;
+				margin-left: -1.125rem;
+			}
+		}
+
+		.timer-div {
+			h3 {
+				font-size: 1rem;
+			}
+			.time {
+				font-size: 3rem;
+			}
+		}
+	}
+}
+
+ 
+
+@include media-320 {
+	#deals-section {
+		.deal-img {
+			&::after {
+				border-top: 10.65rem solid #fff;
+			}
+
+			img {
+				width: 10rem;
+				height: 10rem;
+			}
+		}
+ 
+		.deals-title {
+			height: 4.063rem !important;
+			top: 10.438rem;
+			left: 9.063rem;
+			height: 3.325rem !important;
+
+			h1 {
+				font-size: 2.125rem;
+				span {
+					font-size: 0.844rem;
+				}
+			}
+		}
+
+		.brandtitle {
+			font-size: 0.781rem;
+		}
+
+ 
+	}
+}

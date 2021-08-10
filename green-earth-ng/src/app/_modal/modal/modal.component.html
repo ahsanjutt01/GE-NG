@@ -1,0 +1,683 @@
+<div
+  class="modal bottom fade"
+  id="bottom_modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="bottom_modal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered2" role="document">
+    <div class="modal-content">
+      <div class="modal-body p-0" *ngIf="productmodal.isOpen">
+        <button
+          type="button"
+          class="close modal-close-btn"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+        <div
+          class="bottombar-content"
+          [ngClass]="crossProducts.length > 0 ? 'bottombar-content-scroll' : ''"
+        >
+          <div class="col-12">
+            <div class="b-card-gray p-0">
+              <div class="col-12 pr-bottom-bar">
+                <div class="row">
+                  <div class="col-auto pr-0">
+                    <img
+                      [src]="API_URL + '/' + product.thumbnail"
+                      [alt]="product.name"
+                    />
+                  </div>
+                  <div class="col">
+                    <h2>{{ product.name }}</h2>
+                    <div class="flavors-lab">
+                      <strong>{{ getBelowName(product) }} </strong>
+                      {{ getFalvors(product) }}
+                    </div>
+                    <!-- ========================== Attributes details = 1================= -->
+                    <div class="row" *ngIf="isShowAttrubutesOneLine()">
+                      <div
+                        class="col-6"
+                        *ngFor="let item of arrangedVariants; let ind = index"
+                      >
+                        <div class="flavors-lab">
+                          <strong>{{ item.attribute_name }}:</strong
+                          >{{
+                            onSortingAttributeDetail(item.attribute_detail)[0]
+                              .attribute_value
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                    <!-- ========================== END Attributes details = 1================= -->
+
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="vg-val-l">{{ getGreenLabel() }}</div>
+                      </div>
+                      <div class="col-6 pl-0">
+                        <div
+                          *ngIf="selectedVariant"
+                          class="stockval-modal"
+                          [ngClass]="
+                            selectedVariant.maxQty === 0 ? 'redColor' : ''
+                          "
+                        >
+                          In Stock
+                          <!-- ({{selectedVariant.maxQty}}) -->
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- <div class="delivery-alert">24 Hours Delivery </div> -->
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <!-- ========================== Attributes greater then 1================= -->
+                <div class="row b-lab-size" *ngIf="!isShowAttrubutesOneLine()">
+                  <!-- <div class="col-12 pt-5"> -->
+                  <!-- <h3>Colours: <span class="colorname">Red Color</span></h3> -->
+                  <!-- <ul>
+                      <li class="img-display">
+                        <label><input type="radio" name="product-ml-size" value="20">
+                          <span title="name here"><img
+                              src="https://vape.allomate.solutions/./storage/products/VAPORESSO-SKY-SOLO-PLUE-VAPE-KIT-Vaporesso-VaporessoSkySoloPlusVapeKit-0011-thumbnail.jpg"
+                              alt=""></span></label>
+                      </li>
+                    </ul> -->
+                  <!-- </div> -->
+
+                  <div
+                    class="col-12 pt-5 pb-10"
+                    *ngFor="let item of arrangedVariants; let ind = index"
+                  >
+                    <h3>
+                      {{ item.attribute_name }}:
+                      <span
+                        class="colorname"
+                        *ngIf="product?.sub_category?.show_images"
+                        >{{
+                          onSortingAttributeDetail(item.attribute_detail)[
+                            selectedAttributeIndex
+                          ].attribute_value
+                        }}</span
+                      >
+                    </h3>
+
+                    <ul>
+                      <li
+                        *ngFor="
+                          let value of onSortingAttributeDetail(
+                            item.attribute_detail
+                          );
+                          let vIndex = index
+                        "
+                        [ngClass]="
+                          product?.sub_category?.show_images
+                            ? 'img-display'
+                            : ''
+                        "
+                      >
+                        <label
+                          *ngIf="
+                            item.attribute_detail.length > 1;
+                            else elseBlockAttr
+                          "
+                        >
+                          <input
+                            type="radio"
+                            [name]="'m_' + item.attribute_name"
+                            [id]="'m_' + item.attribute_name"
+                            [value]="value.attribute_value"
+                            (click)="
+                              onRadioClicked(
+                                item.attribute_name,
+                                value.attribute_value,
+                                ind,
+                                vIndex
+                              )
+                            "
+                            [disabled]="value.disabled"
+                            [checked]="value.isChecked"
+                          />
+                          <span
+                            *ngIf="
+                              product?.sub_category?.show_images;
+                              else elseValue
+                            "
+                            [title]="value.attribute_value"
+                            ><img
+                              [src]="API_URL + '/' + value.image"
+                              [alt]="value.attribute_value"
+                          /></span>
+                          <ng-template #elseValue>
+                            <span
+                              [ngClass]="value.disabled ? 'disable-input' : ''"
+                            >
+                              {{ value.attribute_value }}
+                            </span>
+                          </ng-template>
+                        </label>
+                        <ng-template #elseBlockAttr>
+                          <p class="radio-text">{{ value.attribute_value }}</p>
+                        </ng-template>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- ==========================END Attributes greater then 1================= -->
+              </div>
+
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-7">
+                    <div class="row">
+                      <div class="col-12 pr-0">
+                        <h3>Quantity:</h3>
+                      </div>
+                      <div class="col-12 qb-quantity pr-0">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <button
+                              type="button"
+                              class="btn btn-primary"
+                              (click)="onMinusQuantity()"
+                              [disabled]="!isQuantityExists"
+                            >
+                              <i class="fa fa-minus"></i>
+                            </button>
+                          </div>
+                          <form>
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder="1"
+                              name="quantity"
+                              disabled
+                              [(ngModel)]="cartProduct.quantity"
+                            />
+                          </form>
+                          <div class="input-group-prepend">
+                            <button
+                              type="button"
+                              class="btn btn-primary"
+                              (click)="onPlusQuantity()"
+                              [disabled]="!isQuantityExists"
+                            >
+                              <i class="fa fa-plus"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-5">
+                    <div class="row">
+                      <div class="col-12">
+                        <div
+                          *ngIf="
+                            product?.promotion ||
+                            product?.deal_of_the_day != null
+                          "
+                          class="qb-offer-r"
+                        >
+                          {{
+                            product?.deal_of_the_day != null
+                              ? product.deal_of_the_day.title
+                              : product?.promotion?.title
+                          }}
+                        </div>
+                      </div>
+                      <div class="col-12 qb-price">
+                        <span
+                          class="sl-price"
+                          *ngIf="
+                            product?.promotion &&
+                            (product?.promotion?.promotion_type ===
+                              'discount-offer' ||
+                              (product?.promotion?.promotion_type ===
+                                'bulk-offer' &&
+                                product?.promotion?.quantity <=
+                                  cartProduct.quantity))
+                          "
+                        >
+                          {{ currency }}{{ getOldPrice() | shortDecimal }}
+                        </span>
+                        {{ currency
+                        }}{{ cartProduct.totalPrice | shortDecimal }}
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <p *ngIf="!isProductAdded && isShowFreeProductErorMessage" style="color: red;">Please select
+                    free product against this product.</p> -->
+
+                  <!-- ===============FREE NIC SHOT ERROR================ -->
+                  <div
+                    class="col-12"
+                    *ngIf="!isProductAdded && isShowFreeProductErorMessage"
+                  >
+                    <div
+                      class="free-nic-div mb-10"
+                      style="background-color: #fef5f6; border-color: #f4a4af"
+                    >
+                      <div class="row">
+                        <div class="col">
+                          <strong>Error: </strong>
+                          Please select free product against this product.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- ======================SELECTED FREE NIC SHOT============== -->
+
+                  <div
+                    class="col-12 pb-10"
+                    *ngIf="selectedFreeProduct || isNicShotAdding"
+                  >
+                    <div class="free-nic-div mt-0">
+                      <div class="row" *ngIf="!isNicShotAdding">
+                        <div class="col">
+                          <strong>Free Nicshoots: </strong>
+                          {{
+                            selectedFreeProduct.product_name +
+                              " " +
+                              selectedFreeProduct.assignment +
+                              " " +
+                              "(" +
+                              selectedFreeProduct.quantity *
+                                cartProduct.quantity +
+                              ")"
+                          }}
+                        </div>
+                        <div
+                          class="col-auto pl-0"
+                          *ngIf="!cartProduct.product && !isProductAdded"
+                        >
+                          <button
+                            type="button"
+                            (click)="removeFreeProduct()"
+                            class="btn delete-item-nic"
+                          >
+                            <i class="far fa-trash-alt"></i>
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- =================I don't want a free nic shot.Checked================= -->
+                      <div class="row" *ngIf="isNicShotAdding">
+                        <div class="col">
+                          <div class="custom-control custom-checkbox font-14">
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              id="free-nic"
+                              [(ngModel)]="isNicShotAdding"
+                              [checked]="isNicShotAdding"
+                              (change)="onFreeNicShotCheckedUnchecked()"
+                            />
+                            <label class="custom-control-label" for="free-nic"
+                              >I don't want a free nic shot.</label
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- =====================================Start addedFreePromotionProducts===================== -->
+
+                  <!-- =====================================Start addedFreePromotionProducts===================== -->
+
+                  <div
+                    class="col-12 pb-10"
+                    *ngFor="
+                      let freeItem of addedFreePromotionProducts;
+                      let i = index
+                    "
+                  >
+                    <div class="free-nic-div mt-0">
+                      <div class="row" *ngIf="true">
+                        <div class="col">
+                          <strong>Selected Product: </strong>
+                          {{
+                            freeItem.name +
+                              " (" +
+                              freeItem?.attrValues +
+                              ") " +
+                              " "
+                          }}
+                          (<span style="font-weight: bold">
+                            {{
+                              freeItem?.quantity *
+                                onParseInt(
+                                  cartProduct.quantity /
+                                    product?.promotion?.quantity
+                                )
+                            }} </span
+                          >)
+                        </div>
+                        <div class="col-auto pl-0">
+                          <button
+                            type="button"
+                            (click)="onRemoveFreePromotionProduct(i)"
+                            class="btn delete-item-nic"
+                          >
+                            <i class="far fa-trash-alt"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 pb-10" *ngIf="isFreePromotionProdAdding">
+                    <div class="free-nic-div mt-0">
+                      <div class="row">
+                        <div class="col">
+                          <div class="custom-control custom-checkbox font-14">
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              id="free-promo-prod"
+                              [(ngModel)]="isFreePromotionProdAdding"
+                              [checked]="isFreePromotionProdAdding"
+                              (change)="
+                                onFreePromotionProductsCheckedUnchecked()
+                              "
+                            />
+                            <label
+                              class="custom-control-label"
+                              for="free-promo-prod"
+                              >I don't want a free products.</label
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- =====================================END addedFreePromotionProducts===================== -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              *ngIf="
+                product?.free_product?.length &&
+                isQuantityExists &&
+                !isNicShotAdding
+              "
+              [ngClass]="{
+                'display-none':
+                  !product?.free_product?.length ||
+                  !isQuantityExists ||
+                  isNicShotAdding
+              }"
+            >
+              <div class="row m-0">
+                <div class="col pr-0">
+                  <h3 *ngIf="!selectedFreeProduct">
+                    Select your {{ product?.free_product[0].quantity }} free Nic
+                    Shot:
+                  </h3>
+                  <h3 *ngIf="selectedFreeProduct">Add More Nic Shots:</h3>
+                </div>
+                <div class="col-auto pl-0 font-14">
+                  <div class="custom-control custom-checkbox">
+                    <!-- <input type="checkbox" class="custom-control-input" id="free-nic-001"> -->
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="free-nic-001"
+                      [(ngModel)]="isNicShotAdding"
+                      [checked]="isNicShotAdding"
+                      (change)="onFreeNicShotCheckedUnchecked()"
+                    />
+                    <label class="custom-control-label" for="free-nic-001"
+                      >I don't want a free nic shot.</label
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <ng-scrollbar
+                #scrollable
+                track="horizontal"
+                pointerEventsMethod="scrollbar"
+              >
+                <div class="nic-shot-list ml-0">
+                  <div
+                    class="item-div"
+                    *ngFor="let item of product?.free_product"
+                  >
+                    <div class="nic-shot-card">
+                      <h4 class="ns-heading">
+                        {{ item?.product_name.slice(0, 21) }}...
+                      </h4>
+                      <img
+                        src="{{ API_URL }}/{{
+                          item?.variant?.variant_image?.image
+                        }}"
+                        [alt]="item?.product_name.slice(0, 10)"
+                      />
+                      <div class="lab-size">
+                        <span>{{
+                          item?.assignment.split(", ").join(" - ")
+                        }}</span>
+                      </div>
+                      <div *ngIf="isProductAdded || selectedFreeProduct">
+                        <p *ngIf="item?.promotions?.length">
+                          {{ item.promotions[0]?.title }}
+                        </p>
+                        <!-- <span class="sl-price"
+                        *ngIf="item.promotions.length && item.promotions[0]?.promotion_type==='discount-offer' || (item.promotions[0]?.promotion_type==='bulk-offer' && item.promotions[0]?.quantity <= cartProduct.quantity)">
+                        {{currency}}{{getOldPriceForFreeProduct(item) | shortDecimal}}</span>
+                      <span class="pf-price">{{currency}} {{getPriceFreeProduct(item) | shortDecimal}}</span> -->
+                      </div>
+                      <button
+                        class="btn btn-primary"
+                        *ngIf="selectedFreeProduct; else elseBlock"
+                        (click)="onAddFreeProduct(item)"
+                      >
+                        <i class="fas fa-shopping-bag"></i>
+                        Add for {{ getPriceFreeProduct(item) | shortDecimal }}
+                      </button>
+                      <ng-template #elseBlock>
+                        <button
+                          class="btn btn-primary"
+                          (click)="onAddFreeProduct(item)"
+                        >
+                          <i class="fas fa-shopping-bag"></i>
+                          Add for Free
+                        </button>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+              </ng-scrollbar>
+            </div>
+
+            <!-- ========================FREE Permotion Products================== -->
+            <div
+              class="col-12 p-0 pb-10"
+              *ngIf="
+                freePromotionProducts.length &&
+                showFreeProductPromotion &&
+                !isFreePromotionProdAdding
+              "
+            >
+              <div class="pd-ns-list">
+                <h3>
+                  Select your {{ this.product.promotion.free_quantity }} free
+                  products:
+                </h3>
+                <ng-scrollbar
+                  #scrollable
+                  track="horizontal"
+                  pointerEventsMethod="scrollbar"
+                >
+                  <div class="nic-shot-list ml-0">
+                    <div class="item-div">
+                      <div
+                        class="nic-shot-card"
+                        *ngFor="let item of freePromotionProducts"
+                      >
+                        <h4 class="ns-heading">
+                          {{ item?.name.slice(0, 21) }}...
+                        </h4>
+                        <img
+                          src="{{ API_URL }}/{{
+                            item?.variants[0]?.variant_image?.image
+                          }}"
+                          [alt]="item?.name.slice(0, 10)"
+                        />
+                        <div class="lab-size">
+                          <span>{{ item?.attrValues }}</span>
+                        </div>
+
+                        <button
+                          class="btn btn-primary"
+                          (click)="onAddFreePromotionProducts(item)"
+                        >
+                          <i class="fas fa-shopping-bag"> </i>
+                          Add for Free
+                          {{
+                            item.quantity > 0 ? "(" + item.quantity + ")" : ""
+                          }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </ng-scrollbar>
+
+                <div class="custom-control custom-checkbox font-14">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="free-promo-prod"
+                    [(ngModel)]="isFreePromotionProdAdding"
+                    [checked]="isFreePromotionProdAdding"
+                    (change)="onFreePromotionProductsCheckedUnchecked()"
+                  />
+                  <label class="custom-control-label" for="free-promo-prod"
+                    >I don't want a free products.</label
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- ========================END FREE Permotion Products================== -->
+
+            <div *ngIf="crossProducts.length">
+              <!-- <div [ngClass]="{'display-none': !product?.free_product?.length || !isQuantityExists || isNicShotAdding}"> -->
+              <div class="row m-0">
+                <div class="col-12">
+                  <h3 class="mb-0">Add to Order</h3>
+                </div>
+              </div>
+
+              <ng-scrollbar
+                #scrollable
+                track="horizontal"
+                pointerEventsMethod="scrollbar"
+                style="margin-right: 15px"
+              >
+                <div class="nic-shot-list ml-0">
+                  <div
+                    class="item-div crosssale-item"
+                    *ngFor="let item of crossProducts"
+                  >
+                    <app-product-card
+                      [product]="item"
+                      [isCrossSale]="true"
+                      [currency]="currency"
+                    >
+                    </app-product-card>
+                  </div>
+                </div>
+              </ng-scrollbar>
+            </div>
+            <div
+              class="Reminderme"
+              [ngClass]="isLoggedIn ? 'displayNone' : ''"
+              *ngIf="!isQuantityExists"
+            >
+              <div class="col-12">
+                <h1 class="Reminderme-head">Availability Reminder</h1>
+              </div>
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="row">
+                      <div class="col-auto em-label">Enter Email:</div>
+                      <div class="col pl-0">
+                        <form [formGroup]="emailForm">
+                          <div
+                            class="form-group"
+                            [ngClass]="{
+                              'is-invalid': submitted && f.email.errors
+                            }"
+                          >
+                            <input
+                              type="email"
+                              class="form-control"
+                              placeholder="Enter Email"
+                              name="email"
+                              formControlName="email"
+                              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                            />
+                            <div *ngIf="submitted && f.email.errors">
+                              <p *ngIf="f.email.errors.required">
+                                Email is Required
+                              </p>
+                              <p *ngIf="f.email.errors.email">
+                                Email must be a valid email address
+                              </p>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 pb-10">
+                <p>We won't spam you with anything</p>
+              </div>
+            </div>
+          </div>
+          <!-- *ngIf="!isShowFreeProductErorMessage && !this.isProductAdded; else elseAddToBagBtn" -->
+          <div class="b-card-gray m-0 bottom-card-gray">
+            <button class="btn btn-primary order-btn" (click)="onAddToCart()">
+              <span *ngIf="isQuantityExists">
+                <i class="fas fa-shopping-bag"></i>
+                {{
+                  isProductAdded && cartProduct.cartAddedQty > 0
+                    ? "Add to Bag
+                " +
+                      "(" +
+                      cartProduct.cartAddedQty +
+                      ")"
+                    : "Add to Bag"
+                }}
+              </span>
+              <span *ngIf="!isQuantityExists">
+                <i class="far fa-bell"></i> Notify Me
+              </span>
+            </button>
+          </div>
+          <!--
+        <ng-template #elseAddToBagBtn>
+          <div class="b-card-gray m-0">
+            <button class="btn btn-primary order-btn" (click)="onAddToCart()" data-dismiss="modal" aria-label="Close">
+              <i class="fas fa-shopping-bag"></i> {{isProductAdded ? 'Add to Bag ' + '(' + cartProduct.cartAddedQty +
+              ')': 'Add to Bag'}}</button>
+          </div>
+        </ng-template> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

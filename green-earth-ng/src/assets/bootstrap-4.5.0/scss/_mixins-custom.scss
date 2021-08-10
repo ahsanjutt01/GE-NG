@@ -1,0 +1,166 @@
+// Toggles
+//
+// Used in conjunction with global variables to enable certain theme features.
+
+// Vendor
+@import "vendor/rfs";
+
+// Deprecate
+@import "mixins/deprecate";
+
+// Utilities
+@import "mixins/breakpoints";
+@import "mixins/hover";
+@import "mixins/image";
+@import "mixins/badge";
+@import "mixins/resize";
+@import "mixins/screen-reader";
+@import "mixins/size";
+@import "mixins/reset-text";
+@import "mixins/text-emphasis";
+@import "mixins/text-hide";
+@import "mixins/text-truncate";
+@import "mixins/visibility";
+
+// Components
+@import "mixins/alert";
+@import "mixins/buttons";
+@import "mixins/caret";
+@import "mixins/pagination";
+@import "mixins/lists";
+@import "mixins/list-group";
+@import "mixins/nav-divider";
+@import "mixins/forms";
+@import "mixins/table-row";
+
+// Skins
+@import "mixins/background-variant";
+@import "mixins/border-radius";
+@import "mixins/box-shadow";
+@import "mixins/gradients";
+@import "mixins/transition";
+
+// Layout
+@import "mixins/clearfix";
+@import "mixins/grid-framework";
+@import "mixins/grid";
+@import "mixins/float";
+
+// Custom mixins
+@mixin media-1680 {
+  @media screen and (max-width:1680px) {
+    @content;
+  }
+}
+@mixin media-1440 {
+  @media screen and (max-width:1440px) {
+    @content;
+  }
+}
+@mixin media-1366 {
+  @media screen and (max-width:1366px) {
+    @content;
+  }
+}
+@mixin media-1280 {
+  @media screen and (max-width:1280px) {
+    @content;
+  }
+}
+@mixin media-1024 {
+  @media screen and (max-width:1024px) {
+    @content;
+  }
+}
+@mixin media-992 {
+  @media screen and (max-width:992px) {
+    @content;
+  }
+}
+@mixin media-800 {
+  @media screen and (max-width:800px) {
+    @content;
+  }
+}
+@mixin media-768 {
+  @media screen and (max-width:768px) {
+    @content;
+  }
+}
+@mixin media-767 {
+  @media screen and (max-width:767px) {
+    @content;
+  }
+}
+@mixin media-640 {
+  @media screen and (max-width:640px) {
+    @content;
+  }
+}
+@mixin media-480 {
+  @media screen and (max-width:480px) {
+    @content;
+  }
+}
+@mixin media-425 {
+  @media screen and (max-width:425px) {
+    @content;
+  }
+}
+@mixin media-414 {
+  @media screen and (max-width:414px) {
+    @content;
+  }
+}
+@mixin media-375 {
+  @media screen and (max-width:375px) {
+    @content;
+  }
+}
+
+@mixin media-320 {
+  @media screen and (max-width:320px) {
+    @content;
+  }
+}
+
+@mixin transition-ease {
+  transition: all 0.4s ease-in-out; 
+}
+
+@mixin transition-all {
+transition: all 250ms;
+}
+
+@mixin reviews{ 
+	.review-icons {	font-size: 0.875rem;  
+		i{width:16.125rem; display: inline-block; line-height: 1; width: 0.938rem; min-width: 0.625rem; max-width: 100%; 
+		color:$reviews-icon; margin-right: 0.25rem;}
+		small{font-size: 0.75rem;}
+	}
+}
+
+@mixin heading ($fontsize:2rem, $color:$secondary){font-size: $fontsize; color: $color;  
+ 	span{color: $primary;}
+}
+@mixin card{
+	box-shadow: 0 0 1.3rem 0 rgba(0, 0, 0, 0.15); 
+	border-radius: $border-radius; background-color: $white;
+}
+ 
+@mixin quantity { 
+	.input-group { 		
+	.btn-primary{font-size: 0.75rem; width: 2rem; height: 2rem;line-height:1; text-align: center; padding:0; 
+		background-color: #b1b1b1; border: none;
+		&:hover{background-color:$secondary; color: set-text-color($secondary);}	
+	}
+	.form-control{height: 2rem; width: 3.75rem; font-size: 1rem; font-family: $primary-font; font-weight: weight(medium);text-align: center; margin:0 0.625rem;padding: 0; flex: none}
+} 
+}
+
+		
+@mixin btn-bookmark{font-size: 1rem; border: solid 0.063rem #b1b1b1; background-color: $white; border-radius: 50%!important;
+		width:2.063rem ; height: 2.063rem; color: #b1b1b1; text-align: center; padding: 0; line-height: 1;
+    &:hover {border: solid 0.063rem $primary !important; background-color: $primary!important; color: $white !important;}
+    &:focus {border: solid 0.063rem $primary !important; background-color: $primary!important; color: $white !important;}
+}

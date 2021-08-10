@@ -1,0 +1,175 @@
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+}
+    
+.login-content {
+    display: table;
+    height: 92vh;
+    width: 100%;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem; font-size: 0.875rem;
+    .middle-content {
+        vertical-align: middle;
+        display: table-cell;
+
+        .container {
+            padding: 1.875rem;
+            max-width: 32.5rem;
+            background-color: #fff;
+            box-shadow: 0 0 1.3rem 0 rgba(0, 0, 0, 0.1);
+            border-radius: $border-radius;
+            border-bottom: solid 0.125rem #dadada;
+
+            h2 {
+                color: $secondary;
+                font-size: 1.25rem;
+                margin-bottom: 0.938rem;
+                font-weight: weight(bold); text-align: center; color: $primary;
+            }
+            h3 {
+                color: $secondary;
+                font-size: 1rem;
+                margin-bottom: 0.313rem;
+                font-weight: weight(medium);
+            }
+            .login-btn {
+                width: 100%;
+                margin-bottom: 0.938rem; height: 2.75rem;
+            }
+            .btn-outline-dark {
+                width: 100%;
+                margin-bottom: 0.938rem;
+                color: $primary;
+                border-color: #e7e7e7;  height: 2.75rem;
+                &:focus,
+                &:hover {
+                    color: #fff;
+                }
+            }
+            .form-control {
+                font-size: 0.875rem;
+                letter-spacing: 0.063rem; height: 2.75rem;
+            }
+            label {                
+                font-size: 0.75rem;
+                letter-spacing: 0.063rem;
+                display: block;
+                background: #ffffff;
+                width: fit-content;
+                z-index: 5;
+                position: relative;
+                margin-left: 0.438rem;                
+                margin-bottom: -0.313rem;
+                padding: 0 0.375rem; line-height: 1; color: $primary;
+            }
+            .fp-link {
+                color: $body-color;
+                text-decoration: underline;
+                text-align: center;
+                display: block;
+                opacity: 0.8; font-size: 0.875rem;
+                &:hover {
+                    color: $secondary;
+                    opacity: 1;
+                }
+            }
+            .date-div {
+                padding-bottom: 0.625rem;
+                .row {
+                    margin-left: -0.625rem;
+                    margin-right: -0.625rem;
+                }
+                .col-4 {
+                    padding: 0 0.625rem;
+                }
+            }
+            hr {
+                margin-top: 0.938rem;
+                margin-bottom: 0.938rem;
+                opacity: 0.3;
+            }
+
+            .login-social {
+                font-size: 1.125rem;
+                .btn-light {
+                    margin-left: 0.938rem;
+                    color: $body-color;
+                    border: none;
+                    //&:hover{color: #fff}
+                }
+
+                .facebook {
+                    &:hover,
+                    &:focus {
+                        background-color: #1877f2 !important;
+                        color: #fff !important;
+                    }
+                }
+                .google {
+                    &:hover,
+                    &:focus {
+                        background-color: #4285f4 !important;
+                        color: #fff !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include media-1280 {
+    .login-content {
+        .middle-content {
+            .container {
+                max-width: 25rem;
+            }
+        }
+    }
+}
+
+@include media-480 {
+    .login-content {
+        padding-left: 0.938rem;
+        padding-right: 0.938rem;
+        height: auto;
+        .middle-content {
+            .container {
+                padding: 1.25rem 0.938rem;
+                h2 {
+                    font-size: 1.125rem;
+                }
+                h3 {
+                    font-size: 0.938rem;
+                }
+                .login-social {
+                    font-size: 0.938rem;
+                    .btn-light {
+                        margin-left: 0.625rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include media-375 {
+    .login-content {
+        .middle-content {
+            .container {
+                .date-div {
+                    .row {
+                        margin-left: -0.313rem;
+                        margin-right: -0.313rem;
+                    }
+                    .col-4 {
+                        padding: 0 0.313rem;
+                    }
+                }
+            }
+        }
+    }
+}

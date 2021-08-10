@@ -1,0 +1,38 @@
+<h2 class="up-heading">Address <span>List</span></h2>
+
+<div class="row">
+    <div class="col-12">
+        <h3 class="border-heading">Billing <span>Address</span>
+            <button type="button" (click)="onEditClikedOne()" class="btn btn-primary">{{!getBillingAddress() ? 'Add New' : 'Edit'}}</button></h3>
+    </div>
+
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12" *ngIf="isShowAddress">{{bilingAddress}}</div>
+            <div *ngIf="isEditClikedOne" class="col-12">
+                <div class="address-form">
+                    <app-edit [type]="'billing'" (isCloseClicked)="isCloseClicked($event)"></app-edit>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-12 pt-10">
+        <h3 class="border-heading">Shipping <span>Address</span>
+            <button type="button" (click)="oneditClickedShipingAddress()" class="btn btn-primary">{{isAddNew ? 'Add New' : 'Edit'}}</button>
+        </h3>
+    </div>
+
+    <div class="col-12">
+        <div class="row">
+            <div *ngIf="!isAddNew" class="col-12">{{shipingAddress}}</div>
+            <div *ngIf="isEditClickedShipingAddress" class="col-12">
+                <div class="address-form">
+                    <app-edit [type]="'shipping'" (isCloseClicked)="isCloseClicked($event)"></app-edit>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

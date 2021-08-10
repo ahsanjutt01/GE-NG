@@ -1,0 +1,36 @@
+<h2 class="up-heading">My <span>Order List</span></h2>
+
+<app-order-modal></app-order-modal>
+<table class="table" *ngIf="orders.length">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Order ID</th>
+            <!-- <th>Name</th> -->
+            <th>Order Price</th>
+            <th>Order Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let order of orders; let i = index;">
+            <td>{{i+1}}</td>
+            <td>{{order.order_number}}</td>
+            <!-- <td>{{order?.name}}</td> -->
+            <td>{{order.order_total_price | number:"1.2-2"}}</td>
+            <td>{{order.created_at}}</td>
+            <td>
+                <button class="btn btn-primary" (click)="onShowOrderDetailModal(order)" data-toggle="modal"
+                    type="button" data-target="#exampleModal">Detail</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="no-wishlistitem" *ngIf="isLoading">
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+</div>
+<div class="no-wishlistitem" *ngIf="!orders.length && loadingComplete">
+    <img class="no-wishlist-icon" src="../assets/images/no-orders.svg" alt="">
+    <h3> No orders</h3>
+</div>

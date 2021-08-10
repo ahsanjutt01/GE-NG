@@ -1,0 +1,103 @@
+<footer id="footer" *ngIf="(footerStore | async) as footer">
+    <div class="container">
+        
+        <div class="row">
+
+            <div class="col-md-6 col-lg-3">
+                <div class="widget show-640-up">
+                    <img class="footer-logo" src="../../assets/images/greenearth.png" alt="">
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="widget show-640-up">
+                    <h3>Quick Links</h3>
+					  <ul class="widget-list">
+						<li><a [routerLink]="['/page/about-us']">About Us</a></li>
+						<li><a [routerLink]="['/page/about-us']">Products</a></li>
+						<li><a [routerLink]="['/page/about-us']">Projects</a></li>
+						<li><a [routerLink]="['/page/faqs']">FAQ</a></li>
+						<li><a [routerLink]="['/page/ebrochures']">E-Brochures</a></li>
+						<li><a [routerLink]="['/page/career']">Career</a></li>
+						<li><a [routerLink]="['/page/contact-us']">Contact Us</a></li>
+					  </ul>
+                </div>
+
+                <div class="show-640-down">
+                    <h3 class="r-icon" data-toggle="collapse" href="#collapseExample" role="button"
+                        aria-expanded="false" aria-controls="collapseExample">Quick Links</h3>
+
+                    <div class="collapse" id="collapseExample">
+                       <ul class="widget-list">
+						<li><a [routerLink]="['/page/about-us']">About Us</a></li>
+						<li><a [routerLink]="['/page/about-us']">Products</a></li>
+						<li><a [routerLink]="['/page/about-us']">Projects</a></li>
+						<li><a [routerLink]="['/page/faqs']">FAQ</a></li>
+						<li><a [routerLink]="['/page/ebrochures']">E-Brochures</a></li>
+						<li><a [routerLink]="['/page/career']">Career</a></li>
+						<li><a [routerLink]="['/page/contact-us']">Contact Us</a></li>
+					  </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="widget show-640-up">
+                    <h3>Contact</h3>
+                    <p>{{footer.navbar.organization.name}}</p>
+                    <p>{{footer.navbar.organization.address}}</p>
+                    <p>Phone: <span class="ph-no">{{footer.navbar.organization.phone}}</span></p>
+                </div>
+
+                <div class="show-640-down">
+                    <h3 class="r-icon" data-toggle="collapse" href="#collapseExample3" role="button"
+                        aria-expanded="false" aria-controls="collapseExample3">Contact</h3>
+
+                    <div class="collapse" id="collapseExample3">
+                        <p>{{footer.navbar.organization.name}}</p>
+                        <p>{{footer.navbar.organization.address}}</p>
+                        <p>Phone: <span class="ph-no">{{footer.navbar.organization.phone}}</span></p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="widget show-640-up">
+                    <h3>Follow Us</h3> 
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-square"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter-square"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp-square"></i></a>
+                    </div>
+                </div>
+
+                <div class="show-640-down">
+                    <h3 class="r-icon" data-toggle="collapse" href="#collapseExample4" role="button"
+                        aria-expanded="false" aria-controls="collapseExample4">Follow Us</h3>
+
+                    <div class="collapse" id="collapseExample4">
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-square"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-square"></i></a>
+                        <a href="#"><i class="fab fa-twitter-square"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp-square"></i></a>
+                    </div>
+                    </div>
+                </div>
+
+            </div> 
+
+            <div class="col-12 copyrights"> 
+                <p>Copyright @ 2021 Green Earth Recycling (Pakistan) all right reserved</p>              
+            </div>
+
+        </div>
+
+    </div>
+</footer>

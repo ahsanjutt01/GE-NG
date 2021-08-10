@@ -1,0 +1,207 @@
+<div class="login-content">
+    <div class="middle-content">
+        <!-- login-content -->
+
+        <div class="container" *ngIf="component === 'login'">
+            <div class="row">
+                <div class="col-12">
+                    <h2>Login</h2>
+                    <!-- <div class="login-social">
+                        With social account:
+                        <button class="btn btn-light facebook"><i class="fab fa-facebook-f"></i></button>
+                        <button class="btn btn-light google"><i class="fab fa-google"></i></button>
+                    </div> --> 
+                    <div *ngIf="loginError" style="color: red;">
+                        <p>Email and Password incorect.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="row">
+                <div class="col-12">
+                    <h3>Or using form below</h3>
+                </div>
+            </div> -->
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+                <div class="row">
+                    <div class="form-group col-md-12" [ngClass]="{ 'is-invalid': submitted && f.email.errors}">
+                        <label for="inputEmail4">Email*</label>
+                        <input type="email" class="form-control" formControlName="email">
+                        <div *ngIf="submitted && f.email.errors">
+                            <p *ngIf="f.email.errors.required">Email is Required</p>
+                            <p *ngIf="f.email.errors.email">
+                                Email must be a valid email address
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12" [ngClass]="{ 'is-invalid': submitted && f.password.errors}">
+                        <label for="inputPassword4">Password*</label>
+                        <input type="password" class="form-control" formControlName="password">
+                        <div *ngIf="submitted && f.password.errors">
+                            <p *ngIf="f.password.errors.required">Password is Required</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12 mb-0">
+                        <button type="submit" [disabled]="isLoginClicked" class="btn btn-primary login-btn">
+                            <span *ngIf="isLoginClicked" class="spinner-border spinner-border-sm" role="status"
+                                aria-hidden="true">
+                            </span>
+                            {{ isLoginClicked ? '' : 'Login' }}
+                        </button>
+                        <button type="button" [routerLink]="['/signup']" class="btn btn-outline-dark">Signup Now</button>
+                        <a class="fp-link" [routerLink]="['/forgotPassword']">Forgot Password?</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Forgot Your Password -->
+        <div class="container" *ngIf="component === 'forgotPassword' && !isEmailSend">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12">
+                        <h2>Forgot Your Password?</h2>
+                    </div>
+                </div>
+                <form #form="ngForm">
+                    <div class="row">
+                        <div class="form-group col-md-12" [ngClass]="{ 'is-invalid': email.touched && email.errors}">
+                            <label for="inputEmail4">Enter Email</label>
+                            <!-- <input type="email" class="form-control" id="">
+                         -->
+                            <input type="email" class="form-control" name="email" [(ngModel)]="emailAddress"
+                                #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required autofocus>
+                            <div *ngIf="email.touched">
+                                <p *ngIf="email.errors?.required">Email is a required field!</p>
+                                <p *ngIf="email.errors?.pattern">This is not a valid Email!!!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-12 mb-0">
+                            <button type="button" (click)="onresetPsasword()" [disabled]="form.invalid"
+                                class="btn btn-primary login-btn mb-5">
+                                <span *ngIf="isLoginClicked" class="spinner-border spinner-border-sm" role="status"
+                                    aria-hidden="true"></span>
+                                {{ isLoginClicked ? '' : 'Reset Password'}}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <!-- Reset Your Password -->
+        <div class="container" *ngIf="component === 'newPassword'">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12">
+                        <h2>Reset Your Password</h2>
+                    </div>
+                </div>
+                <form #form1="ngForm">
+                    <div class="row">
+                        <div class="form-group col-md-12"
+                            [ngClass]="{ 'is-invalid': newPassword.touched && newPassword.errors}">
+                            <label for="inputPassword4">New Password</label>
+                            <input type="password" [(ngModel)]="password" #newPassword="ngModel" class="form-control"
+                                id="" name="password" required autofocus>
+                            <div *ngIf="newPassword.touched">
+                                <p *ngIf="newPassword.errors?.required">Password is a required field!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12"
+                            [ngClass]="{ 'is-invalid': confPassword.touched && confPassword.errors}">
+                            <label for="inputPassword4">Confirm Password</label>
+                            <input type="password" [(ngModel)]="passwordConfirmation" #confPassword="ngModel"
+                                class="form-control" id="" name="passwordConfirmation" required>
+                            <div *ngIf="confPassword.touched">
+                                <p *ngIf="confPassword.errors?.required">Confirm Password is a required field!</p>
+                                <!-- <p *ngIf="confPassword !== newPassword && !confPassword.errors?.required">Password have to match!</p> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-12 mb-0">
+                            <button type="button" (click)="onSetNewPassword()" class="btn btn-primary login-btn mb-5"
+                                [disabled]="form1.invalid">
+                                <span *ngIf="isLoginClicked" class="spinner-border spinner-border-sm" role="status"
+                                    aria-hidden="true"></span>
+                                {{ isLoginClicked ? '' : 'Change Password'}}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <!-- Email Send-->
+
+        <div class="container" *ngIf="isEmailSend">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12">
+                        <h2>Email Sent!</h2>
+                    </div>
+                    <div class="col-12 pb-30">
+                        <h3>Please check your inbox.</h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12 mb-0">
+                        <button type="button" [routerLink]="['/login']" class="btn btn-primary login-btn mb-5">
+                            Return to the login page
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content top_border">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalTitle">Welcome back to our New Website.</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body confir_pay">
+       <div class="col-12">
+       	<img style="width:4.5rem; height:auto; margin:auto; display:block; margin-top: 25px; margin-bottom:25px;" src="../../../../assets/images/password-icon.svg" alt="">
+       </div>
+	  <div class="col-12">
+			<div class="signup-option text-center pb-10">
+        <h5>
+          In order to access your account, we would need you to reset your password.
+          A unique link to reset your password has been sent to your email.
+        </h5>
+				<!-- <a href="#" class="st-link">Forgot password link</a> -->
+			</div>
+		</div>
+      </div>
+    </div>
+  </div>
+</div>

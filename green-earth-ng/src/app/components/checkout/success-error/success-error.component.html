@@ -1,0 +1,32 @@
+<div class="payment-confirem">
+    <!-- <div class="vape-suite-logo"><img alt="" src="images/vape-suite-w.svg"></div> -->
+    <!-- =========================Payment Sucess==================== -->
+    <div class="disclaimer-text-wrap" *ngIf="isSucess">
+        <div class="disclaimer-card">
+            <div class="set-z-index">
+                <img src="../../../../assets/images/success-icon-01.svg" alt="">
+                <h1 class="green-text">Thank You!</h1>
+                <h4>Your order has been successfully placed.</h4>
+                <div class="col-12"><img src="../../../../assets/images/success-icon-02.svg" alt=""></div>
+                <a [routerLink]="['/']" class="btn btn-primary" >Continue Shopping</a>
+            </div>
+
+        </div>
+    </div>
+    <!-- =========================END Payment Sucess==================== -->
+
+    <!-- ========================= Payment EROR OR Cencle==================== -->
+    <div class="disclaimer-text-wrap" *ngIf="!isSucess">
+        <div class="disclaimer-card">
+            <div class="set-z-index">
+                <img src="../../../../assets/images/ord-cnacel-1.svg" alt="">
+                <h1>Error!</h1>
+                <h4>Some error occured please try again.</h4>
+                <a [routerLink]="['/']" class="btn btn-primary" >Continue Shopping</a>
+            </div>
+
+        </div>
+    </div>
+    <!-- =========================END Payment EROR OR Cencle==================== -->
+
+</div>

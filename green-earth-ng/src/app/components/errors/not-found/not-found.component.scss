@@ -1,0 +1,15 @@
+.align-items-center {
+    -ms-flex-align: center !important;
+    align-items: center !important;
+}
+.d-flex {
+    display: -ms-flexbox !important;
+    display: flex !important;
+}
+.align-self-center {
+    -ms-flex-item-align: center!important;
+    align-self: center!important;
+}
+.m-auto {
+    margin: auto;
+}

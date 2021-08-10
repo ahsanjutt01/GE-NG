@@ -1,0 +1,1107 @@
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content top_border">
+      <div class="modal-header">
+        <h5 class="modal-title order-title" id="exampleModalLabel">
+          Order Detail
+          <span
+            >Order# <strong>{{ order?.order_number }}</strong></span
+          >
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body2">
+        <div class="row">
+          <div class="col-12">
+            <table
+              class="table1 main-table"
+              width="100%"
+              align="center"
+              border="0"
+              cellspacing="0"
+              cellpadding="0"
+            >
+              <tr>
+                <td>
+                  <table
+                    width="100%"
+                    border="0"
+                    cellpadding="0"
+                    cellspacing="0"
+                    align="center"
+                  >
+                    <tbody>
+                      <div *ngFor="let item of order?.items">
+                        <tr *ngIf="item.module_type === 'regular' || item.module_type ===  'free-product'">
+                          <td colspan="2">
+                            <table
+                              width="100%"
+                              border="0"
+                              cellspacing="0"
+                              cellpadding="0"
+                            >
+                              <tbody>
+                                <tr>
+                                  <td
+                                    width="80"
+                                    align="left"
+                                    valign="top"
+                                    style="width: 5rem"
+                                  >
+                                    <img
+                                      style="
+                                        width: 4.375rem;
+                                        height: 4.375rem;
+                                        border-radius: 0.5rem;
+                                        border: solid 0.063rem #e3e3e3;
+                                        margin-right: 0.625rem;
+                                      "
+                                      src="{{ API_URL }}/{{
+                                        item?.product?.thumbnail
+                                      }}"
+                                      alt=""
+                                    />
+                                  </td>
+                                  <td align="left" valign="top">
+                                    <table
+                                      width="100%"
+                                      border="0"
+                                      cellspacing="1"
+                                      cellpadding="1"
+                                    >
+                                      <tbody>
+                                        <tr>
+                                          <td
+                                            class="primary-font"
+                                            align="left"
+                                            style="
+                                              font-size: 0.875rem;
+                                              color: #1f283b;
+                                              font-weight: normal;
+                                            "
+                                          >
+                                            {{ item?.product?.name }}
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td
+                                            class="primary-font"
+                                            align="left"
+                                            style="
+                                              font-size: 0.875rem;
+                                              color: #1f283b;
+                                              font-weight: normal;
+                                            "
+                                          >
+                                            {{
+                                              item?.product?.category +
+                                                " " +
+                                                item?.product?.sub_category
+                                            }}
+                                            x
+                                            {{ item?.quantity }}
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td
+                                            class="primary-font"
+                                            align="left"
+                                            style="
+                                              font-size: 0.875rem;
+                                              color: #4c4c4c;
+                                              font-weight: normal;
+                                            "
+                                          >
+                                            {{ item?.product?.attribute }}
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </td>
+                                  <td
+                                    class="primary-font"
+                                    align="right"
+                                    valign="top"
+                                    style="
+                                      font-size: 0.875rem;
+                                      color: #1f283b;
+                                      font-weight: 600;
+                                    "
+                                  >
+                                    <div *ngIf="item.module_type ===  'free-product'">
+                                      <span class="cross-line">
+                                        {{currency}}{{ item?.line_total + getDiscountedPrice(item?.free_products) | shortDecimal }}
+                                      </span>
+                                      {{currency}}{{ item?.line_total}}
+                                    </div>
+                                    <div *ngIf="item.module_type !==  'free-product'">
+                                    {{currency}}{{ item?.line_total | number: "1.2-2" }}
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                        <!-- ==================END FreeProduct=========== -->
+                        <div *ngIf="item.module_type ===  'free-product'">
+                          <tr>
+                            <td
+                              class="primary-font"
+                              colspan="2"
+                              height="30"
+                              style="font-size: 0.875rem; font-weight: 600"
+                            >
+                              Free Prducts
+                            </td>
+                          </tr>
+
+                          <td colspan="2" height="7"></td>
+
+                          <tr>
+                            <td
+                              colspan="2"
+                              style="
+                                border: solid 0.063rem #f7f7f7;
+                                padding: 0.313rem;
+                                background-color: #f7f7f7;
+                                border-radius: 0.5rem;
+                              "
+                            >
+                              <table
+                                width="100%"
+                                border="0"
+                                cellspacing="0"
+                                cellpadding="0"
+                              >
+                                <tbody>
+                                  <tr *ngFor="let exItem of item?.free_products">
+                                    <td
+                                      width="50"
+                                      align="left"
+                                      valign="top"
+                                      style="width: 3.125rem"
+                                    >
+                                      <img
+                                        style="
+                                          width: 2.5rem;
+                                          height: 2.5rem;
+                                          border-radius: 0.5rem;
+                                          border: solid 0.063rem #e3e3e3;
+                                          margin-right: 0.625rem;
+                                        "
+                                        [src]="API_URL + '/' + getexImage(exItem.product)"
+                                        alt=""
+                                      />
+                                    </td>
+                                    <td align="left" valign="middle">
+                                      <table
+                                        width="100%"
+                                        border="0"
+                                        cellspacing="1"
+                                        cellpadding="1"
+                                      >
+                                        <tbody>
+                                          <tr>
+                                            <td
+                                              align="left"
+                                              style="
+                                                font-family: Exo, sans-serif;
+                                                font-size: 0.875rem;
+                                                color: #1f283b;
+                                                font-weight: normal;
+                                              "
+                                            >
+                                              {{getName(exItem.product)}}
+                                            </td>
+                                            <td
+                                              align="left"
+                                              style="
+                                                font-family: Exo, sans-serif;
+                                                font-size: 0.875rem;
+                                                color: #1f283b;
+                                                font-weight: normal;
+                                              "
+                                            >
+                                              <div
+                                                style="
+                                                  border-radius: 50%;
+                                                  background-color: #fff;
+                                                  padding: 0.188rem;
+                                                  height: 1.5rem;
+                                                  width: 1.5rem;
+                                                  text-align: center;
+                                                  font-size: 0.813rem;
+                                                  line-height: 1.375rem;
+                                                  margin: auto;
+                                                "
+                                              >
+                                                {{exItem.quantity}}
+                                              </div>
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </td>
+                          </tr>
+                        </div>
+                        <!-- ==================END FreeProduct=========== -->
+
+                        <!-- ===========NIC SHOOT STARTING+========== -->
+                        <div *ngIf="item.nickshots.length">
+                          <tr>
+                            <td
+                              class="primary-font"
+                              colspan="2"
+                              height="30"
+                              style="
+                                font-size: 14px;
+                                color: #16872e;
+                                font-weight: 600;
+                              "
+                            >
+                              Free Nic Shot
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td
+                              colspan="2"
+                              style="
+                                border: solid 1px #bae7ab;
+                                padding: 0.5rem;
+                                background-color: #e9f7e4;
+                                border-radius: 0.5rem;
+                              "
+                            >
+                              <table
+                                width="100%"
+                                border="0"
+                                cellspacing="0"
+                                cellpadding="0"
+                              >
+                                <tbody>
+                                  <tr>
+                                    <td
+                                      width="50"
+                                      align="left"
+                                      valign="top"
+                                      style="width: 3.75rem"
+                                    >
+                                      <img
+                                        style="
+                                          width: 3.125rem;
+                                          height: 3.125rem;
+                                          border-radius: 0.5rem;
+                                          border: solid 1px #e3e3e3;
+                                          margin-right: 10px;
+                                        "
+                                        src="{{ API_URL }}/{{
+                                          item?.nickshots[0]?.product?.thumbnail
+                                        }}"
+                                        alt=""
+                                      />
+                                    </td>
+                                    <td align="left" valign="top">
+                                      <table
+                                        width="100%"
+                                        border="0"
+                                        cellspacing="1"
+                                        cellpadding="1"
+                                      >
+                                        <tbody>
+                                          <tr>
+                                            <td
+                                              class="primary-font"
+                                              align="left"
+                                              style="
+                                                font-size: 0.875rem;
+                                                color: #1f283b;
+                                                font-weight: normal;
+                                              "
+                                            >
+                                              {{
+                                                item?.nickshots[0]?.product
+                                                  ?.name
+                                              }}
+                                              ({{
+                                                item?.nickshots[0]?.quantity
+                                              }})
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td
+                                              align="left"
+                                              style="
+                                                font-size: 0.875rem;
+                                                color: #1f283b;
+                                                font-weight: normal;
+                                              "
+                                            >
+                                              {{
+                                                item?.nickshots[0]?.product
+                                                  ?.attribute
+                                              }}
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </td>
+                          </tr>
+                        </div>
+                        <!-- ===========NIC SHOOT ENDING+========== -->
+
+                        <!-- ============start Line-spcae============ -->
+                        <!-- <tr>
+                            <td
+                              colspan="2"
+                              height="10"
+                              style="border-bottom: solid 0.063rem #ededed"
+                            ></td>
+                          </tr> -->
+                        <!-- ============End Line-spcae============ -->
+
+                        <!-- ================Oferr started bulk-offer-exclusive======================= -->
+                        <div
+                          *ngIf="item.module_type === 'bulk-offer-exclusive'"
+                        >
+                          <tr>
+                            <td colspan="2" height="10"></td>
+                          </tr>
+
+                          <tr>
+                            <td
+                              colspan="2"
+                              height="10"
+                              style="border-bottom: solid 0.063rem #ededed"
+                            ></td>
+                          </tr>
+
+                          <tr>
+                            <td colspan="2" height="7"></td>
+                          </tr>
+
+                          <tr>
+                            <td colspan="2">
+                              <table
+                                width="100%"
+                                border="0"
+                                cellspacing="0"
+                                cellpadding="0"
+                              >
+                                <tbody>
+                                  <tr>
+                                    <td align="left" valign="top">
+                                      <table
+                                        width="100%"
+                                        border="0"
+                                        cellspacing="1"
+                                        cellpadding="1"
+                                      >
+                                        <tbody>
+                                          <tr>
+                                            <td
+                                              class="primary-font"
+                                              align="left"
+                                              style="
+                                                font-size: 0.875rem;
+                                                color: #1f283b;
+                                                font-weight: normal;
+                                              "
+                                            >
+                                              <strong>{{item.module_title}}</strong>
+                                              <!-- - name x 6 -->
+                                            </td>
+                                          </tr>
+                                          <!-- <tr>
+                                            <td
+                                              class="primary-font"
+                                              align="left"
+                                              style="
+                                                font-size: 0.875rem;
+                                                color: #4c4c4c;
+                                                font-weight: normal;
+                                              "
+                                            >
+                                              6mg
+                                            </td>
+                                          </tr> -->
+                                        </tbody>
+                                      </table>
+                                    </td>
+                                    <td
+                                      class="primary-font"
+                                      align="right"
+                                      valign="top"
+                                      style="
+                                        font-size: 0.875rem;
+                                        color: #1f283b;
+                                        font-weight: 600;
+                                      "
+                                    >
+                                    <span class="cross-line">
+                                       {{currency}}{{getPriceExclusiveItemCrossedPrice(item.exclusive_products) | shortDecimal}}
+                                    </span>
+                                    {{currency}}{{getPriceExclusiveItem(item.exclusive_products) | shortDecimal}}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td
+                              class="primary-font"
+                              colspan="2"
+                              height="30"
+                              style="font-size: 0.875rem; font-weight: 600"
+                            >
+                              Flavour
+                            </td>
+                          </tr>
+
+                          <td colspan="2" height="7"></td>
+
+                          <tr>
+                            <td
+                              colspan="2"
+                              style="
+                                border: solid 0.063rem #f7f7f7;
+                                padding: 0.313rem;
+                                background-color: #f7f7f7;
+                                border-radius: 0.5rem;
+                              "
+                            >
+                              <table
+                                width="100%"
+                                border="0"
+                                cellspacing="0"
+                                cellpadding="0"
+                              >
+                                <tbody>
+                                  <tr *ngFor="let exItem of item?.exclusive_products">
+                                    <td
+                                      width="50"
+                                      align="left"
+                                      valign="top"
+                                      style="width: 3.125rem"
+                                    >
+                                      <img
+                                        style="
+                                          width: 2.5rem;
+                                          height: 2.5rem;
+                                          border-radius: 0.5rem;
+                                          border: solid 0.063rem #e3e3e3;
+                                          margin-right: 0.625rem;
+                                        "
+                                        [src]="API_URL + '/' + getexImage(exItem.product)"
+                                        alt=""
+                                      />
+                                    </td>
+                                    <td align="left" valign="middle">
+                                      <table
+                                        width="100%"
+                                        border="0"
+                                        cellspacing="1"
+                                        cellpadding="1"
+                                      >
+                                        <tbody>
+                                          <tr>
+                                            <td
+                                              align="left"
+                                              style="
+                                                font-family: Exo, sans-serif;
+                                                font-size: 0.875rem;
+                                                color: #1f283b;
+                                                font-weight: normal;
+                                              "
+                                            >
+                                              {{getName(exItem.product)}}
+                                            </td>
+                                            <td
+                                              align="left"
+                                              style="
+                                                font-family: Exo, sans-serif;
+                                                font-size: 0.875rem;
+                                                color: #1f283b;
+                                                font-weight: normal;
+                                              "
+                                            >
+                                              <div
+                                                style="
+                                                  border-radius: 50%;
+                                                  background-color: #fff;
+                                                  padding: 0.188rem;
+                                                  height: 1.5rem;
+                                                  width: 1.5rem;
+                                                  text-align: center;
+                                                  font-size: 0.813rem;
+                                                  line-height: 1.375rem;
+                                                  margin: auto;
+                                                "
+                                              >
+                                                {{exItem.quantity}}
+                                              </div>
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </td>
+                          </tr>
+                        </div>
+                        <!-- ================Oferr Ended bulk-offer-exclusive======================= -->
+
+
+                        <!-- ================Oferr started bulk-offer-exclusive======================= -->
+                        <div
+                          *ngIf="item.module_type === 'bulk-offer-mix-match'"
+                        >
+                          <tr>
+                            <td colspan="2" height="10"></td>
+                          </tr>
+
+                          <tr>
+                            <td
+                              colspan="2"
+                              height="10"
+                              style="border-bottom: solid 0.063rem #ededed"
+                            ></td>
+                          </tr>
+
+                          <tr>
+                            <td colspan="2" height="7"></td>
+                          </tr>
+
+                          <tr>
+                            <td colspan="2">
+                              <table
+                                width="100%"
+                                border="0"
+                                cellspacing="0"
+                                cellpadding="0"
+                              >
+                                <tbody>
+                                  <tr>
+                                    <td align="left" valign="top">
+                                      <table
+                                        width="100%"
+                                        border="0"
+                                        cellspacing="1"
+                                        cellpadding="1"
+                                      >
+                                        <tbody>
+                                          <tr>
+                                            <td
+                                              class="primary-font"
+                                              align="left"
+                                              style="
+                                                font-size: 0.875rem;
+                                                color: #1f283b;
+                                                font-weight: normal;
+                                              "
+                                            >
+                                              <strong>{{item.module_title}}</strong>
+                                              <!-- - name x 6 -->
+                                            </td>
+                                          </tr>
+                                          <!-- <tr>
+                                            <td
+                                              class="primary-font"
+                                              align="left"
+                                              style="
+                                                font-size: 0.875rem;
+                                                color: #4c4c4c;
+                                                font-weight: normal;
+                                              "
+                                            >
+                                              6mg
+                                            </td>
+                                          </tr> -->
+                                        </tbody>
+                                      </table>
+                                    </td>
+                                    <td
+                                      class="primary-font"
+                                      align="right"
+                                      valign="top"
+                                      style="
+                                        font-size: 0.875rem;
+                                        color: #1f283b;
+                                        font-weight: 600;
+                                      "
+                                    >
+                                    <span class="cross-line">
+                                      {{currency}}{{getPriceExItem(item.mix_match_products)}}
+                                    </span>
+                                    {{currency}}{{getMixAndMatchLineTotal(item.mix_match_products)}}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td
+                              class="primary-font"
+                              colspan="2"
+                              height="30"
+                              style="font-size: 0.875rem; font-weight: 600"
+                            >
+                              Flavour
+                            </td>
+                          </tr>
+
+                          <td colspan="2" height="7"></td>
+
+                          <tr>
+                            <td
+                              colspan="2"
+                              style="
+                                border: solid 0.063rem #f7f7f7;
+                                padding: 0.313rem;
+                                background-color: #f7f7f7;
+                                border-radius: 0.5rem;
+                              "
+                            >
+                              <table
+                                width="100%"
+                                border="0"
+                                cellspacing="0"
+                                cellpadding="0"
+                              >
+                                <tbody>
+                                  <tr *ngFor="let exItem of item?.mix_match_products">
+                                    <td
+                                      width="50"
+                                      align="left"
+                                      valign="top"
+                                      style="width: 3.125rem"
+                                    >
+                                      <img
+                                        style="
+                                          width: 2.5rem;
+                                          height: 2.5rem;
+                                          border-radius: 0.5rem;
+                                          border: solid 0.063rem #e3e3e3;
+                                          margin-right: 0.625rem;
+                                        "
+                                        [src]="API_URL + '/' + getexImage(exItem.product)"
+                                        alt=""
+                                      />
+                                    </td>
+                                    <td align="left" valign="middle">
+                                      <table
+                                        width="100%"
+                                        border="0"
+                                        cellspacing="1"
+                                        cellpadding="1"
+                                      >
+                                        <tbody>
+                                          <tr>
+                                            <td
+                                              align="left"
+                                              style="
+                                                font-family: Exo, sans-serif;
+                                                font-size: 0.875rem;
+                                                color: #1f283b;
+                                                font-weight: normal;
+                                              "
+                                            >
+                                              {{getName(exItem.product)}}
+                                            </td>
+                                            <td
+                                              align="left"
+                                              style="
+                                                font-family: Exo, sans-serif;
+                                                font-size: 0.875rem;
+                                                color: #1f283b;
+                                                font-weight: normal;
+                                              "
+                                            >
+                                              <div
+                                                style="
+                                                  border-radius: 50%;
+                                                  background-color: #fff;
+                                                  padding: 0.188rem;
+                                                  height: 1.5rem;
+                                                  width: 1.5rem;
+                                                  text-align: center;
+                                                  font-size: 0.813rem;
+                                                  line-height: 1.375rem;
+                                                  margin: auto;
+                                                "
+                                              >
+                                                {{exItem.quantity}}
+                                              </div>
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </td>
+                          </tr>
+                        </div>
+                        <!-- ================Oferr Ended bulk-offer-mix-match======================= -->
+                      </div>
+                      <tr>
+                        <td
+                          colspan="2"
+                          height="10"
+                          style="border-bottom: solid 0.063rem #ededed"
+                        ></td>
+                      </tr>
+
+                      <tr>
+                        <td colspan="2" height="10"></td>
+                      </tr>
+                      <tr>
+                        <td
+                          class="primary-font"
+                          align="left"
+                          style="
+                            font-size: 0.875rem;
+                            color: #1f283b;
+                            font-weight: normal;
+                          "
+                        >
+                          Subtotal
+                        </td>
+                        <td
+                          class="primary-font"
+                          align="right"
+                          style="
+                            font-size: 0.875rem;
+                            color: #1f283b;
+                            font-weight: 600;
+                          "
+                        >
+                          {{currency}}{{order?.order_sell_price}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" height="5"></td>
+                      </tr>
+                      <tr>
+                        <td
+                          class="primary-font"
+                          align="left"
+                          style="
+                            font-size: 0.875rem;
+                            color: #1f283b;
+                            font-weight: normal;
+                          "
+                        >
+                          Discount
+                        </td>
+                        <td
+                          class="primary-font"
+                          align="right"
+                          style="
+                            font-size: 0.875rem;
+                            color: #1f283b;
+                            font-weight: 600;
+                          "
+                        >
+                          {{currency}}{{order?.discount}}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td
+                          class="primary-font"
+                          align="left"
+                          style="
+                            font-size: 0.875rem;
+                            color: #1f283b;
+                            font-weight: normal;
+                          "
+                        >
+                          Shipping
+                        </td>
+                        <td
+                          class="primary-font"
+                          align="right"
+                          style="
+                            font-size: 0.875rem;
+                            color: #1f283b;
+                            font-weight: 600;
+                          "
+                        >
+                          {{currency}}{{order?.shipping_charges}}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td colspan="2" height="5"></td>
+                      </tr>
+                      <tr>
+                        <td
+                          class="primary-font"
+                          align="left"
+                          style="
+                            font-size: 0.875rem;
+                            color: #1f283b;
+                            font-weight: normal;
+                          "
+                        >
+                          VAT
+                        </td>
+                        <td
+                          class="primary-font"
+                          align="right"
+                          style="
+                            font-size: 0.875rem;
+                            color: #1f283b;
+                            font-weight: 600;
+                          "
+                        >
+                          {{currency}}0.00
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          colspan="2"
+                          height="5"
+                          style="border-bottom: solid 0.063rem #ededed"
+                        ></td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" height="5"></td>
+                      </tr>
+                      <tr>
+                        <td
+                          class="primary-font"
+                          align="left"
+                          style="
+                            font-size: 0.875rem;
+                            color: #1f283b;
+                            font-weight: 600;
+                          "
+                        >
+                          Total Price:
+                        </td>
+                        <td
+                          class="primary-font"
+                          align="right"
+                          style="
+                            font-size: 1.125rem;
+                            color: #e1001e;
+                            font-weight: 600;
+                          "
+                        >
+                          {{currency}}{{order?.order_total_price}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td height="10"></td>
+              </tr>
+              <tr>
+                <td>
+                  <table
+                    width="100%"
+                    align="center"
+                    border="0"
+                    cellspacing="0"
+                    cellpadding="0"
+                    style="margin: 0 auto"
+                  >
+                    <tr>
+                      <td
+                        class="primary-font"
+                        align="left"
+                        style="
+                          font-size: 1rem;
+                          color: #1f283b;
+                          font-weight: 600;
+                        "
+                      >
+                        Billing & Shipping Information
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        style="
+                          font-size: 0.875rem;
+                          color: #4c4c4c;
+                          font-weight: normal;
+                        "
+                      >
+                        <table
+                          class="table1-2"
+                          align="left"
+                          border="0"
+                          cellspacing="1"
+                          cellpadding="1"
+                          style="margin: 0 auto"
+                        >
+                          <tr>
+                            <td height="10"></td>
+                          </tr>
+                          <tr>
+                            <td
+                              class="primary-font"
+                              align="left"
+                              style="font-weight: 600"
+                            >
+                              Billing
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              {{
+                                billingAddress?.first_name +
+                                  " " +
+                                  billingAddress?.last_name
+                              }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              {{ billingAddress?.address_1 }},
+                              {{ billingAddress?.city }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              {{ billingAddress?.phone }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              {{ billingAddress?.postal_code }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">{{ billingAddress?.email }}</td>
+                          </tr>
+                          <tr>
+                            <td height="10"></td>
+                          </tr>
+                          <tr>
+                            <td
+                              class="primary-font"
+                              align="left"
+                              style="font-weight: 600"
+                            >
+                              Payment Method
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">{{order?.payment?.type | titlecase}} **** **** ****</td>
+                            <!-- <td align="left">{{order?.shipping_method | titlecase}} **** **** ****</td> -->
+                          </tr>
+                        </table>
+                        <table
+                          class="table1-2"
+                          align="left"
+                          border="0"
+                          cellspacing="1"
+                          cellpadding="1"
+                          style="margin: 0 auto"
+                        >
+                          <tr>
+                            <td height="10"></td>
+                          </tr>
+                          <tr>
+                            <td
+                              class="primary-font"
+                              align="left"
+                              style="font-weight: 600"
+                            >
+                              Shipping
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              {{
+                                shipingAddress?.first_name +
+                                  " " +
+                                  shipingAddress?.last_name
+                              }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              {{ shipingAddress?.address_1 }},
+                              {{ shipingAddress?.city }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              {{ shipingAddress?.phone }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              {{ shipingAddress?.postal_code }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">{{ shipingAddress?.email }}</td>
+                          </tr>
+                          <tr>
+                            <td height="10"></td>
+                          </tr>
+                          <tr>
+                            <td
+                              class="primary-font"
+                              align="left"
+                              style="font-weight: 600"
+                            >
+                              Shipping Method
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left">
+                              {{ order?.shipping_method | titlecase }}
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

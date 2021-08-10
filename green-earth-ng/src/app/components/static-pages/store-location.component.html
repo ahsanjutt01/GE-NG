@@ -1,0 +1,164 @@
+<div class="sub-header">
+  <div class="hd-content">
+      <h2>CONTACT <span>US</span></h2>
+      <p>We’d love to hear from you!</p>
+  </div>
+</div>
+<div class="section contact-section">
+  <div class="container">
+    <div class="row">  
+      <div class="col-lg-6 contact">
+
+        <div class="contact-bg">
+        <h4>{{ vapeStore?.name }}</h4>
+        <p><i class="fas fa-map-marker-alt"></i>{{ vapeStore?.address }}</p>
+        </div>
+
+        <div class="contact-bg">
+        <h4>Email</h4>
+        <p>
+          <i class="fas fa-envelope"></i>
+          <a class="link-email" href="mailto:{{ vapeStore?.email }}">{{
+            vapeStore?.email
+          }}</a>
+        </p>
+      </div>
+
+      <div class="contact-bg">
+        <h4>Call Us Now</h4>
+        <p>
+          <i class="fas fa-phone-alt"></i
+          ><span class="phoneno">{{ vapeStore?.phone }}</span>
+        </p>
+      </div>
+
+      </div>
+
+      <div class="col-lg-6 contactform">
+       
+        <form [formGroup]="contactUsForm" (ngSubmit)="onSubmit()">
+          <div class="row mb-30">
+            <div class="col-auto">
+              <div class="custom-control custom-radio mt-10">
+                <input type="radio" class="custom-control-input" id="supplier" name="con-select">
+                <label class="custom-control-label" for="supplier">Supplier</label>
+              </div>
+            </div>
+
+            <div class="col-auto">
+              <div class="custom-control custom-radio mt-10">
+                <input type="radio" class="custom-control-input" id="customer" name="con-select">
+                <label class="custom-control-label" for="customer">Customer</label>
+              </div>              
+            </div>
+          </div>
+
+            <div class="row">
+
+            <div class="col-md-6">
+              <div
+                class="form-group"
+                [ngClass]="{
+                  'is-invalid': contactUsFormSubmited && f.name.errors
+                }"
+              >
+              <label for="">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                  formControlName="name"
+                />
+                <p *ngIf="contactUsFormSubmited && f.name.errors">
+                  Name is Required
+                </p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div
+                class="form-group"
+                [ngClass]="{
+                  'is-invalid': contactUsFormSubmited && f.email.errors
+                }"
+              >
+              <label for="">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder=""
+                  formControlName="email"
+                />
+                <div *ngIf="contactUsFormSubmited && f.email.errors">
+                  <p *ngIf="f.email.errors.required">Email is Required</p>
+                  <p *ngIf="f.email.errors.email">Invalid Email</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div
+                class="form-group"
+                [ngClass]="{
+                  'is-invalid': contactUsFormSubmited && f.subject.errors
+                }"
+              >
+              <label for="">Subject</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                  formControlName="subject"
+                />
+                <p *ngIf="contactUsFormSubmited && f.subject.errors">
+                  Subject is Required
+                </p>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div
+                class="form-group"
+                [ngClass]="{
+                  'is-invalid': contactUsFormSubmited && f.message.errors
+                }"
+              >
+              <label for="">Message</label>
+                <textarea
+                  class="form-control"
+                  name="message"
+                  formControlName="message"
+                  placeholder=""
+                  rows="8"
+                ></textarea>
+                <p *ngIf="contactUsFormSubmited && f.message.errors?.required">
+                  Message is Required
+                </p>
+                <p *ngIf="contactUsFormSubmited && f.message.errors?.minlength">
+                  Message have at least 8 characters
+                </p>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mb-0">
+                <button
+                  type="submit"
+                  [disabled]="isClicked"
+                  class="btn btn-outline-primary"
+                >
+                  <span
+                    *ngIf="isClicked"
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                  {{ isClicked ? "" : "Send Message" }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section p-0">
+ <div style="height: 450px; width: 100%;background-color: #eaeaea; text-align: center;padding: 100px;;"> map here...</div>
+</div>

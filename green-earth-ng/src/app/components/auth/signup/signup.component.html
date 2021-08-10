@@ -1,0 +1,151 @@
+<div class="login-content">
+    <div class="middle-content">
+
+        <div class="container">
+            <div class="col-12">
+                <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2>Sign Up New Account</h2>
+                            <p style="color: red;" *ngIf="isEmailTakenError">This email is already taken, Please try
+                                another email.</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-12" [ngClass]="{ 'is-invalid': submitted && f.first_name.errors}">
+                            <label for="">First Name*</label>
+                            <input type="email" class="form-control" style="font-size: 0.875rem;"
+                                formControlName="first_name">
+                            <p *ngIf="submitted && f.first_name.errors">First Name is Required</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-12" [ngClass]="{ 'is-invalid': submitted && f.last_name.errors}">
+                            <label for="">Last Name*</label>
+                            <input type="email" style="font-size: 0.875rem;" class="form-control"
+                                formControlName="last_name">
+                            <p *ngIf="submitted && f.last_name.errors">Last Name is Required</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-12" [ngClass]="{ 'is-invalid': submitted && f.email.errors}">
+                            <label for="inputEmail4">Email*</label>
+                            <input type="email" style="font-size: 0.875rem;" class="form-control"
+                                formControlName="email">
+                            <div *ngIf="submitted && f.email.errors">
+                                <p *ngIf="f.email.errors.required">Email is Required</p>
+                                <p *ngIf="f.email.errors.email">
+                                    Invalid Email
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-12" [ngClass]="{ 'is-invalid': submitted && f.password.errors}">
+                            <label for="inputPassword4">Password*</label>
+                            <input type="password" style="font-size: 0.875rem;" class="form-control"
+                                formControlName="password">
+                            <div *ngIf="submitted && f.password.errors">
+                                <p *ngIf="f.password.errors.required">Password is Required</p>
+                                <p *ngIf="f.password.errors.minlength">Password must be at least 8 characters</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-12"
+                            [ngClass]="{ 'is-invalid': submitted && f.password_confirmation.errors}">
+                            <label for="inputPassword4">Confirm Password*</label>
+                            <input type="password" style="font-size: 0.875rem;" class="form-control"
+                                formControlName="password_confirmation">
+                            <div *ngIf="submitted && f.password_confirmation.errors">
+                                <p *ngIf="f.password_confirmation.errors.required">Password is Required</p>
+                                <p *ngIf="f.password_confirmation.errors.mustMatch">Password must match</p>
+                            </div>
+                        </div>
+                    </div>
+
+                   <!-- <div class="row">
+                        
+                        <div class="col-12">
+                            <h3>Date of Birth(18+ AGE VERIFICATION)</h3>
+                        </div>
+                        <div class="col-12 date-div">
+                            <div class="row">
+                                <div class="form-group col-md-12"
+                                    [ngClass]="{ 'is-invalid': submitted && f.date_of_birth.errors}">
+
+                                    <input type="date" style="font-size: 0.875rem;" class="form-control"
+                                        formControlName="date_of_birth">
+                                        <p *ngIf="isUnderAge" style="color: red;">You are under age</p>
+                                    <div *ngIf="submitted && f.date_of_birth.errors">
+                                        <p *ngIf="f.date_of_birth.errors.required">Date of Birth is Required</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <!-- 
+                            <div class="col-12 date-div">
+                            <label for="inputDob">Date of Birth*</label>
+                            <p *ngIf="isUnderAge && submitted" style="color: red;">You are under age</p>
+                            <div *ngIf="submitted && f.year.errors">
+                                <p *ngIf="f.year.errors.required" style="color: red;">Date of Birth is Required</p>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-4" [ngClass]="{ 'is-invalid': submitted}">
+                                    <label for="">Day</label>
+                                    <select class="custom-select w-100" formControlName="day">
+                                        <option *ngFor="let d of days" value="{{d}}">{{d}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-4" [ngClass]="{ 'is-invalid': submitted}">
+                                    <label for="">Month</label>
+                                    <select class="custom-select w-100" formControlName="month">
+                                        <option *ngFor="let m of months; let i = index" value="{{i}}">{{m}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-4" [ngClass]="{ 'is-invalid': submitted}">
+                                    <label for="">Year</label>
+                                    <select class="custom-select w-100" formControlName="year">
+                                        <option *ngFor="let y of years" value="{{y}}">{{y}}</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                        </div> 
+                       
+
+
+                    </div> -->
+
+
+
+                    <div class="row">
+                        <div class="form-group col-md-12 mb-0">
+                            <button type="submit" [disabled]="isClicked"
+                                class="btn btn-primary login-btn mb-5">
+                                <span *ngIf="isClicked" class="spinner-border spinner-border-sm" role="status"
+                                aria-hidden="true"></span>
+                                {{isClicked ? '' : 'Sign Up'}}</button>
+                            <a [routerLink]="['/login']" class="fp-link">Login Instead</a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

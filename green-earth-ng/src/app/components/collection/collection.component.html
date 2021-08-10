@@ -1,0 +1,60 @@
+<app-cart-modal></app-cart-modal>
+<div *ngIf="isloading" class="pl-loading">
+    <app-loader></app-loader>
+</div>
+
+<!-- <div class="sub-header-md">
+    <div class="hd-content">
+        <h2>VapeSuite <span> Collections</span></h2>
+        <p>Exclusive Collections On Vapesuite</p>
+    </div>
+</div> -->
+
+<div class="sub-header-page">
+    <figure>
+        <picture>
+            <source media="(max-width: 480px)" srcset="../../assets/images/collections-banner-sm.jpg"
+                data-src="../../assets/images/collections-banner-sm.jpg">
+            <source media="(max-width: 1024px)" srcset="../../assets/images/collections-banner.jpg"
+                data-src="../../assets/images/collections-banner.jpg">
+            <source media="(min-width: 1025px)" srcset="../../assets/images/collections-banner.jpg"
+                data-src="../../assets/images/collections-banner.jpg">
+            <img src="../../assets/images/collections-banner.jpg" data-src-base="images/"
+                data-src="{xs:../../assets/images/collections-banner-sm.jpg,md:../../assets/images/collections-banner.jpg,xl:../../assets/images/collections-banner.jpg}"
+                alt="">
+        </picture>
+    </figure>
+</div>
+
+<div class="related-pr-section" *ngFor="let collection of collections; let i = index;"
+    [ngClass]="(i%2!==0)? 'bg-color-none': ''">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 section-heading">
+                <h1>{{
+                    collection.name.split(' ').length > 1 ? collection.name.split(' ').slice(0, 2).join(' ') :
+                    collection.name }}
+                    <span>{{ collection.name.split(' ').length > 2 ? collection.name.split(' ').slice(2).join(' ') :
+                        '' }}</span>
+                </h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-w-sl" *ngFor="let prod of collection.products; let j = index;">
+                <!-- <h1>{{prod}}</h1> -->
+                <app-product-card *ngIf="j < 4" [product]="prod" [collectionPage]="true" [currency]="currency">
+                </app-product-card>
+            </div>
+
+            <div class="col-12 text-center">
+                <button class="btn btn-primary view-all-deal decoration-none"
+                    [routerLink]="['../collection', collection.id]">View All Products</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- bg-color-none -->

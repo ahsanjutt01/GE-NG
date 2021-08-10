@@ -1,0 +1,656 @@
+<div class="col-12">
+  <div class="checkout-section p-0 order-summary-mob">
+    <div class="headercheckout">
+      <h3>Order Summary ({{ cartProductCount }})</h3>
+      <a [routerLink]="['/mycart']">Edit Cart</a>
+    </div>
+
+    <div class="ord-overflow-y" *ngIf="cart && cart.cartItems">
+      <!-- <div *ngFor="let item of cart.cartItems" [routerLink]="['../product', item.sku]"> -->
+      <div *ngFor="let item of cart.cartItems; let i = index">
+        <div class="ord-itemslist" *ngIf="item.product_id === 0">
+          <div class="row m-0">
+            <div class="col-12 pl-0">
+              <div class="row">
+                <div class="col pr-0">
+                  <h2>{{ item.promotion_title }}</h2>
+                </div>
+                <div class="col-3 ord-item-price">
+                  {{ currency$ | async
+                  }}{{ item.quantity * item.unit_price | shortDecimal }}
+                </div>
+              </div>
+
+              <div
+                class="lab-size-cart"
+                *ngFor="let exItemAttr of distinctAttr(item.exclusiveItems)"
+              >
+                <span>{{
+                  getQtyExItemByAttrValue(item.exclusiveItems, exItemAttr) +
+                    " x " +
+                    exItemAttr
+                }}</span>
+              </div>
+              <div class="ord-item-qty left-pos">
+                <strong>QTY: </strong> {{ item.quantity }}
+              </div>
+            </div>
+
+            <div class="col-12 expand-detail-div ed-bg">
+              <div class="row">
+                <div class="col-12">
+                  <button
+                    type="button"
+                    class="btn btn-expand-check collapsed m-0"
+                    data-toggle="collapse"
+                    [attr.data-target]="'#collapseCart--' + i"
+                    aria-expanded="false"
+                    [aria-controls]="'collapseCart--' + i"
+                  >
+                  Products: <i class="fas fa-chevron-up"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="collapse" [id]="'collapseCart--' + i">
+                <div class="flavors-il set-pm">
+                  <div
+                    class="campaign-items"
+                    *ngFor="let exItem of item.exclusiveItems"
+                  >
+                    <div class="row">
+                      <div class="col-auto">
+                        <span class="badge">{{
+                          exItem.quantity * item.quantity
+                        }}</span>
+                        <img
+                          class="campaign-img"
+                          [src]="
+                            API_URL + '/' + exItem.variant.variant_image.image
+                          "
+                          alt="{{ exItem.name }}"
+                          style="
+                            width: 2rem !important;
+                            height: 2rem !important;
+                          "
+                        />
+                      </div>
+                      <div
+                        class="col campaign-item-title d-flex align-items-center"
+                      >
+                        {{ exItem.name }} ({{ exItem.attribute_value }})
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ===============================END ExclusiveOffer=========================== -->
+
+        <!-- ===============================mixMatchOffer=========================== -->
+        <div
+          class="ord-itemslist"
+          *ngIf="item.promotion_type === 'mixMatchOffer'"
+        >
+          <div class="row m-0">
+            <div class="col pl-0">
+              <h2 class="mb-0">{{ item.promotion_title }}</h2>
+              <!-- <div class="lab-size-cart" *ngFor="let exItemAttr of distinctAttr(item.exclusiveItems)">
+                  <span>{{ getQtyExItemByAttrValue(item.exclusiveItems, exItemAttr) + ' x ' + exItemAttr }}</span>
+                </div> -->
+            </div>
+            <div class="col-3 ord-item-price">
+              {{ currency$ | async }}
+              {{ item.quantity * item.unit_price | shortDecimal }}
+            </div>
+          </div>
+
+          <div
+            class="col-12 expand-detail-div ed-bg"
+            *ngIf="item.promotion_type === 'mixMatchOffer'"
+          >
+            <div class="row row-div">
+              <div class="col-12">
+                <button
+                  type="button"
+                  class="btn btn-expand mb-0 collapsed"
+                  data-toggle="collapse"
+                  [attr.data-target]="'#collapseCart--' + i"
+                  aria-expanded="false"
+                  [aria-controls]="'collapseCart--' + i"
+                >
+                Products: <i class="fas fa-chevron-up"></i>
+                </button>
+              </div>
+            </div>
+            <div class="collapse" [id]="'collapseCart--' + i">
+              <div class="flavors-il set-pm">
+                <div
+                  class="campaign-items"
+                  *ngFor="let exItem of item.mixMatchItems"
+                >
+                  <div class="row">
+                    <div class="col-auto">
+                      <span class="badge">{{
+                        exItem.quantity * item.quantity
+                      }}</span>
+                      <img
+                        class="campaign-img"
+                        [src]="
+                          API_URL + '/' + exItem.variant.variant_image.image
+                        "
+                        alt="{{ exItem.name }}"
+                      />
+                    </div>
+                    <div
+                      class="col campaign-item-title d-flex align-items-center"
+                    >
+                      {{ exItem.name }}
+                      <!-- ({{exItem.attribute_value}}) -->
+                    </div>
+                    <!-- <div class="lab-size-cart">
+                      <span>
+                        {{exItem.quantity + ' x ' + exItem.attribute_value}}
+                      </span>
+                    </div> -->
+                  </div>
+                  <!-- free product nic shot -->
+                  <div
+                    class="ord-itemslist freeitem"
+                    *ngIf="exItem.freeProduct"
+                  >
+                    <div class="row m-0">
+                      <div class="col-auto p-0">
+                        <img
+                          src="{{ API_URL }}/{{
+                            exItem.freeProduct.variant?.variant_image?.image
+                          }}"
+                          alt=""
+                        />
+                      </div>
+                      <div class="col pl-10">
+                        <div class="row">
+                          <div class="col pr-0">
+                            <h2>{{ exItem.freeProduct.product_name }}</h2>
+                          </div>
+                          <div class="col-3 ord-item-price">Free</div>
+                        </div>
+
+                        <div class="lab-size-cart">
+                          <span>{{
+                            exItem.freeProduct.assignment
+                              .split(", ")
+                              .join(" - ")
+                          }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===============================END mixMatchOffer=========================== -->
+
+        <div class="ord-itemslist" *ngIf="item.product_id > 0">
+          <div class="row m-0">
+            <div class="col-auto p-0 pointerCursor">
+              <img [src]="API_URL + '/' + item.thumbnail" alt="" />
+            </div>
+            <div class="col pl-10">
+              <div class="row">
+                <div class="col pr-0 pointerCursor">
+                  <h2>{{ item.name }}</h2>
+
+                  <div class="discount-lab-ord-sum" *ngIf="item.is_promotion">
+                    {{ item.promotion_title }}
+                  </div>
+                </div>
+
+                <div class="col-3 ord-item-price">
+                  <span
+                    *ngIf="
+                      item.is_deal_of_the_day === true ||
+                      (item.is_promotion &&
+                        item.cart_item_promotion?.promotion_type ===
+                          'discount-offer') ||
+                      (item?.cart_item_promotion?.promotion_type ===
+                        'bulk-offer' &&
+                        item.cart_item_promotion?.quantity <= item.quantity)
+                    "
+                  >
+                    {{ currency$ | async }}{{ item.price | shortDecimal }}
+                  </span>
+                  {{ currency$ | async }}{{ item.total_price | shortDecimal }}
+                </div>
+
+                <div class="col-12">
+                  <div class="flavors-lab-cart">
+                    <strong>{{ item.property_name }}: </strong>
+                    {{ item.property_value }}
+                  </div>
+                  <div class="lab-size-cart">
+                    <span>{{ item.attributes_detail }}</span>
+                  </div>
+                  <div class="ord-item-qty">
+                    <strong>QTY: </strong> {{ item.quantity }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- =========================Free products permotion ======================================== -->
+
+          <div
+            class="col-12 expand-detail-div ed-bg"
+            *ngIf="
+              item?.freeProducts?.length &&
+              item.cart_item_promotion?.promotion_type === 'free-product'
+            "
+          >
+            <div class="row row-div">
+              <div class="col-12">
+                <button
+                  type="button"
+                  class="btn btn-expand mb-0 collapsed"
+                  data-toggle="collapse"
+                  [attr.data-target]="'#collapseCartf-' + i"
+                  aria-expanded="false"
+                  [aria-controls]="'collapseCartf-' + i"
+                >
+                  Free Products: <i class="fas fa-chevron-up"></i>
+                </button>
+              </div>
+            </div>
+            <div class="collapse" [id]="'collapseCartf-' + i">
+              <div class="flavors-il set-pm">
+                <div
+                  class="campaign-items"
+                  *ngFor="let exItem of item?.freeProducts"
+                >
+                  <div class="row">
+                    <div class="col-auto">
+                      <span class="badge">{{
+                        exItem.quantity *
+                          onParseInt(
+                            item.quantity / item.cart_item_promotion.quantity
+                          )
+                      }}</span>
+                      <img
+                        class="campaign-img"
+                        [src]="
+                          API_URL + '/' + exItem.variants[0].variant_image.image
+                        "
+                        alt="{{ exItem.name }}"
+                      />
+                    </div>
+                    <div
+                      class="col campaign-item-title d-flex align-items-center"
+                    >
+                      {{ exItem.name }} ({{ exItem.attrValues }})
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- =========================End Free products permotion ======================================== -->
+        </div>
+
+        <div class="ord-itemslist freeitem" *ngIf="item.freeProduct">
+          <div class="row m-0">
+            <div class="col-auto p-0">
+              <img
+                src="{{ API_URL }}/{{
+                  item.freeProduct.variant?.variant_image?.image
+                }}"
+                alt=""
+              />
+            </div>
+            <div class="col pl-10">
+              <div class="row">
+                <div class="col pr-0">
+                  <h2>{{ item.freeProduct.product_name }}</h2>
+                </div>
+                <div class="col-3 ord-item-price">Free</div>
+              </div>
+
+              <div class="lab-size-cart">
+                <span>{{
+                  item.freeProduct.assignment.split(", ").join(" - ")
+                }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="coupon-code">
+      <div class="row" *ngIf="couponNotFound" style="color: red">
+        <p>This Coupon code is invalid.</p>
+      </div>
+      <div class="row" *ngIf="couponMinOrderError" style="color: red">
+        <p>
+          This Coupon code is valid for min order total price
+          {{ couponMinOrderPrice }}
+        </p>
+      </div>
+      <div class="row" *ngIf="cart && !cart.is_coupon">
+        <div class="col">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="couponCode"
+            #ctrl="ngModel"
+            placeholder="Gift Card or Coupon Code"
+            required
+          />
+        </div>
+        <div class="col-auto pl-0">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="!ctrl.valid"
+            (click)="onApplyCoupon()"
+          >
+            Apply
+          </button>
+        </div>
+      </div>
+      <div class="row" *ngIf="cart && cart.is_coupon">
+        <div class="col-auto pl-0" *ngIf="cart.is_coupon">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            (click)="onRemoveCoupon()"
+          >
+            Remove Coupon
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="totalvalues">
+      <div class="row">
+        <div class="col-auto">Subtotal</div>
+        <div class="col">
+          {{ currency$ | async }}{{ cart.cart_price | shortDecimal }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-auto">Discount</div>
+        <div class="col">
+          {{ currency$ | async }}{{ cart.cart_discount | shortDecimal }}
+        </div>
+      </div>
+      <!-- <div class="row" *ngIf="cart.is_reward">
+                <div class="col-auto">Reward Points ({{cart.reward_points}})</div>
+                <div class="col">
+                    {{currency}}{{ cart.reward_amount | shortDecimal }}</div>
+            </div> -->
+      <div class="row" *ngIf="isLoggedIn">
+        <div class="col lab-text-reward-sm">
+          <div class="custom-control custom-checkbox">
+            <input
+              [disabled]="!isAbleToUtilize"
+              type="checkbox"
+              class="custom-control-input"
+              id="reward-points001222"
+              [(ngModel)]="isRewardChecked"
+              [checked]="isRewardChecked"
+              (change)="onRewardCheckboxChange(isRewardChecked)"
+            />
+
+            <!-- <input type="checkbox" class="custom-control-input"
+                            id="reward-points001222"> -->
+
+            <label
+              *ngIf="isAbleToUtilize"
+              class="custom-control-label"
+              for="reward-points001222"
+              >Utilize
+              <strong class="primarycolor">
+                {{ consumesPoints }} ({{ currency$ | async
+                }}{{ transformedAmount }})
+              </strong>
+              Reward Points</label
+            >
+            <label
+              *ngIf="!isAbleToUtilize"
+              class="custom-control-label"
+              for="reward-points001222"
+              >You must have minimum
+              <strong class="primarycolor">
+                {{ reward?.minimum_points_discount }}
+              </strong>
+              Reward Points to redeem.</label
+            >
+          </div>
+        </div>
+        <div class="col-auto weight-bold">
+          {{ currency$ | async
+          }}{{ (isRewardChecked ? cart.reward_amount : 0.0) | shortDecimal }}
+        </div>
+      </div>
+
+
+        <div class="row">
+          <div class="col-auto">
+            Shipping
+            {{
+              cart?.selected_delivery_method?.title && shipingPrice == 0
+                ? "(FREE)"
+                : ""
+            }}
+          </div>
+          <div class="col">
+            {{
+              cart?.selected_delivery_method
+                ? cart.selected_delivery_method.title + ":"
+                : ""
+            }}
+            {{ currency$ | async }}{{ shipingPrice }}
+          </div>
+        </div>
+
+        <!-- <div class="col-auto"> Shipping 4567
+          {{cart}}
+          {{
+            cart?.selected_delivery_method?.title
+              ? "(FREE)"
+              : ""
+          }}</div> -->
+        <!-- <div class="col">
+          DPD NEXT DAY DELIVERY: {{ currency$ | async }}0.00
+        </div> -->
+
+
+      <div class="row">
+        <div class="col-auto">Tax</div>
+        <div class="col">{{ currency$ | async }}0.00</div>
+      </div>
+
+      <div class="row">
+        <div class="col-auto">Coupon Price</div>
+        <div class="col">
+          {{ currency$ | async
+          }}{{ cart.coupon_total_discount_price | shortDecimal }}
+        </div>
+      </div>
+
+      <div class="row total-valuse-ord">
+        <div class="col-auto">Total</div>
+        <div class="col">
+          {{ currency$ | async }}
+          {{ cartTotalPrice | shortDecimal }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <h3>Select Payment Method</h3>
+  <p>All transactions are secure and encrypted.</p>
+  <!-- ===========================Viva Wallet==================== -->
+  <div id="accordion" class="accordion accordion-ch">
+    <div class="card mb-0">
+      <div
+        *ngIf="
+          paymentSettings && paymentSettings.vivawallet.status === 'active'
+        "
+      >
+        <div
+          class="card-header collapsed acc-header-1"
+          data-toggle="collapse"
+          href="#collapseOne"
+        >
+          <button class="btn titlebtn">
+            Pay by Debit/Credit Card ({{ currency$ | async }}
+            {{
+              cart?.cart_total_price -
+                cart.reward_amount +
+                cart.delivery_rate -
+                cart.additional_discount_price | shortDecimal
+            }})
+            <i class="far fa-credit-card"></i>
+          </button>
+        </div>
+        <div
+          id="collapseOne"
+          class="card-body acc-b-1 collapse"
+          data-parent="#accordion"
+        >
+          <div class="formdiv">
+            <img
+              class="viva-icon"
+              src="../../../assets/images/vw-logo.svg"
+              alt=""
+            />
+            <h4>
+              Complete your purchase
+              <span class="purchase-val"
+                >({{ currency$ | async }}
+                {{
+                  cart?.cart_total_price -
+                    cart.reward_amount +
+                    cart.delivery_rate -
+                    cart.additional_discount_price | shortDecimal
+                }})</span
+              >
+              securely with viva wallet.
+            </h4>
+            <button
+              type="submit"
+              class="btn btn-primary btn-viva-pay"
+              (click)="onVivaPaymnet()"
+            >
+              <span
+                *ngIf="isClickedVivaBtn"
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              <!-- Pay with viva ({{cart?.cart_total_price}}) -->
+              <img src="../../../assets/images/vw-logo-w.svg" alt="" />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        *ngIf="paymentSettings && paymentSettings.paypal.status === 'active'"
+      >
+        <div
+          class="card-header collapsed acc-header-2"
+          data-toggle="collapse"
+          data-parent="#accordion"
+          href="#collapseTwo"
+        >
+          <button class="btn titlebtn">
+            Paypal ({{ currency$ | async }}
+            {{
+              cart?.cart_total_price -
+                cart.reward_amount +
+                cart.delivery_rate -
+                cart.additional_discount_price | shortDecimal
+            }})
+            <i class="fab fa-paypal"></i>
+          </button>
+        </div>
+        <div
+          id="collapseTwo"
+          class="card-body acc-b-2 collapse show"
+          data-parent="#accordion"
+        >
+          <div class="formdiv" *ngIf="!orderProcess">
+            <img
+              class="paypal-icon"
+              src="../../../assets/images/icon-payment-paypal.svg"
+              alt=""
+            />
+            <h4>
+              After selecting your desired payment method, you will be redirected to PayPal to complete your purchase securely.
+            </h4>
+            <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+          </div>
+          <div class="formdiv" *ngIf="orderProcess">
+            <img class="paypal-icon" style="width:7.5rem" src="../../../assets/images/loader.gif" alt="">
+            <h4>Your order is in processing... </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ===========================END Viva Wallet==================== -->
+
+  <!-- <div class="custom-control custom-checkbox mt-10" *ngIf="isLoggedIn">
+        <input type="checkbox" class="custom-control-input" [checked]="isRewardChecked" [disabled]="!isAbleToUtilize"
+            (change)="onRewardCheckboxChange(isRewardChecked)" id="reward-check">
+        <label class="custom-control-label" for="reward-check">
+            Utilize reward points in one order. ({{currency$ | async}}{{transformedAmount}})
+        </label>
+    </div> -->
+  <div class="custom-control custom-checkbox mt-10">
+    <input type="checkbox" class="custom-control-input" id="Subscribe-check" />
+    <label class="custom-control-label" for="Subscribe-check">
+      Subscribe to our newsletter
+    </label>
+  </div>
+
+  <div class="custom-control custom-checkbox mt-10">
+    <input type="checkbox" class="custom-control-input" id="conditions-check" checked='checked' />
+    <label class="custom-control-label" for="conditions-check"
+      >I have read and agree to the website
+      <a href="javascript:;" class="link-continue" style="display: inline"
+        >terms and conditions</a
+      ></label
+    >
+  </div>
+
+  <div class="row checkout-bottom-btns">
+    <div class="col-auto">
+      <button
+        type="button"
+        (click)="onBackToAddress()"
+        class="btn btn-primary pre-btn"
+        cdkStepperPrevious
+      >
+        <i class="fas fa-chevron-left"></i> Back
+      </button>
+    </div>
+    <!--  <div class="col text-right"><button type="submit" class="btn btn-primary" (click)="onPostOrder()"
+                data-toggle="modal" data-target="#payment-confirm" cdkStepperNext>Confirm &
+                Pay <i class="fas fa-chevron-right"></i></button></div> -->
+
+    <!-- <div class="col text-right">
+            <button type="submit" class="btn btn-primary" (click)="onPostOrder()">Confirm &
+                Pay <i class="fas fa-chevron-right"></i></button>
+        </div> -->
+  </div>
+</div>

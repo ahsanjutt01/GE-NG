@@ -1,0 +1,81 @@
+<!-- <div class="sub-header">
+    <div class="hd-content">
+        <h2>Our <span>Articles</span></h2>
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+    </div>
+</div> -->
+
+<div class="section blog-section" style="padding-top: 1.563rem" *ngIf="article">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+
+                <div class="row">
+
+                    <div class="col-12">
+                        <h1>{{article?.title}}</h1>
+
+                        <div class="blog-date">
+                            <span><i class="far fa-user"></i> {{article?.author?.name}}</span>
+                            <span><i class="far fa-clock"></i>{{article?.author?.created_at | date:'mediumDate'}}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-12">
+                        <img [src]="API_URL + '/' + article?.image" [alt]="article?.title">
+                        <p></p>
+                        <div [innerHtml]="setHtml(i)"></div>
+                    </div>
+
+
+
+
+
+                    <div class="col-12 comment-form">
+
+                        <div class="row articles-nav">
+                            <div class="col-6"><span><i class="fas fa-long-arrow-alt-left"></i> Previous Articles</span>
+                                <a href="#">Best vape brand 2020</a>
+                            </div>
+                            <div class="col-6 text-right"><span>Next Articles <i
+                                        class="fas fa-long-arrow-alt-right"></i></span>
+                                <a href="#">What you need to do to your e-cigarette before you start using it</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-12 blog-right" *ngIf="relatedArticles">
+
+                <h3 class="sm-heading">Must-Read Articles</h3>
+
+                <div class="blog-list" *ngFor="let relArticle of relatedArticles">
+                    <div class="row">
+                        <div class="col-auto pr-0"><a href="#"><img class="blog-sm-img"
+                                    [src]="API_URL + '/' + relArticle?.image" [alt]="relArticle?.title">
+                            </a>
+                        </div>
+                        <div class="col"><a href="#">
+                                <h4>{{relArticle?.title}}</h4>
+                            </a>
+                            <div class="blog-date">
+                                <span><i class="far fa-user"></i> {{relArticle?.author?.name}}</span>
+                                <span><i class="far fa-clock"></i> {{relArticle?.author?.created_at | date:'mediumDate'}} </span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,81 @@
+<div class="section-map">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-lg-4 locator-col" *ngIf="vapeStore">
+
+                <div class="locator-card">
+                    <div class="row">
+                        <!-- <div class="col-12">
+                            <form class="form-inline location-search">
+                                <input class="form-control" type="search" placeholder="Enter Location"
+                                    aria-label="Search">
+                                <button class="btn btn-search" type="submit"><i class="fas fa-search"></i></button>
+                            </form>
+                        </div> -->
+
+                        <div class="loc-over-y">
+
+                            <div class="col-12" *ngFor="let location of organization">
+                                <div class="mob-over-x">
+                                    <div class="location-sec">
+                                        <h3>{{vapeStore?.name}}</h3>
+                                        <p><i class="fas fa-map-marker-alt"></i> {{location?.address}}</p>
+                                        <!-- <p>United Kingdom</p> -->
+                                        <!-- <p>3689.3 mi</p> -->
+                                        <!-- <button class="btn btn-primary"><i class="fas fa-map-marker-alt"></i> View on
+                                            Map</button> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="map">
+                <!-- <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false"
+                    [zoomControl]="false">
+
+                    <agm-marker *ngFor="let m of markers; let i = index" (markerClick)="clickedMarker(m.label, i)"
+                        [latitude]="m.lat" [longitude]="m.lng" [label]="m.label" [markerDraggable]="m.draggable"
+                        (dragEnd)="markerDragEnd(m, $event)">
+
+                        <agm-info-window>
+                            <strong>InfoWindow content</strong>
+                        </agm-info-window>
+
+                    </agm-marker> -->
+
+                <!-- <agm-circle [latitude]="lat + 0.3" [longitude]="lng" [radius]="5000" [fillColor]="'red'"
+                        [circleDraggable]="true" [editable]="true">
+                    </agm-circle> -->
+
+                <!-- </agm-map> -->
+                <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false"
+                    [zoomControl]="false" (mapClick)="mapClicked($event)">
+
+                    <agm-marker *ngFor="let m of markers; let i = index" (markerClick)="clickedMarker(m.label, i)"
+                        [latitude]="m.lat" [longitude]="m.lng" [label]="m.label" [markerDraggable]="m.draggable"
+                        (dragEnd)="markerDragEnd(m, $event)">
+
+                        <agm-info-window>
+                            <strong>InfoWindow content</strong>
+                        </agm-info-window>
+
+                    </agm-marker>
+
+                    <!-- <agm-circle [latitude]="lat + 0.3" [longitude]="lng" [radius]="5000" [fillColor]="'red'"
+                        [circleDraggable]="true" [editable]="true">
+                    </agm-circle> -->
+
+                </agm-map>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,79 @@
+<h3 class="border-heading">Edit <span>Address</span></h3>
+
+<form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
+
+    <div class="row">
+        <div class="form-group col-md-6" [ngClass]="{ 'is-invalid': submitted && f.first_name.errors}">
+            <label for="">First Name*</label>
+            <input type="text" class="form-control" style="font-size:0.875rem" formControlName="first_name">
+            <p *ngIf="submitted && f.first_name.errors">First Name is Required</p>
+        </div>
+        <div class="form-group col-md-6" [ngClass]="{ 'is-invalid': submitted && f.last_name.errors}">
+            <label for="">Last Name*</label>
+            <input type="text" class="form-control" style="font-size:0.875rem" formControlName="last_name">
+            <p *ngIf="submitted && f.last_name.errors">Last Name is Required</p>
+        </div>
+        <div class="form-group col-md-12" [ngClass]="{ 'is-invalid': submitted && f.address_1.errors}">
+            <label for="">Street Address*</label>
+            <input type="text" class="form-control" style="font-size:0.875rem" formControlName="address_1">
+            <p *ngIf="submitted && f.address_1.errors">Street Address is Required</p>
+        </div>
+
+        <div class="form-group col-md-6" [ngClass]="{ 'is-invalid': submitted && f.phone.errors}">
+            <label for="">Primary Phone*</label>
+            <input type="text" class="form-control" style="font-size:0.875rem" formControlName="phone">
+            <p *ngIf="submitted && f.phone.errors?.required">Primary Phone is Required</p>
+            <p *ngIf="submitted && f.phone.errors?.pattern">Primary Phone is not valid</p>
+        </div>
+
+        <div class="form-group col-md-6" [ngClass]="{ 'is-invalid': submitted && f.email.errors}">
+            <label for="">Email Address</label>
+            <input type="text" class="form-control" style="font-size:0.875rem" formControlName="email">
+            <div *ngIf="submitted && f.email.errors">
+                <p *ngIf="f.email.errors?.required">Email is Required</p>
+                <p *ngIf="f.email.errors?.pattern">
+                    Email should be a valid email address
+                </p>
+            </div>
+        </div>
+
+
+        <div class="form-group col-md-6" [ngClass]="{ 'is-invalid': submitted && f.postal_code.errors}">
+            <label for="">Postal code*</label>
+            <input type="text" class="form-control" style="font-size:0.875rem" formControlName="postal_code">
+            <p *ngIf="submitted && f.postal_code.errors">Postal Code is Required</p>
+        </div>
+
+        <div class="form-group col-md-6" [ngClass]="{ 'is-invalid': submitted && f.city.errors}">
+            <label for="">Town / City*</label>
+            <input type="text" class="form-control" style="font-size:0.875rem" formControlName="city">
+            <p *ngIf="submitted && f.city.errors">City is Required</p>
+        </div>
+
+        <div class="form-group col-md-6" [ngClass]="{ 'is-invalid': submitted && f.country_id.errors}">
+            <label for="">Country / Region *</label>
+            <select class="custom-select" formControlName="country_id">
+                <option *ngFor="let counrty of countries" [value]="counrty.id">
+                    {{ counrty.nicename }}
+                  </option>
+            </select>
+            <p *ngIf="submitted && f.country_id.errors">Country is Required</p>
+        </div>
+
+        <div class="form-group col-md-6" [ngClass]="{ 'is-invalid': submitted && f.state.errors}">
+            <label for="">State*</label>
+            <input type="text" class="form-control" style="font-size:0.875rem" formControlName="state">
+            <p *ngIf="submitted && f.state.errors">State is Required</p>
+        </div>
+
+        <div class="form-group col-md-12 mb-0">
+            <button type="submit" [disabled]="isClicked" class="btn btn-primary mr-5">
+                <span *ngIf="isClicked" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
+                Save
+            </button>
+            <button type="button" (click)="onClose()" class="btn btn-primary btn-close">Close</button>
+        </div>
+    </div>
+
+</form>
