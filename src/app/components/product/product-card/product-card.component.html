@@ -1,0 +1,14 @@
+
+  
+<div class="product-card">
+    <div class="ribbon-top-left"><div *ngIf="product?.sub_category" class="ribbon">{{product?.sub_category?.category_name}}</div></div>
+     <a [routerLink]="['/product', product?.sku]">
+     <div class="img-thumb">
+      <div class="middle"><img [src]="API_URL + '/' + product?.thumbnail" [alt]="product?.name" /></div>
+       </div>	
+    </a>	
+
+  <h2>{{product?.name}}</h2> 
+  <div class="price">{{appCurrency | async}}{{getOldPrice(product?.variants) | shortDecimal}}</div>
+</div>
+ 
